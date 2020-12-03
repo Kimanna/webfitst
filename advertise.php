@@ -40,7 +40,7 @@
         <a class="text-muted" href="#">Introduce</a>
       </div>
       <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="#">어학연수 모임</a>
+        <a class="blog-header-logo text-dark" href="index.html">어학연수 모임</a>
       </div>
       <div class="col-4 d-flex justify-content-end align-items-center">
         <a class="btn btn-sm btn-outline-secondary" href="login.html">Sign up</a>
@@ -56,31 +56,39 @@
       <a class="p-2 text-muted" href="#">온라인Q&A</a>
     </nav>
   </div>
-  <main class="contentsWapper">
-    <aside class="lnbBox" id="lnbBox03">어학연수 나라별
-      <ul class="lnb">
-        <li>
-          <a href="#">미국/캐나다</a>
-        </li>
-        <li>
-          <a href="#">영국/아일랜드</a>
-        </li>
-        <li>
-          <a href="#">호주/뉴질랜드</a>
-        </li>
-        <li>
-          <a href="#">필리핀/몰타</a>
-        </li>
-    </aside>
-    <section>
-      <article>
-</article>
-</section>
+  <main role="main" class="container">
+    <div class="row">
+      <aside class="lnbBox h-md-400" id="lnbBox03">어학연수 나라별
+        <ul class="lnb">
+          <li>
+            <a href="#">미국/캐나다</a>
+          </li>
+          <li>
+            <a href="#">영국/아일랜드</a>
+          </li>
+          <li>
+            <a href="#">호주/뉴질랜드</a>
+          </li>
+          <li>
+            <a href="#">필리핀/몰타</a>
+          </li>
+      </aside>
+      <section>
+            <article>
+            </article>
+      </section>
+    </div>
 
 
   </main>
-  <footer>
-  </footer>
+  
+  <footer class="blog-footer">
+  <p>Copyright ⓒ 2020 - 2021 어학연수모임. All rights reserved.</p>
+  <p>이메일 : <a href="https://getbootstrap.com/">kan12888@gmail.com</a></p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
 
 
 

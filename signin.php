@@ -38,7 +38,7 @@ if ($row['id']==$userId && $row['pass']==$userPw) {
 } else {
   
   echo("<script>
-          window.alert('비밀번호가 틀립니다')
+          window.alert('아이디 혹은 비밀번호가 틀립니다')
           location.replace('http://localhost/login.html');
         </script>"); 
   
