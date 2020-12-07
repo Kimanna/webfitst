@@ -4,7 +4,7 @@
 //error_reporting(E_ALL);
 //ini_set('display_errors', '1');
 
-
+//로그인시 사용
 $userId = $_POST["id"];
 $userPw = $_POST["password"];
 
@@ -21,7 +21,7 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 $sql = "SELECT * FROM topic WHERE id = '$userId'";
 $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 $row = mysqli_fetch_array($result);
-print_r( $row );
+//print_r( $row );
 
 static $errmsg = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
 

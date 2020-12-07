@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>회원가입</title>
   <link rel="stylesheet" href="newid.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
  <div id="header">
@@ -15,6 +16,7 @@
  <div id="wrapper">
    <div id="content">
 
+  <form method="POST" action="newid.php" id="frm">
     <div class="record">
       <h2>기본 정보 입력</h2>
     </div>
@@ -25,8 +27,7 @@
          <label for="id">아이디</label>
        </h3>
        <span class="box int_id">
-         <input type="text" id="id" class="int" maxlength="20">
-         <span class="checkMember">중복확인</span>
+         <input type="text" id="id" name="id" class="int" maxlength="20">
         </span>
        </span>
        <span class="error_next_box"></span>
@@ -36,7 +37,7 @@
      <div>
        <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
        <span class="box int_pass">
-         <input type="password" id="pswd1" class="int" maxlength="20">
+         <input type="password" id="pswd1" name="password" class="int" maxlength="20">
          <span id="alertTxt">사용불가</span>
          <img src="/images/m_icon_pass.png" id="pswd1_img1" class="pswdImg">
         </span>
@@ -57,7 +58,7 @@
      <div>
       <h3 class="join_title"><label for="name">이름</label></h3>
         <span class="box int_name">
-          <input type="text" id="name" class="int" maxlength="20">
+          <input type="text" id="name" name="username" class="int" maxlength="20">
         </span>
       <span class="error_next_box"></span>
      </div>
@@ -70,14 +71,14 @@
         <!-- Birth_YY -->
         <div id="bir_yy">
           <span class="box">
-            <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
+            <input type="text" id="yy" name="bir_yy" class="int" maxlength="4" placeholder="년(4자)">
           </span>
         </div>
 
         <!-- Birth_MM -->
         <div id="bir_mm">
           <span class="box">
-            <select id="mm" class="sel">
+            <select id="mm" name="bir_mm" class="sel">
               <option>월</option>
               <option value="01">1</option>
               <option value="02">2</option>
@@ -98,7 +99,7 @@
         <!-- Birth_DD -->
         <div id="bir_dd">
           <span class="box">
-            <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
+            <input type="text" id="dd" name="bir_dd" class="int" maxlength="2" placeholder="일">
           </span>
         </div>
       </div>
@@ -109,7 +110,7 @@
      <div>
       <h3 class="join_title"><label for="gender">성별</label></h3>
       <span class="box gender_code">
-          <select id="gender" class="sel">
+          <select id="gender" name="gender" class="sel">
               <option>성별</option>
               <option value="M">남자</option>
               <option value="F">여자</option>
@@ -122,7 +123,7 @@
     <div>
       <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
       <span class="box int_email">
-          <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력">
+          <input type="text" id="email" name="email" class="int" maxlength="100" placeholder="선택입력">
       </span>
       <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
     </div>
@@ -133,6 +134,7 @@
             <span>가입하기</span>
         </button>
     </div>
+  </form>
 
    </div>
  </div>
