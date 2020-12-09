@@ -1,6 +1,5 @@
 /*변수 선언*/
 
-
 var id = document.querySelector('#id');
 
 var pw1 = document.querySelector('#pswd1');
@@ -23,14 +22,6 @@ var error = document.querySelectorAll('.error_next_box');
 
 var button = document.querySelector("#btnJoin");
 
-var check1 = false; //성별체크
-var check2 = false;
-var check3 = false;
-var check4 = false;
-var check5 = false;
-var check6 = false;
-var check7 = false;
-var check8 = false;
 
 /*이벤트 핸들러 연결*/
 
