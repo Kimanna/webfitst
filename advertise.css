@@ -141,7 +141,6 @@ samp {
   padding: 0 12px 0 20px;
   font-size: 12px;
   color: #454545;
-  background: url(http://letsuk.cdn3.cafe24.com/list-disc.jpg) 15px center no-repeat;
 }
 
 .subContents {
@@ -245,6 +244,7 @@ dt {
   height: 28px;
   line-height: 28px;
 }
+
 button {
   border: 0;
   padding: 0;
@@ -252,6 +252,7 @@ button {
   text-align: center;
   *font-family: sans-serif, Nanum Gothic, Malgun Gothic, 맑은 고딕, Nanum Barun Gothic, Spoqa Han Sans, 돋움, 돋움체, dotum, dotumche;
 }
+
 button, html input[type="button"], input[type="reset"], input[type="submit"] {
   -webkit-appearance: button;
   cursor: pointer;
@@ -456,28 +457,7 @@ a, a:link, a:visited, a:active, a:focus {
   margin: 0;
   border-radius: 0px;
 }
-button {
-  border: 0;
-  padding: 0;
-  background-repeat: no-repeat;
-  text-align: center;
-  *font-family: sans-serif, Nanum Gothic, Malgun Gothic, 맑은 고딕, Nanum Barun Gothic, Spoqa Han Sans, 돋움, 돋움체, dotum, dotumche;
-}
-button, html input[type="button"], input[type="reset"], input[type="submit"] {
-  -webkit-appearance: button;
-  cursor: pointer;
-}
-button, select {
-  text-transform: none;
-}
-button {
-  overflow: visible;
-}
-button, input, optgroup, select, textarea {
-  color: inherit;
-  font: inherit;
-  margin: 0;
-}
+
 * {
   -webkit-text-size-adjust: none;
   -webkit-box-sizing: content-box;
@@ -564,16 +544,6 @@ li {
   border: 1px solid #ddd;
 }
 
-element.style {
-  background-image: url(images/thumb03.jpg);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-
-element.style {
-  display: none;
-}
 .galleryList .galThumb img {
   width: 100%;
 }
@@ -646,12 +616,7 @@ h5 {
   float: left;
   width: 20%;
 }
-element.style {
-  background-image: url(upload_files/thumb20191226111856.png);
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
+
 .blogList .thumbImg {
   width: 200px;
   height: 130px;
@@ -660,11 +625,6 @@ element.style {
   background: #f2f2f2;
 }
 
-element.style {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
 .blogList .blogText {
   display: block;
   float: right;
@@ -864,9 +824,7 @@ textarea {
   border-image: initial;
   padding: 2px;
 }
-element.style {
-  padding-left: 30px;
-}
+
 textarea {
   overflow: auto;
 }

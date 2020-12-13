@@ -8,31 +8,14 @@
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
 
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-        }
-
-    </style>
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="headernav.css" rel="stylesheet">
     <link href="advertise.css" rel="stylesheet">
-
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -67,16 +50,19 @@
                     </h2>
                     <ul class="lnb">
                         <li>
-                            <a href="#">미국/캐나다</a>
+                          <a href="javascript:goView('rca');">모든국가보기</a>
                         </li>
                         <li>
-                            <a href="#">영국/아일랜드</a>
+                            <a href="javascript:goView('rc1');">미국/캐나다</a>
                         </li>
                         <li>
-                            <a href="#">호주/뉴질랜드</a>
+                            <a href="javascript:goView('rc2');">영국/아일랜드</a>
                         </li>
                         <li>
-                            <a href="#">필리핀/몰타</a>
+                            <a href="javascript:goView('rc3');">호주/뉴질랜드</a>
+                        </li>
+                        <li>
+                            <a href="javascript:goView('rc4');">필리핀/몰타</a>
                         </li>
                     </ul>
                 </aside>
@@ -123,54 +109,6 @@
                                     </dl>
                                 </div>
                             </li>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(465);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg"><img src="images/thumb03.jpg"></div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(465);">정지환</a></dt>
-                                        <dd>지역 : Margate</dd>
-                                        <dd>학교 : English in Margate</dd>
-                                    </dl>
-                                </div>
-                            </li>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(464);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg"><img src="upload_files/thumb20190111054654.jpg"></div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(464);">류다인</a></dt>
-                                        <dd>지역 : Harrogate</dd>
-                                        <dd>학교 : CES Harrogate</dd>
-                                    </dl>
-                                </div>
-                            </li>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(463);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg"><img src="upload_files/thumb20181127102618.jpg"></div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(463);">진희원</a></dt>
-                                        <dd>지역 : Margate</dd>
-                                        <dd>학교 : English in Margate</dd>
-                                    </dl>
-                                </div>
-                            </li>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(462);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg"><img src="upload_files/thumb20181113114323.png"></div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(462);">김혜인</a></dt>
-                                        <dd>지역 : London</dd>
-                                        <dd>학교 : Delfin English School London</dd>
-                                    </dl>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     <ul class="pagination">
@@ -199,7 +137,7 @@
             </p>
         </footer>
     </div>
-    <script src="review-wri.js"></script>
+    <script src="review.js"></script>
 </body>
 </html>
 

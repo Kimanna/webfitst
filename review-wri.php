@@ -3,12 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-//회원가입시 입력받는 정보 유저id / 나라정보 / 개인정보5 / 한국에서3 / 어학원에서14
-$userId = $_POST["contry"];
-$country = $_POST["contry"];
+//회원가입시 입력받는 정보 유저aid / 나라정보 / 개인정보5 / 한국에서3 / 어학원에서14 => 총 24
+$userId = "8";
+$country = $_POST["country"];
 $school = $_POST["school"];
 $town = $_POST["town"];
-$writer = $_POST["writer"];
+$writername = $_POST["writer"];
 $thumbnail = $_POST["thumbnail"];
 $st_homepage = $_POST["st_homepage"];
 
@@ -31,12 +31,85 @@ $st_content18 = $_POST["st_content18"];
 $st_content19 = $_POST["st_content19"];
 $st_content20 = $_POST["st_content20"];
 
+
+// print_r($_FILES);
+// print_r($_FILES['thumbnail']['name']);
+
+// $uploadBase = "uploadimg/";
+
+// foreach ($_FILES['thumbnail']['name'] as $f => $name) {   
+
+//   $name = $_FILES['thumbnail']['name'][$f];
+//   $uploadName = explode('.', $name);
+
+//   // $fileSize = $_FILES['upload']['size'][$f];
+//   // $fileType = $_FILES['upload']['type'][$f];
+//   $uploadname = time().$f.'.'.$uploadName[1];
+//   $uploadFile = $uploadBase.$uploadname;
+
+//   if(move_uploaded_file($_FILES['thumbnail']['tmp_name'][$f], $uploadFile)){
+//       echo 'success';
+//   }else{
+//       echo 'error';
+//   }
+// }  
+// $thumbnail = $name;
+
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
  if (!$conn) {
   die ('Failed'.mysqli_connect_error());
 } else {
 //  echo "success";
 }
+
+$sql = "
+  INSERT INTO review (created, aid, country, school, town, writername, thumbnail, st_homepage, 
+  st_content14, st_content1, st_content2, 
+  st_content15, st_content4, st_content5, st_content16, st_content12, st_content6, st_content22, st_content13, st_content7, st_content9, st_content3, st_content18 ,st_content19, st_content20)
+  VALUES (
+    NOW(),
+    '$userId', 
+    '$country',
+    '$school',
+    '$town',
+    '$writername',
+    '$thumbnail',
+    '$st_homepage',
+    '$st_content14',
+    '$st_content1',
+    '$st_content2',
+    '$st_content15',
+    '$st_content4',
+    '$st_content5',
+    '$st_content16',
+    '$st_content12',
+    '$st_content6',
+    '$st_content22',
+    '$st_content13',
+    '$st_content7',
+    '$st_content9',
+    '$st_content3',
+    '$st_content18',
+    '$st_content19',
+    '$st_content20'
+  )";
+
+
+if ($conn->query($sql) === true ){
+  
+
+  echo("<script>
+          window.alert('게시글이 등록 되었습니다.')
+          location.replace('http://localhost/review.html');
+         </script>"); 
+
+} else {
+  
+  echo"error :".$sql.$conn->error; 
+  
+}
+
+$conn->close();
 
 
 

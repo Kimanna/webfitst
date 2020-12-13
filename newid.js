@@ -44,53 +44,6 @@ gender.addEventListener("focusout", function() {
 email.addEventListener("focusout", isEmailCorrect);
 button.addEventListener("click", savemember);
 
-
-//  //region unreal 가입
-//  function checkId(event) {
-//   if(idFlag) return true;
-
-//   var id = $("#id").val();
-//   var oMsg = $("#idMsg");
-//   var oInput = $("#id");
-
-
-//   if ( id == "") {
-//       showErrorMsg(oMsg,"필수 정보입니다.");
-//       setFocusToInputObject(oInput);
-//       return false;
-//   }
-
-//   var isID = /^[a-z0-9][a-z0-9_\-]{4,19}$/;
-//   if (!isID.test(id)) {
-//       showErrorMsg(oMsg,"5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
-//       setFocusToInputObject(oInput);
-//       return false;
-//   }
-
-//   idFlag = false;
-//   $.ajax({
-//       type:"GET",
-//       url: "/user2/joinAjax.nhn?m=checkId&id=" + id ,
-//       success : function(data) {
-//           var result = data.substr(4);
-
-//           if (result == "Y") {
-//               if (event == "first") {
-//                   showSuccessMsg(oMsg, "멋진 아이디네요!");
-//               } else {
-//                   hideMsg(oMsg);
-//               }
-//               idFlag = true;
-//           } else {
-//               showErrorMsg(oMsg, "이미 사용중이거나 탈퇴한 아이디입니다.");
-//               setFocusToInputObject(oInput);
-//           }
-//       }
-//   });
-//   return true;
-// }
-
-
 /*콜백 함수*/
 
 
