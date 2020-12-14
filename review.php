@@ -6,15 +6,15 @@ ini_set('display_errors', '1');
  $rc = $_GET["rc"];
  
  if ( $rc == 'rca') {
-   $sql = "SELECT * FROM review LIMIT 9";
+   $sql = "SELECT * FROM review ORDER BY review_no DESC LIMIT 9";
 } else if ( $rc == 'rc1') {
-  $sql = "SELECT * FROM review WHERE country='USA' OR country='CAN' LIMIT 9";
+  $sql = "SELECT * FROM review WHERE country='USA' OR country='CAN' ORDER BY review_no DESC LIMIT 9";
 } else if ( $rc == 'rc2') {
-  $sql = "SELECT * FROM review WHERE country='GBR' OR country='IRL' LIMIT 9";
+  $sql = "SELECT * FROM review WHERE country='GBR' OR country='IRL' ORDER BY review_no DESC LIMIT 9";
 } else if ( $rc == 'rc3') {
-  $sql = "SELECT * FROM review WHERE country='AUS' OR country='NZL' LIMIT 9";
+  $sql = "SELECT * FROM review WHERE country='AUS' OR country='NZL' ORDER BY review_no DESC LIMIT 9";
 } else if ( $rc == 'rc4') {
-  $sql = "SELECT * FROM review WHERE country='PHL' OR country='MLT' LIMIT 9";
+  $sql = "SELECT * FROM review WHERE country='PHL' OR country='MLT' ORDER BY review_no DESC LIMIT 9";
 } 
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");

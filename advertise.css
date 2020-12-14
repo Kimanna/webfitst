@@ -42,8 +42,6 @@
   display: flex;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-right: -15px;
-  margin-left: -15px;
 }
 
 .lnbBox .lnbTitle {
@@ -63,7 +61,6 @@ h2 {
   color: #fff;
   border-top: 1px solid #eb6417;
   background-color: #eb6417;
-  background-image: url(http://letsuk.cdn3.cafe24.com/list-disc-white.jpg);
   background-repeat: no-repeat;
   background-position: 15px center;
   cursor: default;
@@ -458,14 +455,6 @@ a, a:link, a:visited, a:active, a:focus {
   border-radius: 0px;
 }
 
-* {
-  -webkit-text-size-adjust: none;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  background: url(images/jb_blank.png);
-}
-
 button {
   appearance: button;
   -webkit-writing-mode: horizontal-tb !important;
@@ -548,9 +537,6 @@ li {
   width: 100%;
 }
 
-.imgLiquid img {
-  visibility: hidden;
-}
 img {
   border: 0;
 }
@@ -843,4 +829,8 @@ button, input, optgroup, select, textarea {
 
 #loginuser {
   display: none;
+}
+
+.imgmargin {
+  margin: 50px 5px !important;
 }

@@ -76,8 +76,7 @@
                     </div>
                     <h1 class="pageTitle">연수 후기</h1>
 
-                    <form name="storyForm" action="review-wri.php" method="post" accept-charset="utf-8" enctype="multipart/form-data">
-                        <input type="hidden" name="mode" value="insert" />
+                    <form name="storyForm" role="form" autocomplete="off" method="post" accept-charset="utf-8" enctype="multipart/form-data">                        
                         <div class="schoolView">
                             <div class="schoolInfo">
                                 <div class="schoolSpec">
@@ -102,8 +101,7 @@
                                                             <option value="PHL">필리핀</option>
                                                             <option value="MLT">몰타</option>
                                                         </select>
-                                                        <div id="choosecountry"></div>
-                                                        
+                                                        <div id="choosecountry"></div> 
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -113,7 +111,7 @@
                                                 <tr>
                                                     <th class="active">썸네일 이미지</th>
                <!--                    임의로 type="file" 에서 text로 바꿔놓음     -->
-                                                    <td><input type="text" name="thumbnail" id="thumbnail" value=""></td>
+                                                    <td><input type="file" name="thumbnail" id="thumbnail" value=""></td>
                                                 </tr>
                                                 <tr>
                                                     <th class="active">블로그 주소</th>

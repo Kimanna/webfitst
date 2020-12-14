@@ -9,7 +9,7 @@ $country = $_POST["country"];
 $school = $_POST["school"];
 $town = $_POST["town"];
 $writername = $_POST["writer"];
-$thumbnail = $_POST["thumbnail"];
+
 $st_homepage = $_POST["st_homepage"];
 
 $st_content14 = $_POST["st_content14"];
@@ -32,28 +32,35 @@ $st_content19 = $_POST["st_content19"];
 $st_content20 = $_POST["st_content20"];
 
 
-// print_r($_FILES);
-// print_r($_FILES['thumbnail']['name']);
 
-// $uploadBase = "uploadimg/";
+$uploadBase = 'uploadimg';
+$filen = $_FILES['thumbnail']['name'];
 
-// foreach ($_FILES['thumbnail']['name'] as $f => $name) {   
+if( isset($_FILES['thumbnail']) && !empty($_FILES['thumbnail']) ){
+  $uploadStatus = $_FILES['thumbnail']['error'];
+  if( $uploadStatus==0 ){
+      // Copy source file to temp file
+ //     move_uploaded_file($_FILES['thumbnail']['tmp_name'], "$uploadBase/$filen" );
+      if( !move_uploaded_file($_FILES['thumbnail']['tmp_name'], "$uploadBase/$filen" )) {
+          throw new Exception("fileUploadCopy");
+      }
 
-//   $name = $_FILES['thumbnail']['name'][$f];
-//   $uploadName = explode('.', $name);
-
-//   // $fileSize = $_FILES['upload']['size'][$f];
-//   // $fileType = $_FILES['upload']['type'][$f];
-//   $uploadname = time().$f.'.'.$uploadName[1];
-//   $uploadFile = $uploadBase.$uploadname;
-
-//   if(move_uploaded_file($_FILES['thumbnail']['tmp_name'][$f], $uploadFile)){
-//       echo 'success';
-//   }else{
-//       echo 'error';
-//   }
-// }  
-// $thumbnail = $name;
+  } else{
+      if( $uploadStatus==1 ){ throw new Exception("fileUploadIniSize"); }
+      else if( $uploadStatus==2 ){ throw new Exception("fileUploadFormSize"); }
+      else if( $uploadStatus==3 ){ throw new Exception("fileUploadPartial"); } // THIS ERROR ...
+      else if( $uploadStatus==4 ){ throw new Exception("fileUploadNoFile"); }
+      else if( $uploadStatus==6 ){ throw new Exception("fileUploadNoTmpDir"); }
+      else if( $uploadStatus==7 ){ throw new Exception("fileUploadCantWrite"); }
+      else if( $uploadStatus==8 ){ throw new Exception("fileUploadExtension"); }
+      else{
+          throw new Exception("fileUploadSystem");
+      }
+  }
+} else{
+  throw new Exception("fileUploadUpload"); // ... OR THIS ERROR
+}
+$thumbnail = "$uploadBase/$filen";
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
  if (!$conn) {

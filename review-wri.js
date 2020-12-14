@@ -3,6 +3,11 @@
 var country = document.querySelector('#countryname');
 var choose = document.querySelector('#choosecountry');
 
+var btnresist = document.querySelector('.boardBtns');
+
+//form 을 변수 formObj에 저장 - 수정과, 등록을 구분하기위해
+//var formObj = $("form[role='form']");
+
 
 // html 로드시 수정 데이터가 있는경우 ( =파라미터가 있는경우 ) 데이터 가져오기 동작
 window.onload = function() {
@@ -10,12 +15,11 @@ window.onload = function() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   console.log(urlParams.get('review_no')); // url파라미터중 value 추출
-  console.log(queryString);
 
   if ( queryString != null || queryString != "" || urlParams.get('review_no') != null || urlParams.get('review_no') != "" || urlParams.get('review_no') != undefined ) {
 
     var f = document.storyForm;
-//    var active2 = document.querySelectorAll('table tbody td');
+
     
         $.get("review-det.php",
         { review_no : urlParams.get('review_no') }, 
@@ -23,14 +27,21 @@ window.onload = function() {
 
             console.log(data);
             console.log(jQuery.parseJSON(data));
-            console.log(jQuery.parseJSON(data).res);
+            
             
             if (jQuery.parseJSON(data).res == 'notok') {
 
             } else {
 
+              //파라미터가 있는경우, 삭제하기 버튼추가해주고, 하단 버튼의 Text는 수정과, 뒤로가기로 변경해줌
                 var deletbtn = '<button type="button" class="btn lg" id="register" onclick="javascript:deletereview('+urlParams.get('review_no')+');">글&nbsp;삭&nbsp;제</button>';
                 $('#deletbtn').html(deletbtn);
+
+                
+                btnresist.firstElementChild.innerText = "수정";
+                btnresist.lastElementChild.innerText = "뒤로가기";
+                
+
                 var obj = jQuery.parseJSON(data);
                 // console.log(obj[5]);
 
@@ -40,9 +51,11 @@ window.onload = function() {
                 
                 $('#townselect').val(obj[5]).prop("selected",true);
 
+
                 f.writer.value = obj[6];
                 f.thumbnail.value = obj[7];
                 f.st_homepage.value = obj[8];
+               
                 f.st_content14.value = obj[9];
                 f.st_content1.value = obj[10];
                 f.st_content2.value = obj[11];
@@ -182,7 +195,30 @@ function storySave() {
  */
   } 
 
-  f.submit();
+  
+  //버튼의 Text이름이 수정인 경우 수정하는 review-wri.php로 이동하며, 
+  // else인 경우 게시글이 등록되는 review-rwri.php로 이동
+  
+
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  var formObj = $("form[role='form']");
+
+  if (btnresist.firstElementChild.innerText == "수정") {
+
+
+    var mode ='<input type="hidden" name="mode" value="update"/>';
+    var hidden ='<input type="hidden" name="review_no" value="'+urlParams.get('review_no')+'"/>';
+    formObj.attr("action", "review-rwri.php");
+    formObj.append(mode).append(hidden);
+    formObj.submit();
+
+  } else {
+
+    formObj.attr("action", "review-wri.php");
+    formObj.submit();
+
+  }
 }
 
 function getFileExt (p_filename){
@@ -200,6 +236,23 @@ function getFileExt (p_filename){
 
 function deletereview(review_no) {
 
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  
+  var returnValue = confirm('게시글을 정말 삭제 하시겠습니까?');
+  if (returnValue) {
 
+    var formObj = $("form[role='form']");
+    var mode ='<input type="hidden" name="mode" value="delete"/>';
+    var hidden ='<input type="hidden" name="review_no" value="'+urlParams.get('review_no')+'"/>';
+
+    formObj.attr("action", "review-rwri.php");
+    formObj.append(mode).append(hidden);
+    formObj.submit();
+
+
+  } else {
+
+  }
 
 }

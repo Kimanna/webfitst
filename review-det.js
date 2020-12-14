@@ -21,20 +21,31 @@ window.onload = function() {
 //          active[i].nextElementSibling.innerHTML = obj[i+4];
   
           for (var i = 0; i < active.length ; i++) {
+            
+            if ( i >= '3' ) {
 
-            if ( !obj[i+4] ) {
-              obj[i+4] = "입력값 없음";
-            }
+              active2[i].innerHTML = obj[i+5];
+
+            } else {
 
               active2[i].innerHTML = obj[i+4];
               console.log(obj[i+4]);
 
+            }
+
+            if ( !obj[i] ) {
+              console.log(!obj[i]);
+              obj[i] = "입력값 없음";
+            } 
+            
           }
+          var str2 = '<img src="'+obj[7]+'" style="width: 362px; height: 100% !important;">';
+          $("#imginput").html(str2);
+          
           var str1 = '<button type="button" class="btn lg" id="register" onclick="javascript:goUpdate('+urlParams.get('review_no')+');">리뷰 수정</button>';
           $(".updatebt").html(str1);
-         
+ 
     })
-
 }
 
 
