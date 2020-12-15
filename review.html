@@ -82,34 +82,6 @@
                     </div>
 
                     <div class="galleryList">
-                        <ul>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(467);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg">
-                                      <img src="/images/thumb03.jpg">
-                                    </div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(467);">유재석</a></dt>
-                                        <dd>지역 : London</dd>
-                                        <dd>학교 : London School of English</dd>
-                                    </dl>
-                                </div>
-                            </li>
-                            <li class="galBox" style="height: 430px;">
-                                <a href="javascript:goView(466);">
-                                    <div class="galThumb imgLiquidFill imgLiquid hg"><img src="images/thumb03.jpg"></div>
-                                </a>
-                                <div class="galText">
-                                    <dl>
-                                        <dt>이름 : <a href="javascript:goView(466);">이티나</a></dt>
-                                        <dd>지역 : Bournemouth</dd>
-                                        <dd>학교 : Southbourne School of English</dd>
-                                    </dl>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                     <ul class="pagination">
                       <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
@@ -138,6 +110,16 @@
         </footer>
     </div>
     <script src="review.js"></script>
+    <script>
+        // review.html 에서 등록하기 버튼을 클릭한 경우 작동하는 메서드
+        // 로그인 상태면 글을 쓸 수 있지만 로그인상태가 아니면 글을 쓸수 없다는 메시지를 출력 ---------------수정해야함
+        document.getElementById("register").onclick = function() {
+
+        location.replace('http://localhost/review-wri.html');
+        // alert('로그인이 필요합니다. 로그인 해주세요.');  
+
+        };
+    </script>
 </body>
 </html>
 

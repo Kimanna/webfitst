@@ -16,6 +16,8 @@
     <link href="headernav.css" rel="stylesheet">
     <link href="advertise.css" rel="stylesheet">
 
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 
 </head>
 
@@ -46,23 +48,23 @@
             <div class="row flex-nowrap justify-content-between">
                 <aside class="lnbBox text" id="lnbBox03">
                     <h2 class="lnbTitle">
-                        <img src="../logo.jpg" alt="어학연수 나라별">
+                        <img src="" alt="어학연수 나라별">
                     </h2>
                     <ul class="lnb">
                       <li>
-                        <a href="javascript:goView('rca');">모든국가보기</a>
+                        <a href="javascript:goView('bca');">모든국가보기</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc1');">미국/캐나다</a>
+                          <a href="javascript:goView('bc1');">미국/캐나다</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc2');">영국/아일랜드</a>
+                          <a href="javascript:goView('bc2');">영국/아일랜드</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc3');">호주/뉴질랜드</a>
+                          <a href="javascript:goView('bc3');">호주/뉴질랜드</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc4');">필리핀/몰타</a>
+                          <a href="javascript:goView('bc4');">필리핀/몰타</a>
                       </li>
                   </ul>
                 </aside>
@@ -75,168 +77,24 @@
                         </ul>
                     </div>
                     <h1 class="pageTitle">블로그 활동단</h1>
-                    <div class="blogList">
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5580);"><img src="upload_files/thumb20191226111856.png"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5580);">
-                                    <p class="titleText">셰필드 생활 #영국유학</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김송이매니저</p> -->
-                                    <p class="prvText">셰필드 생활런던에서의 한달 어학연수 생활을 마치고 셰필드로 본격적인 교환학생 학기를 위해 이동했다. 나는 오리엔테이션을 신청해서 1주일 먼저 교환학생들만 대상으로 하는 코스를 들었다. 이 코스를 통해 다른 나라에서 온 많은 ..</p>
-                                </a>
-                            </div>
-
+                        <div class="text-right">
+                          <button type="button" class="btn lg" id="register" style="margin-bottom: 20px;" onclick="goWrite();">블로그 등록</button>
                         </div>
-                        <div class="blogBox">
+                        <div class="blogList">
+                            <div class="blogBox">
+                              <div class="blogThumb">
+                                    <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5580);"><img src="upload_files/thumb20191226111856.png"></a></div>
+                                </div>
+                                <div class="blogText">
+                                    <a href="javascript:goView(5580);">
+                                        <p class="titleText">셰필드 생활 #영국유학</p>
+                                        <p></p>
+                                        <p class="prvText">셰필드 생활런던에서의 한달 어학연수 생활을 마치고 셰필드로 본격적인 교환학생 학기를 위해 이동했다. 나는 오리엔테이션을 신청해서 1주일 먼저 교환학생들만 대상으로 하는 코스를 들었다. 이 코스를 통해 다른 나라에서 온 많은 ..</p>
+                                    </a>
+                                </div>
 
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5579);"><img src="upload_files/thumb20191223030053.jpg"></a></div>
                             </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5579);">
-                                    <p class="titleText">영국 생활 #영국유학</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김송이매니저</p> -->
-                                    <p class="prvText">여행어렸을때 꽤 많은 나라를 부모님과 함께 돌아다녔었다. 그때마다 내가 가졌던 기억은 다 비슷비슷하게 생겼다여서 여행이 즐거운지 잘 몰랐다.하지만 부모님과 함께하는것과 혼자는 정말 다르다. 모든 것을 내가 스스로 계획하고, ..</p>
-                                </a>
-                            </div>
-
                         </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5574);"><img src="upload_files/thumb20191213035003.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5574);">
-                                    <p class="titleText">런던생활 (한달 간의 어학연수) #영국유학</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김송이매니저</p> -->
-                                    <p class="prvText">영국 도착영국에 도착했다. 영국에서 교환학기를 시작하기 전 1달동안 런던에서 어학연수를 하기로 결정해서 한달 더 빠르게 입국했다. 영어에 있어서 한국에서 토익 점수도 고득점을 따놨지만 스피킹을 한적이 없으니 자신감도 없고 ..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5487);"><img src="upload_files/thumb20190812111837.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5487);">
-                                    <p class="titleText">[영국어학연수] 유럽에서 알아주는 피터브러 앤티크 페어 구경 (Peterborough Antique Fair)</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">평소 앤티크나 구제같은 오래된 물건을 정말로 좋아하는 나로서, 유럽에서 알아주는 앤티크 페어는 정말이지 안가고는 못 견딜 것 같았다. 하로게이트에서 피터브러까지 거리도 꽤나 있고, 차비도 꽤나 비싸지만 일년에 딱 두번 열리는..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5479);"><img src="upload_files/thumb20190720023331.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5479);">
-                                    <p class="titleText">본머스의 버스, 기차, 그리고 비행기</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">영국 본머스에서 이용하는 대중교통은 크게 3가지로 나눌 수 있다.버스, 기차, 비행기. 옐로우 버스 2층에서 바라본 옐로우버스 이층버스에서 바라본 풍경..?1. 본머스는 yellow bus와 more bus가 있고 두가지는 색깔과 번호로 구별 할..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5477);"><img src="upload_files/thumb20190718055143.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5477);">
-                                    <p class="titleText">본머스 연수, gym 알아보기</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">본머스는 작은 시골 바닷가 마을 같은 곳이라 할 일이 많이 없다. 관광지가 많은 것도 아니고 틈새 시간에 운동도 해야지 라는 생각에 여기 오자마자 찾아 본 것 중에 하나가 gym이었다. 홈맘에게 추천을 받은 곳은 집 근처의 수영장을..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5473);"><img src="upload_files/thumb20190711053408.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5473);">
-                                    <p class="titleText">해크니 꽃 시장, 플라워마켓 구경</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">flower market in hackny​​해크니에서 매주 일요일마다 플라워마켓이 열린다. 오전9시부터 3시까지만 운영하는데봄이 되고 하니 사람들이 부쩍 피크닉도 많이가고, 길거리에 심심치않게 꽃을 들고 다니는 사람을 볼 수 있었다.그래서 ..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5470);"><img src="upload_files/thumb20190710102901.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5470);">
-                                    <p class="titleText">런던 카페 투어</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">런던 버러마켓런던브리지역에서 가까운 버러마켓을 방문했다.영국 런던 서더크(Southwark)에 있는 재래시장이다. 런던브리지 남단의 서더크 대성당 남쪽 버러하이스트리트에 있다. 세계적인 규모의 식품 시장이며, 판매되는 제품의 종..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5466);"><img src="upload_files/thumb20190705035718.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5466);">
-                                    <p class="titleText">큐 가든 방문기</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">ROYAL BOTANIC GARDENS_KEWKEW GARDENS​큐가든은 영국 런던 남서부의 리치몬드어폰템스런던자치구의교외지역인 큐에 있는 식물원으로, 템스강 남쪽강변을 따라 조성되어있다.수기에 걸쳐 수집한 식물과 광범위한 관련 자료들을 보유하..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                        <div class="blogBox">
-
-                            <div class="blogThumb">
-                                <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5459);"><img src="upload_files/thumb20190622024251.jpg"></a></div>
-                            </div>
-
-                            <div class="blogText">
-                                <a href="javascript:goView(5459);">
-                                    <p class="titleText">[영국어학연수] 190414 영국 리즈(Leeds) 차이나 슈퍼마켓 한국 음식 가격 + 리즈 아트 여행</p>
-                                    <p></p>
-                                    <!-- <p class="writer">김민지 매니저</p> -->
-                                    <p class="prvText">하로게이트는 너무나 작은 동네이기 때문에 한국 음식은 거의 팔지 않는다.아스다(Asda)라는 이마트같은 큰 슈퍼마켓이 있는데, 거기에서 라면 몇개를 팔기는 한다.신라면, 해물파티, 순라면, 오징어짬뽕 등등...그러나 나는 한국인으..</p>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
                     <form name="searchForm" action="?" method="get" onsubmit="goSearch();">
                         <input type="hidden" name="npage" value="1">
                         <input type="hidden" name="idx" value="">
@@ -277,11 +135,25 @@
             </p>
         </footer>
     </div>
-    <script src="review-wri.js"></script>
-</body>
+    <script src="review.js"></script>
+    <script src="blog.js"></script>
+    <script>
+      
+        function goWrite(inputno) {
+
+          window.location.href = 'blog-wri.html';
+          
+        }
+    </script>
+  </body>
 </html>
 
+<!-- // $('.headerlocation').load('header.html', function (res, status, xhr) {
 
+  //   if (status == "success" && xhr.status == 200) {
+  //     this.html(res);
+  //   }
+  // }); -->
 
 <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script>

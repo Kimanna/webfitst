@@ -1,9 +1,10 @@
 
+
 window.onload = function() {
 
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  console.log(urlParams.get('review_no')); // url파라미터중 value 추출
+  var queryString = window.location.search;
+  var urlParams = new URLSearchParams(queryString);
+  // console.log(urlParams.get('review_no')); // url파라미터중 value 추출
 
   var active = document.querySelectorAll('.active');
   var active2 = document.querySelectorAll('table tbody td');
@@ -48,6 +49,16 @@ window.onload = function() {
     })
 }
 
+function getUrlParams() {
+  var params = {};
+  window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+  return params;
+}
+var Param = getUrlParams();
+
+
+console.log(getUrlParams() == null);  
+console.log(getUrlParams() != null);  
 
 function goUpdate(updateno) {
 

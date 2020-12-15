@@ -53,7 +53,7 @@ window.onload = function() {
 
 
                 f.writer.value = obj[6];
-                f.thumbnail.value = obj[7];
+ //               f.thumbnail.value = obj[7];
                 f.st_homepage.value = obj[8];
                
                 f.st_content14.value = obj[9];
@@ -165,7 +165,9 @@ function townlist (co) {
   } 
 }
 
-// review-WritableStream.html에서 모든 정보를 다 입력했는지 확인하는 부분
+// review-wri.html에서 모든 정보를 다 입력했는지 확인하는 부분
+// form (hidden) 안에 데이터 mode 정보를 입력해줌 create/update 인지
+// 수정인 경우 파라미터 정보 (글넘버) 를 append하여 넘겨줌 
 function storySave() {
 
   var f = document.storyForm;
@@ -185,15 +187,15 @@ function storySave() {
       alert("썸네일 이미지를 등록해주세요.");
       return;
   }
-  if ( f.thumbnail.value.trim() != "") {
-/*      var ext = getFileExt( f.thumbnail.value ).toLowerCase();
+//   if ( f.thumbnail.value.trim() != "") {
+// /*      var ext = getFileExt( f.thumbnail.value ).toLowerCase();
       
-      if ( ext != "jpg" && ext != "gif" && ext != "png" ) {
-          alert("jpg, gif, png 파일만 등록하실 수 있습니다.");
-          return;
-      }
- */
-  } 
+//       if ( ext != "jpg" && ext != "gif" && ext != "png" ) {
+//           alert("jpg, gif, png 파일만 등록하실 수 있습니다.");
+//           return;
+//       }
+//  */
+//   } 
 
   
   //버튼의 Text이름이 수정인 경우 수정하는 review-wri.php로 이동하며, 
@@ -209,13 +211,15 @@ function storySave() {
 
     var mode ='<input type="hidden" name="mode" value="update"/>';
     var hidden ='<input type="hidden" name="review_no" value="'+urlParams.get('review_no')+'"/>';
-    formObj.attr("action", "review-rwri.php");
+    formObj.attr("action", "review-wri.php");
     formObj.append(mode).append(hidden);
     formObj.submit();
 
   } else {
 
+    var mode ='<input type="hidden" name="mode" value="create"/>';
     formObj.attr("action", "review-wri.php");
+    formObj.append(mode);
     formObj.submit();
 
   }
@@ -233,7 +237,7 @@ function getFileExt (p_filename){
   }
   return "";
 }
-
+//게시물을 삭제하는 코드
 function deletereview(review_no) {
 
   const queryString = window.location.search;
@@ -246,7 +250,7 @@ function deletereview(review_no) {
     var mode ='<input type="hidden" name="mode" value="delete"/>';
     var hidden ='<input type="hidden" name="review_no" value="'+urlParams.get('review_no')+'"/>';
 
-    formObj.attr("action", "review-rwri.php");
+    formObj.attr("action", "review-wri.php");
     formObj.append(mode).append(hidden);
     formObj.submit();
 

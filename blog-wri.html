@@ -18,7 +18,9 @@
 
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script>
+    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/24.0.0/classic/ckeditor.js"></script> -->
+    <script src="https://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js"></script>
+
 
 
 </head>
@@ -52,23 +54,23 @@
             <div class="row flex-nowrap justify-content-between">
                 <aside class="lnbBox text" id="lnbBox03">
                     <h2 class="lnbTitle">
-                        <img src="../logo.jpg" alt="어학연수 나라별">
+                        <img src="" alt="어학연수 나라별">
                     </h2>
                     <ul class="lnb">
                       <li>
-                        <a href="javascript:goView('rca');">모든국가보기</a>
+                        <a href="javascript:goView('bca');">모든국가보기</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc1');">미국/캐나다</a>
+                          <a href="javascript:goView('bc1');">미국/캐나다</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc2');">영국/아일랜드</a>
+                          <a href="javascript:goView('bc2');">영국/아일랜드</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc3');">호주/뉴질랜드</a>
+                          <a href="javascript:goView('bc3');">호주/뉴질랜드</a>
                       </li>
                       <li>
-                          <a href="javascript:goView('rc4');">필리핀/몰타</a>
+                          <a href="javascript:goView('bc4');">필리핀/몰타</a>
                       </li>
                   </ul>
                 </aside>
@@ -84,28 +86,25 @@
 
                     <div id="editor-container">
                       <div class="editorrow">
-                        <form>
-                          <table>
-                            <th>
-                              <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                              </tr>
-                            </th>
-                          </table>
+                        <form name="storyForm" method="post" role='form'>
+                          <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해 주세요"/>
+                          </div>
+                          <div class="form-group">
+                            <label for="body">Body</label>
+                            <textarea id="content" class="ckeditor form-control" name="content">다양한 어학연수의 일상을 공유해주세요</textarea>
+
+                            <!-- <div id="editor">다양한 어학연수의 일상을 공유해주세요</div> -->
+                          </div>
+                          <div>
+                            <a class="btn backbtn" href="blog.html">목록으로</a>
+                            <button type="submit" class="btn lg" onclick="javascript:storySave();">등록</button>
+                          </div>
                         </form>
                       </div>
-                      <div id="editor">CKEditor content</div>
                     </div>
                 </div>
-
-                
-
-
             </div>
         </main>
 
@@ -117,14 +116,7 @@
             </p>
         </footer>
     </div>
-    <script>
-      ClassicEditor
-      .create ( document.querySelector ( '#editor') )
-      .catch( error => {
-        console.error( error );
-      })
-    </script>
-
+    <script src="review.js"></script>
     <script src="blog-wri.js"></script>
 </body>
 </html>
