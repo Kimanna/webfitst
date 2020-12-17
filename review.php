@@ -19,23 +19,23 @@ ini_set('display_errors', '1');
 } else if ( $rc == 'rc4') {
   $sql = "SELECT * FROM review WHERE country='PHL' OR country='MLT' ORDER BY review_no DESC LIMIT 9";
 } else if ( $rc == 'bca') {
-  $sql = "SELECT * FROM blog WHERE country='USA' OR country='CAN' ORDER BY blog_no DESC LIMIT 20";
+  $sql = "SELECT * FROM blog ORDER BY blog_no DESC";
 } else if ( $rc == 'bc1') {
-  $sql = "SELECT * FROM blog WHERE country='GBR' OR country='IRL' ORDER BY blog_no DESC LIMIT 20";
+  $sql = "SELECT * FROM blog WHERE country='USA' OR country='CAN' ORDER BY blog_no DESC LIMIT 20";
 } else if ( $rc == 'bc2') {
-  $sql = "SELECT * FROM blog WHERE country='AUS' OR country='NZL' ORDER BY blog_no DESC LIMIT 20";
+  $sql = "SELECT * FROM blog WHERE country='GBR' OR country='IRL' ORDER BY blog_no DESC LIMIT 20";
 } else if ( $rc == 'bc3') {
-  $sql = "SELECT * FROM blog WHERE country='PHL' OR country='MLT' ORDER BY blog_no DESC LIMIT 20";
+  $sql = "SELECT * FROM blog WHERE country='AUS' OR country='NZL' ORDER BY blog_no DESC LIMIT 20";
 } else if ( $rc == 'bc4') {
   $sql = "SELECT * FROM blog WHERE country='PHL' OR country='MLT' ORDER BY blog_no DESC LIMIT 20";
 } else if ( $rc == 'aca') {
-  $sql = "SELECT * FROM advertise WHERE country='USA' OR country='CAN' ORDER BY advertise_no DESC LIMIT 20";
+  $sql = "SELECT * FROM advertise ORDER BY advertise_no DESC";
 } else if ( $rc == 'ac1') {
-  $sql = "SELECT * FROM advertise WHERE country='GBR' OR country='IRL' ORDER BY advertise_no DESC LIMIT 20";
+  $sql = "SELECT * FROM advertise WHERE country='USA' OR country='CAN' ORDER BY advertise_no DESC LIMIT 20";
 } else if ( $rc == 'ac2') {
-  $sql = "SELECT * FROM advertise WHERE country='AUS' OR country='NZL' ORDER BY advertise_no DESC LIMIT 20";
+  $sql = "SELECT * FROM advertise WHERE country='GBR' OR country='IRL' ORDER BY advertise_no DESC LIMIT 20";
 } else if ( $rc == 'ac3') {
-  $sql = "SELECT * FROM advertise WHERE country='PHL' OR country='MLT' ORDER BY advertise_no DESC LIMIT 20";
+  $sql = "SELECT * FROM advertise WHERE country='AUS' OR country='NZL' ORDER BY advertise_no DESC LIMIT 20";
 } else if ( $rc == 'ac4') {
   $sql = "SELECT * FROM advertise WHERE country='PHL' OR country='MLT' ORDER BY advertise_no DESC LIMIT 20";
 } 

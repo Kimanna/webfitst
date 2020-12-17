@@ -4,36 +4,36 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+session_start();
+$userId = $_SESSION['userId'];
 
   $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
   if (!$conn) {
       die ('Failed'.mysqli_connect_error());
-  }
-
-  // echo $_POST["mode"];
-
-  if ($_POST["mode"] == 'create') {
+  } 
+ $mode = $_POST['mode']
+ $mode = $_POST["mode"]
+ $mode = $_POST['mode']
+  // if ($mode == 'create') {
 
     $title = $_POST["title"];
     $content = $_POST["content"];
-    $userId = "8";
+    // $title = "title";
+    // $content = "content";
 
-    $sql = " INSERT INTO blog (created, aid, title, content) 
-    VALUES (
-      NOW(),
+
+    $sql = "INSERT INTO blog (created, aid, title, content) VALUES (NOW(),
       '$userId', 
       '$title',
       '$content'
     )";
 
 
-    // echo ($conn->query($sql) === true);
-
-
     if ($conn->query($sql) === true ){
 
       echo("<script>window.alert('게시글이 등록 되었습니다.')
-              location.replace('http://localhost/blog.html');</script>"); 
+            location.replace('http://localhost/blog.html');
+            </script>"); 
 
       } else {
 
@@ -41,11 +41,11 @@ ini_set('display_errors', '1');
 
       }
 
-  } else if ($_POST["mode"]) == 'update' {
+  // } else if ($_POST["mode"]) == 'update' {
 
-  } else if ($_POST["mode"]) == 'delete' {
+  // } else if ($_POST["mode"]) == 'delete' {
 
-  }
+  // }
 
 
 ?>

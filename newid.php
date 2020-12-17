@@ -10,13 +10,10 @@ $userPw = $_POST["password"];
 $username = $_POST["username"];
 $userbirth = $_POST["bir_yy"].$_POST["bir_mm"].$_POST["bir_dd"];
 $useremail = $_POST["email"];
+$usergender = $_POST["gender"];
 
-if ($_POST["gender"] == "M") {
-  $usergender = "1";
-} 
-if ($_POST["gender"] == "F") {
-  $usergender = "2";
-}
+$password_hash = hash("sha256", $userPw);
+
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
  if (!$conn) {
@@ -29,7 +26,7 @@ $sql = "
   INSERT INTO topic (id, pass, name, gender, birth, email, created)
   VALUES (
     '$userId', 
-    '$userPw',
+    '$password_hash',
     '$username',
     '$usergender',
     '$userbirth',

@@ -3,10 +3,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
-$review_no = $_GET["review_no"];
 
+// $review_no = $_GET["review_no"];
+if (isset($_GET["review_no"])) {
 
-$sql = "SELECT * FROM review WHERE review_no = '$review_no'";
+  $sql = "SELECT * FROM review WHERE review_no = '$review_no'";
+
+}
+
 
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");

@@ -5,22 +5,32 @@ window.onload = function() {
 
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
-  // console.log(urlParams.get('review_no')); // url파라미터중 게시물넘버(review_no) 추출
+  // console.log(urlParams.get('blog_no')); // url파라미터중 게시물넘버(blog_no) 추출
 
-  var active = document.querySelectorAll('.active');
-  var active2 = document.querySelectorAll('table tbody td');
+  var active = document.querySelectorAll('.boardView .title');
+  var active2 = document.querySelectorAll('.boardView .boardContents');
+  
   
       $.get("review-det.php",
       { review_no : urlParams.get('review_no') }, 
         function(data, status){
 
-          // console.log(data);
+          console.log(data);
           var obj = jQuery.parseJSON(data);
           
-          // console.log(obj[5]);
+          console.log(obj[4]);
           // console.log(active[0].nextElementSibling.innerHTML = "안녕하셈");
           // console.log(active2[2].innerHTML = "안녕");
 //          active[i].nextElementSibling.innerHTML = obj[i+4];
+
+          
+          var str2 = '<img src="'+obj[7]+'" style="width: 362px; height: 100% !important;">';
+          $(".title").Text = obj[3];
+
+          
+          var str1 = '<button type="button" class="btn lg" id="register" onclick="javascript:goUpdate('+urlParams.get('review_no')+');">리뷰 수정</button>';
+          $(".updatebt").html(str1);
+
   
           for (var i = 0; i < active.length ; i++) {
             
@@ -41,11 +51,7 @@ window.onload = function() {
             } 
             
           }
-          var str2 = '<img src="'+obj[7]+'" style="width: 362px; height: 100% !important;">';
-          $("#imginput").html(str2);
-          
-          var str1 = '<button type="button" class="btn lg" id="register" onclick="javascript:goUpdate('+urlParams.get('review_no')+');">리뷰 수정</button>';
-          $(".updatebt").html(str1);
+
  
     })
 }

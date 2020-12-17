@@ -115,19 +115,17 @@
         // 로그인 상태면 글을 쓸 수 있지만 로그인상태가 아니면 글을 쓸수 없다는 메시지를 출력 ---------------수정해야함
         document.getElementById("register").onclick = function() {
 
-        location.replace('http://localhost/review-wri.html');
-        // alert('로그인이 필요합니다. 로그인 해주세요.');  
+        location.replace('http://localhost/session1.php');
 
         };
+
+
+        function goDetail (inputno) {
+  
+          console.log(inputno);
+          window.location.href = 'review-det.html?review_no='+inputno;
+
+        }
     </script>
 </body>
 </html>
-
-
-
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
-  jQuery( document ).ready( function( $ ) {
-    // code ...
-  } );
-</script> -->

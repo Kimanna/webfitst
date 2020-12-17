@@ -13,12 +13,12 @@
 
 
         <?php
-         session_start();
+
         // 로그인시 등록한 session userId 가 있는경우 로그인 버튼 감춤
         // session userId 값이 없는경우 로그인 버튼을 보여줌
         if(isset($_SESSION['userId'])) {
            ?>
-          <a><?php echo $_SESSION['userId']; ?>&nbsp님 안녕하세요&nbsp&nbsp&nbsp&nbsp</a>
+          <a><?php echo $_SESSION['userId']; ?>님 안녕하세요&nbsp&nbsp&nbsp&nbsp</a>
           <a class="btn btn-sm btn-outline-secondary" href="mypage.html">마이페이지</a>
 
           <?php

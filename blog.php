@@ -17,11 +17,12 @@
     <link href="advertise.css" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 
 <body>
     <div class="container">
-      <div class="headerlocation"></div>
+      <?php include("header.php"); ?> 
 
         <main role="main" class="container">
             <div class="row flex-nowrap justify-content-between">
@@ -69,9 +70,9 @@
                                         <p class="titleText">셰필드 생활 #영국유학</p>
                                         <p></p>
                                         <p class="prvText">셰필드 생활런던에서의 한달 어학연수 생활을 마치고 셰필드로 본격적인 교환학생 학기를 위해 이동했다. 나는 오리엔테이션을 신청해서 1주일 먼저 교환학생들만 대상으로 하는 코스를 들었다. 이 코스를 통해 다른 나라에서 온 많은 ..</p>
-                                        <div class="titledate" style="text-align:right;">2020.12.18</div>
-                                      </a>
+                                    </a>
                                 </div>
+
                             </div>
                         </div>
                     <form name="searchForm" action="?" method="get" onsubmit="goSearch();">
@@ -114,15 +115,6 @@
             </p>
         </footer>
     </div>
-    <script>
-      $('.headerlocation').load('header.html', function (res, status, xhr) {
- 
-         if (status == "success" && xhr.status == 200) {
-           this.innerHTML(res);
-         }
-       });
-     </script>
-
 
     <script src="review.js"></script>
     <!-- <script src="blog.js"></script> -->
@@ -130,16 +122,8 @@
       
         function goWrite(inputno) {
 
-          window.location.href = 'session.php';
+          window.location.href = 'blog-wri.html';
           
-        }
-
-
-        function goDetail (inputno) {
-  
-          console.log(inputno);
-          window.location.href = 'blog-det.html?review_no='+inputno;
-
         }
     </script>
   </body>

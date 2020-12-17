@@ -1,22 +1,4 @@
-//세션값 확인하는 부분
-// var signup = document.getElementsById('sessionisset');
-// var loginuser = document.getElementsById('loginuser');
-
-//   var userId = window.sessionStorage.getItem("userId");
-//   if (window.sessionStorage.getItem("userId") == null) {
-//     signup.setAttribute( 'href', 'login.html' );
-//     signup.innerHTML = "sign in";
-//     loginuser.style.display = "none"; 
-//     }
-//   if (window.sessionStorage.getItem("userId") != null) {
-//     signup.setAttribute( 'href', 'logout.php' );
-//     signup.innerHTML = "sign out";
-//     loginuser.innerHTML = userId+" 님이 로그인 중입니다.";
-//     loginuser.style.display = "inline-block";  
-//   }
-
-//   console.log(window.sessionStorage.getItem("userId"));
-//   console.log(window.sessionStorage.length());  
+ 
 
 function getUrlParams() {
   var params = {};
@@ -34,14 +16,18 @@ console.log(thisfilefullname);
 
 if (thisfilefullname == 'review.html') {
 
+  $(".lnb li a:eq(0)").css('font-weight','bold');
   goView("rca");
 
 } else if (thisfilefullname == 'blog.html'){
 
+  $(".lnb li a:eq(0)").css('font-weight','bold');
   goView("bca");
+
   
 } else if (thisfilefullname == 'advertise.html') {
 
+  $(".lnb li a:eq(0)").css('font-weight','bold');
   goView("aca");
 
 }
@@ -55,7 +41,7 @@ if (thisfilefullname == 'review.html') {
 function goView(inputno) {
 
 
-  // url 의 폴더이름이 상단탭의 메인페이지가 아니라면 해당 상단탭의 메인페이지로 이동하게됨 
+  // url 의 폴더이름이 상단 nav 의 메인페이지가 아니라면 해당 상단탭의 메인페이지로 이동하게됨 
   // 폴더이름이 review.html 이 아니면서 파일이름이 r로 시작할때
   var queryString = window.location.pathname;
   console.log(queryString == '/review.html');
@@ -74,29 +60,6 @@ function goView(inputno) {
   
   }
   
-      // url 경로에 따라 불러오는 db에서 불러오는 table 명 을 구분짓기 위한 if문
-    if (getUrlParams().data != null) {
-
-      var thisfilefoldername = thisfilefullname.substring(thisfilefullname.lastIndexOf('.'), 0);
-      console.log(thisfilefoldername);
-      console.log(thisfilefoldername.charAt == 'r');
-      console.log(thisfilefullname != 'review.html');
-
-      if (thisfilefoldername.charAt == 'r' && thisfilefullname != 'review.html') {
-
-        
-
-      } else if (thisfilefoldername == 'blog.html'){
-      
-        window.location.href = 'blog.html';
-        
-      } else if (thisfilefoldername == 'advertise.html') {
-      
-        window.location.href = 'advertise.html';
-      
-      } 
-    }
-
 
     $.ajax({
       type:"GET",
@@ -111,70 +74,100 @@ function goView(inputno) {
 
           if (inputno == "rca" ) {
 
+            $(".lnb li a:eq(0)").css('font-weight','bold');
             $(".galleryList .blogList").html('<div>현재 모든 게시물이 없습니다.<div>');
 
           } else if (inputno == "rc1") {
 
+            $(".lnb li a:eq(1)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 미국/캐나다의 게시물이 없습니다.<div>');
 
           } else if (inputno == "rc2") {
 
+            $(".lnb li a:eq(2)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 영국/아일랜드의 게시물이 없습니다.<div>');
             
           } else if (inputno == "rc3") {
 
+            $(".lnb li a:eq(3)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 호주/뉴질랜드의 게시물이 없습니다.<div>');
             
           } else if (inputno == "rc4") {
 
+            $(".lnb li a:eq(4)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 필리핀/몰타의 게시물이 없습니다.<div>');
             
           } else if (inputno == "bca") {
 
-            $(".galleryList").html('<div>현재 모든 게시물이 없습니다.<div>');
+            $(".lnb li a:eq(0)").css('font-weight','bold');
+            $(".blogList").html('<div>현재 모든 게시물이 없습니다.<div>');
 
           } else if (inputno == "bc1") {
 
-            $(".galleryList").html('<div>현재 미국/캐나다의 게시물이 없습니다.<div>');
+            $(".lnb li a:eq(1)").css('font-weight','bold');
+            $(".blogList").html('<div>현재 미국/캐나다의 게시물이 없습니다.<div>');
 
           } else if (inputno == "bc2") {
 
-            $(".galleryList").html('<div>현재 영국/아일랜드의 게시물이 없습니다.<div>');
+            $(".lnb li a:eq(2)").css('font-weight','bold');
+            $(".blogList").html('<div>현재 영국/아일랜드의 게시물이 없습니다.<div>');
             
           } else if (inputno == "bc3") {
 
-            $(".galleryList").html('<div>현재 호주/뉴질랜드의 게시물이 없습니다.<div>');
+            $(".lnb li a:eq(3)").css('font-weight','bold');
+            $(".blogList").html('<div>현재 호주/뉴질랜드의 게시물이 없습니다.<div>');
             
           } else if (inputno == "bc4") {
 
-            $(".galleryList").html('<div>현재 필리핀/몰타의 게시물이 없습니다.<div>');
+            $(".lnb li a:eq(4)").css('font-weight','bold');
+            $(".blogList").html('<div>현재 필리핀/몰타의 게시물이 없습니다.<div>');
             
           } else if (inputno == "aca") {
 
+            $(".lnb li a:eq(0)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 모든 게시물이 없습니다.<div>');
 
           }else if (inputno == "ac1") {
 
+            $(".lnb li a:eq(1)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 미국/캐나다의 게시물이 없습니다.<div>');
 
           } else if (inputno == "ac2") {
 
+            $(".lnb li a:eq(2)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 영국/아일랜드의 게시물이 없습니다.<div>');
             
           } else if (inputno == "ac3") {
 
+            $(".lnb li a:eq(3)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 호주/뉴질랜드의 게시물이 없습니다.<div>');
             
           } else {
 
+            $(".lnb li a:eq(4)").css('font-weight','bold');
             $(".galleryList").html('<div>현재 필리핀/몰타의 게시물이 없습니다.<div>');
 
           }
 
         } else {
 
-          $(".galleryList").html(htmlchange(json));
-          console.log(htmlchange(json));
+          if (json[0].review_no != null) {
+
+            $(".galleryList").html(reviewchange(json));
+            console.log(reviewchange(json));
+  
+
+          } else if (json[0].blog_no != null) {
+
+            $(".blogList").html(blogchange(json));
+            console.log(blogchange(json));
+
+          } else if (json[0].advertise_no != null) {
+              
+            $(".galleryList").html(advertisechange(json));
+            console.log(advertisechange(json));
+
+          }
 
         }
  
@@ -184,14 +177,14 @@ function goView(inputno) {
 //        var err = JSON.parse(xhr.responseText);
           // var obj = jQuery.parseJSON('{"name":"John"}');
 
-        console.log(err.Message);
-        console.log("실패");
+        // console.log(err.Message);
+        // console.log("실패");
       }
     })
   
 }
 
-function htmlchange (reviewdata) {
+function reviewchange (reviewdata) {
 
   var str0 = '<ul>';
   var str1 = '</ul>';
@@ -208,20 +201,36 @@ function htmlchange (reviewdata) {
   return str0+str5+str1;
 }
 
-function goDetail (inputno) {
-  
-  console.log(inputno);
-  window.location.href = 'review-det.html?review_no='+inputno;
+function blogchange (blogdata) {
+
+  var str = '';
+
+  blogdata.forEach(function(item,index){
+    
+    var str2 = '<div class="blogBox"><div class="blogThumb"><div class="blogDate"><a href="javascript:goDetail('+item.blog_no+');"><img src="upload_files/thumb20191226111856.png"></a></div></div>';
+    var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
+    var str4 = '<p class="prvText">'+item.content+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
+    str = str+str2+str3+str4; 
+  })
+
+//   <div class="blogBox">
+//   <div class="blogThumb">
+//         <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail(5580);"><img src="upload_files/thumb20191226111856.png"></a></div>
+//     </div>
+//     <div class="blogText">
+//         <a href="javascript:goView(5580);">
+//             <p class="titleText">셰필드 생활 #영국유학</p>
+//             <p></p>
+//             <p class="prvText">셰필드 생활런던에서의 한달 어학연수 생활을 마치고 셰필드로 본격적인 교환학생 학기를 위해 이동했다. 나는 오리엔테이션을 신청해서 1주일 먼저 교환학생들만 대상으로 하는 코스를 들었다. 이 코스를 통해 다른 나라에서 온 많은 ..</p>
+//             <div class="titledate" style="text-align:right;">2020.12.18</div>
+//           </a>
+//     </div>
+// </div>
+  return str;
 
 }
 
+function advertisechange (addata) {
 
+}
 
-// // review.html 에서 등록하기 버튼을 클릭한 경우 작동하는 메서드
-// // 로그인 상태면 글을 쓸 수 있지만 로그인상태가 아니면 글을 쓸수 없다는 메시지를 출력 ---------------수정해야함
-// document.getElementById("register").onclick = function() {
-
-//   location.replace('http://localhost/review-wri.html');
-//   // alert('로그인이 필요합니다. 로그인 해주세요.');  
-
-// };

@@ -23,14 +23,14 @@ $result = mysqli_query($conn, $sql) or die(mysqli_error($conn));
 $row = mysqli_fetch_array($result);
 //print_r( $row );
 
-static $errmsg = "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다.";
+$loginpw_hash = hash("sha256", $userPw);
 
 // 로그인 하려는 id와 pw를 조회해서 db에 데이터가 있는경우
-if ($row['id']==$userId && $row['pass']==$userPw) {
+if ($row['id']==$userId && $row['pass']==$loginpw_hash) {
   
   session_start();
   
-  $_SESSION['userId']=$userId;
+  $_SESSION['userId'] = $userId;
   echo("<script>location.replace('http://localhost/index.html');</script>"); 
 
 
