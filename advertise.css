@@ -602,15 +602,21 @@ h5 {
   padding: 10px 10px;
   border-top: 1px solid #ddd;
 }
+
 .blogList .blogThumb {
+  overflow: hidden;
   display: block;
+  /* object-fit: cover; */
   float: left;
-  width: 20%;
+  width: 230px;
+  height: 140px;
 }
 
 .blogList .thumbImg {
-  width: 200px;
-  height: 130px;
+
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
   float: left;
   background: #f2f2f2;
@@ -736,6 +742,15 @@ input {
   display: block;
   position: relative;
 }
+
+.schoolView .schoolName {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 5px;
+  display: block;
+  position: relative;
+}
+
 .schoolInfo {
   display: block;
   position: relative;
@@ -829,6 +844,170 @@ button, input, optgroup, select, textarea {
   border: none;
   border-bottom: 1px solid #ccc;
 }
+
+
+/* advertise page */
+.flexslider {
+  margin: 0;
+  background: #fff;
+  position: relative;
+  zoom: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.schoolInfo .schoolThumb .flex-viewport {
+  display: block;
+  width: 50%;
+}
+.flex-viewport {
+  max-height: 2000px;
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  transition: all 1s ease;
+}
+.flexslider .slides {
+  zoom: 1;
+}
+.slides, .flex-control-nav, .flex-direction-nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.schoolInfo .schoolThumb .flex-viewport li {
+  height: 250px;
+  overflow: hidden;
+}
+
+.flexslider .slides img {
+  width: 100%;
+  display: block;
+}
+img {
+  border: 0;
+}
+
+.bottommargin {
+  margin-bottom: 40px !important;
+}
+
+.nav-tabs.nav-justified > li {
+  float: none;
+}
+.nav-justified > li {
+  float: none;
+}
+
+.nav-tabs > li {
+  float: left;
+  margin-bottom: -1px;
+  margin-left: -1px;
+}
+.nav > li {
+  position: relative;
+  display: block;
+}
+
+
+.nav-tabs.nav-justified > li > a {
+  margin-left: -1px;
+  border-radius: 0;
+  border: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  text-align: center;
+}
+
+.nav-tabs.nav-justified > li > a {
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
+  border-left: 1px solid #ccc;
+  background: #fff;
+  color: #eb6417;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+  color: #eb6417;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.nav-justified > li > a {
+  margin-bottom: 5px;
+  text-align: center;
+}
+.nav-tabs > li > a {
+  margin-left: -1px;
+  line-height: 33px;
+  border-radius: 0px;
+  color: #757575;
+  background: #fff;
+}
+
+.tab-content > .active {
+  display: block;
+}
+.tab-content > .tab-pane {
+  border: 1px solid #ccc;
+  border-top: none;
+  background: #fff;
+  overflow: auto;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.halfpadding {
+  padding: 15px !important;
+}
+
+.nav > li > a {
+  position: relative;
+  display: block;
+  padding: 0 15px;
+}
+a:hover {
+  text-decoration: none;
+  color: #eb6417;
+  transition: all ease-in-out 0.3s;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

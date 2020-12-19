@@ -22,34 +22,11 @@
     <script src="https://cdn.ckeditor.com/4.6.2/standard-all/ckeditor.js"></script>
 
 
-
 </head>
 
 <body>
     <div class="container">
-        <header class="blog-header py-3">
-          <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
-                <a class="text-muted" href="#">Introduce</a>
-            </div>
-            <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="index.html">어학연수 모임</a>
-            </div>
-            <div class="col-4 d-flex justify-content-center align-items-center">
-                <span id="loginuser"></span>
-                <a class="btn btn-sm btn-outline-secondary" id="sessionisset" href="login.html">Sign up</a>
-            </div>
-          </div>
-        </header>
-        
-        <div class="nav-scroller py-1 mb-2">
-        <nav class="nav d-flex justify-content-between">
-        <a class="p-2 text-muted" href="advertise.html">어학원홍보</a>
-        <a class="p-2 text-muted" href="review.html">연수후기</a>
-        <a class="p-2 text-muted" href="blog.html">연수blog</a>
-          <a class="p-2 text-muted" href="#">온라인Q&A</a>
-        </nav>
-        </div>
+      <div class="headerlocation"></div>
         <main role="main" class="container">
             <div class="row flex-nowrap justify-content-between">
                 <aside class="lnbBox text" id="lnbBox03">
@@ -86,21 +63,41 @@
 
                     <div id="editor-container">
                       <div class="editorrow">
-                        <form name="storyForm" method="post" role='form'>
-                          <div class="form-group">
-                            <label for="title">Title</label>
-                            <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해 주세요"/>
-                          </div>
-                          <div class="form-group">
-                            <label for="body">Body</label>
-                            <textarea id="content" class="ckeditor form-control" name="content">다양한 어학연수의 일상을 공유해주세요</textarea>
+                        <form name="storyForm" method="post" role='form' accept-charset="utf-8" enctype="multipart/form-data">
+                            <div class="form-group">
+                              <label for="title">Title</label>
+                              <input type="text" id="title" name="title" class="form-control" placeholder="제목을 입력해 주세요"/>
+                            </div>
+                            <div>
+                              <label for="country">국가선택</label>
+                              <select name="country" id="countryname" style="margin-bottom: 10px;">
+                                <option value="나라선택">나라선택</option>
+                                <option value="USA">미국</option>
+                                <option value="CAN">캐나다</option>
+                                <option value="GBR">영국</option>
+                                <option value="IRL">아일랜드</option>
+                                <option value="AUS">호주</option>
+                                <option value="NZL">뉴질랜드</option>
+                                <option value="PHL">필리핀</option>
+                                <option value="MLT">몰타</option>
+                              </select>
+                              <div id="choosecountry"></div> 
+                            </div>
 
-                            <!-- <div id="editor">다양한 어학연수의 일상을 공유해주세요</div> -->
-                          </div>
-                          <div>
-                            <a class="btn backbtn" href="blog.html">목록으로</a>
-                            <button type="submit" class="btn lg" onclick="javascript:storySave();">등록</button>
-                          </div>
+                            <div>
+                              <label for="country">대표사진</label>
+                              <input type="file" name="thumbnail" id="thumbnail" value="">
+                            </div>
+                            <div class="form-group">
+                              <label for="body"></label>
+                              <textarea id="content" class="ckeditor form-control" name="content">다양한 어학연수의 일상을 공유해주세요</textarea>
+
+                              <!-- <div id="editor">다양한 어학연수의 일상을 공유해주세요</div> -->
+                            </div>
+                            <div class="boardBtns topmargin">
+                              <button type="button" class="btn lg" onclick="javascript:blogSave();">등록</button>
+                              <a class="btn backbtn" href="blog.html">목록으로</a>
+                            </div>
                         </form>
                       </div>
                     </div>
@@ -116,6 +113,59 @@
             </p>
         </footer>
     </div>
+    <script>
+      $('.headerlocation').load('header.html', function (res, status, xhr) {
+ 
+         if (status == "success" && xhr.status == 200) {
+           this.innerHTML = res;
+         }
+       });
+     </script>
+     <script>
+       function blogSave() {
+
+        var f = document.storyForm;
+        var btnresist = document.querySelector('.boardBtns');
+
+        console.log(f);
+        console.log(f.title.value);
+        console.log(f.title.value.trim() == "");
+        console.log(btnresist.firstElementChild.innerText);
+        console.log(btnresist.lastElementChild.innerText);
+
+          var formObj = $("form[role='form']");
+
+          console.log(formObj);
+          console.log(formObj[0]);
+
+          if( f.title.value.trim() == "" ) {
+              alert("제목을 입력해주세요.");
+              return;
+          }
+          if ( f.country.value.trim() == "나라선택" ) {
+              alert("나라를 선택해 주세요.");
+              return;
+          } 
+
+          if (btnresist.firstElementChild.innerText == "수정") {
+
+            var mode ='<input type="hidden" name="mode" value="update"/>';
+            var hidden ='<input type="hidden" name="blog_no" value="'+urlParams.get('blog_no')+'"/>';
+            formObj.attr("action", "blog-wri.php");
+            formObj.append(mode).append(hidden);
+            formObj.submit();
+
+          } else {
+
+            var mode ='<input type="hidden" name="mode" value="create"/>';
+            formObj.attr("action", "blog-wri.php");
+            formObj.append(mode);
+            formObj.submit();
+
+          }
+          
+       }
+     </script>
     <script src="review.js"></script>
     <script src="blog-wri.js"></script>
 </body>

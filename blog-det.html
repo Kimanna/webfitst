@@ -21,28 +21,8 @@
 
 <body>
     <div class="container">
-        <header class="blog-header py-3">
-            <div class="row flex-nowrap justify-content-between align-items-center">
-                <div class="col-4 pt-1">
-                    <a class="text-muted" href="#">Introduce</a>
-                </div>
-                <div class="col-4 text-center">
-                    <a class="blog-header-logo text-dark" href="index.html">어학연수 모임</a>
-                </div>
-                <div class="col-4 d-flex justify-content-center align-items-center">
-                    <a class="btn btn-sm btn-outline-secondary" href="login.html">Sign up</a>
-                </div>
-            </div>
-        </header>
+      <div class="headerlocation"></div>
 
-        <div class="nav-scroller py-1 mb-2">
-            <nav class="nav d-flex justify-content-between">
-              <a class="p-2 text-muted" href="advertise.html">어학원홍보</a>
-              <a class="p-2 text-muted" href="review.html">연수후기</a>
-              <a class="p-2 text-muted" href="blog.html">연수blog</a>
-                <a class="p-2 text-muted" href="#">온라인Q&A</a>
-            </nav>
-        </div>
         <main role="main" class="container">
             <div class="row flex-nowrap justify-content-between">
                 <aside class="lnbBox text" id="lnbBox03">
@@ -80,23 +60,13 @@
                         <div class="title" style="font-weight:bold; font-size:16px;">[영국어학연수] 190414 영국 리즈(Leeds) 차이나 슈퍼마켓 한국 음식 가격 + 리즈 아트 여행
                           <div class="blogdetail" style="font-weight:normal; margin-top:10px; font-size:13px;">&nbsp;&nbsp;&nbsp;앙나<span style="color:gray">&nbsp;&nbsp;&nbsp;2020.12.18.&nbsp;12:00</span></div>
                         </div>
-                        <div class="boardContents">
+                        <div class="boardContents" style="overflow: hidden;">
                             <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><span style="font-family: 나눔고딕, NanumGothic; font-size: 11pt;">하로게이트는 너무나 작은 동네이기 때문에 한국 음식은 거의 팔지 않는다.</span></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: left;"><img src="http://letsgouk.net/upload_files/20190622024245i.jpg" class="txc-image" style="clear:none;float:none;" /></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><br></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><br style="margin: 0px; padding: 0px;"></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><br style="margin: 0px; padding: 0px;"></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><span style="font-family: 나눔고딕, NanumGothic; font-size: 11pt;">요뽀끼 2.15파운드. 사고싶었으나 작은 크기치고 큰 가격에 포기하고 말았던 ㅠㅠㅠ</span></p>
-                            <p align="center" style="font-family: 돋움, Dotum, Helvetica, sans-serif; font-size: 12px; text-align: center;"><span style="font-family: 나눔고딕, NanumGothic; font-size: 11pt;"><br style="margin: 0px; padding: 0px;"></span></p>
-                            <div align="center" style="text-align: center; line-height: 1.5; color: rgb(102, 102, 102); font-size: 13.3333px;"><br style="margin: 0px; padding: 0px;"></div>
-                            <div align="center" style="text-align: center; line-height: 1.5; color: rgb(102, 102, 102); font-size: 13.3333px;"><br style="margin: 0px; padding: 0px;"></div>
                             <div align="center" style="text-align: center; line-height: 1.5; color: rgb(102, 102, 102); font-size: 13.3333px;"><br></div>
                             <p><br></p>
                         </div>
                         <div class="boardBtns">
-                          <button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">수&nbsp;&nbsp;정</button>
-                          <button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">삭&nbsp;&nbsp;제</button>
-                          <button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">목록으로</button>
+                         <button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">목록으로</button>
                         </div>
                     </div>
                 </div>
@@ -111,7 +81,16 @@
             </p>
         </footer>
     </div>
+    <script>
+      $('.headerlocation').load('header.html', function (res, status, xhr) {
+ 
+         if (status == "success" && xhr.status == 200) {
+           this.innerHTML = res;
+         }
+       });
+     </script>
     <script src="review.js"></script>
+    <script src="blog-det.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>어학원 홍보</title>
+
+      <!-- Bootstrap core CSS -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<!-- Custom styles for this template -->
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="headernav.css" rel="stylesheet">
+<link href="advertise.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+  <div class="headerlocation"></div>
+
+  <main role="main" class="container">
+    <div class="row flex-nowrap justify-content-between">
+      <aside class="lnbBox text" id="lnbBox03">
+              <h2 class="lnbTitle">
+                <img src="" alt="어학연수 나라별">
+              </h2>
+              <ul class="lnb">
+                <li>
+                  <a href="javascript:goView('rca');">모든국가보기</a>
+                </li>
+                <li>
+                    <a href="javascript:goView('rc1');">미국/캐나다</a>
+                </li>
+                <li>
+                    <a href="javascript:goView('rc2');">영국/아일랜드</a>
+                </li>
+                <li>
+                    <a href="javascript:goView('rc3');">호주/뉴질랜드</a>
+                </li>
+                <li>
+                    <a href="javascript:goView('rc4');">필리핀/몰타</a>
+                </li>
+            </ul>
+          </aside>
+            
+
+        
+        <div class="subContents">
+				<div class="pageState">
+					<ul>
+						<li><i class="fa fa-home"></i>&nbsp;HOME&nbsp;&nbsp;/&nbsp;&nbsp;</li>
+						<li>어학 연수&nbsp;&nbsp;/&nbsp;&nbsp;</li>
+						<li>어학원 정보입력</li>
+					</ul>
+				</div>
+				<h1 class="pageTitle">어학원 정보 입력</h1>
+				<div class="schoolView">
+            <form name="advertiseForm" method="post" role='form' accept-charset="utf-8" enctype="multipart/form-data">
+                <label>학원사진</label>
+                <input type="file" name="sc_thumbnail" style="display: block;"/>
+                <label for="country" style="margin-top: 15px; display: block;">국가선택</label>
+                <select name="sc_country" id="countryname" style="margin-bottom: 10px;">
+                  <option value="나라선택">나라선택</option>
+                  <option value="USA">미국</option>
+                  <option value="CAN">캐나다</option>
+                  <option value="GBR">영국</option>
+                  <option value="IRL">아일랜드</option>
+                  <option value="AUS">호주</option>
+                  <option value="NZL">뉴질랜드</option>
+                  <option value="PHL">필리핀</option>
+                  <option value="MLT">몰타</option>
+                </select>
+                <div id="choosecountry"></div> 
+                <label>강점</label>
+                 <input type="text" name="sc_advantg" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>홈페이지</label>
+                 <input type="text" name="sc_hpage" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>이 메 일</label>
+                 <input type="text" name="sc_email" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>주  소</label>
+                 <input type="text" name="sc_add" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>전  화</label>
+                 <input type="text" name="sc_tel" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>팩  스</label>
+                 <input type="text" name="sc_fax" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>어학원이름</label>
+                 <input type="text" name="sc_name" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>설립연도</label>
+                 <input type="text" name="sc_fyear" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>학 생 수</label>
+                 <input type="text" name="sc_stqty" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>한인 비율</label>
+                 <input type="text" name="sc_stqtypct" class="form-control" placeholder="내용을 입력해 주세요"/>
+                                <label>학비</label>
+                 <input type="text" name="sc_exp" class="form-control" placeholder="내용을 입력해 주세요"/>
+
+                                <label>주요시설 및 특징</label>
+                 <input type="text" name="sc_etc" class="form-control" placeholder="내용을 입력해 주세요"/>
+              
+                  <div class="text-right bottommargin topmargin rightmargin">
+                    <button type="button" class="btn" onclick="javascript:advertisesave();">등록</button>
+                    <button type="button" class="btn" onclick="location.href='school-list.php?npage=1&searchText=&sort=M';">목록으로</button>
+
+                  </div>
+            </form>
+				</div>
+			</div>
+
+      </div>
+  </main>
+  <footer class="blog-footer">
+  <p>Copyright ⓒ 2020 - 2021 어학연수모임. All rights reserved.</p>
+  <p>이메일 : <a href="https://getbootstrap.com/">kan12888@gmail.com</a></p>
+  <p>
+    <a href="#">Back to top</a>
+  </p>
+</footer>
+
+</div>
+<script>
+  $('.headerlocation').load('header.html', function (res, status, xhr) {
+
+     if (status == "success" && xhr.status == 200) {
+       this.innerHTML = res;
+     }
+   });
+ </script>
+<script>
+
+
+function advertisesave() {
+
+  var fa = document.advertiseForm;
+
+  var mode ='<input type="hidden" name="mode" value="create"/>';
+            formObj.attr("action", "advertise.php");
+            formObj.append(mode);
+            formObj.submit();
+}
+</script>
+
+<script src="review.js"></script>
+<script src="advertise.js"></script>
+
+</body>
+</html>

@@ -206,26 +206,15 @@ function blogchange (blogdata) {
   var str = '';
 
   blogdata.forEach(function(item,index){
+
     
-    var str2 = '<div class="blogBox"><div class="blogThumb"><div class="blogDate"><a href="javascript:goDetail('+item.blog_no+');"><img src="upload_files/thumb20191226111856.png"></a></div></div>';
+    var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
     var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
-    var str4 = '<p class="prvText">'+item.content+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
+    var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
     str = str+str2+str3+str4; 
   })
 
-//   <div class="blogBox">
-//   <div class="blogThumb">
-//         <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail(5580);"><img src="upload_files/thumb20191226111856.png"></a></div>
-//     </div>
-//     <div class="blogText">
-//         <a href="javascript:goView(5580);">
-//             <p class="titleText">셰필드 생활 #영국유학</p>
-//             <p></p>
-//             <p class="prvText">셰필드 생활런던에서의 한달 어학연수 생활을 마치고 셰필드로 본격적인 교환학생 학기를 위해 이동했다. 나는 오리엔테이션을 신청해서 1주일 먼저 교환학생들만 대상으로 하는 코스를 들었다. 이 코스를 통해 다른 나라에서 온 많은 ..</p>
-//             <div class="titledate" style="text-align:right;">2020.12.18</div>
-//           </a>
-//     </div>
-// </div>
+
   return str;
 
 }

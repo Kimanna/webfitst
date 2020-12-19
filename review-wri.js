@@ -237,6 +237,8 @@ function getFileExt (p_filename){
   }
   return "";
 }
+
+
 //게시물을 삭제하는 코드
 function deletereview(review_no) {
 

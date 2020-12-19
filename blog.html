@@ -60,9 +60,16 @@
                           <button type="button" class="btn lg" id="register" style="margin-bottom: 20px;" onclick="goWrite();">블로그 등록</button>
                         </div>
                         <div class="blogList">
-                            <div class="blogBox">
-                              <div class="blogThumb">
-                                    <div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goView(5580);"><img src="upload_files/thumb20191226111856.png"></a></div>
+
+
+
+                            <!-- <div class="blogBox">
+                              <div class="blogThumb" style="overflow: hidden;">
+                                    <div class="thumbImg imgLiquidFill imgLiquid">
+                                      <a href="javascript:goDetail(5580);">
+                                        <img src="uploadimg/1036495097.jpg">
+                                      </a>
+                                    </div>
                                 </div>
                                 <div class="blogText">
                                     <a href="javascript:goView(5580);">
@@ -72,21 +79,16 @@
                                         <div class="titledate" style="text-align:right;">2020.12.18</div>
                                       </a>
                                 </div>
-                            </div>
+                            </div> -->
+                            
+    
                         </div>
-                    <form name="searchForm" action="?" method="get" onsubmit="goSearch();">
-                        <input type="hidden" name="npage" value="1">
-                        <input type="hidden" name="idx" value="">
+                    <form name="searchForm" method="get">
+                        <!-- <input type="hidden" name="npage" value="1">
+                        <input type="hidden" name="idx" value=""> -->
                         <div class="boardSearch">
-                            <!-- <div style="margin: 0 10px 0 0; line-height: 30px; font-size: 12px; display: inline-block;">
-						<label><input type="radio" class="radioBtn" name="t1">제목</label>&nbsp;&nbsp;<label><input type="radio" class="radioBtn" name="t1">작성자</label>&nbsp;&nbsp;<label><input type="checkbox" class="checkBox" name="t2">제목</label>&nbsp;&nbsp;<label><input type="checkbox" class="checkBox" name="t2">작성자</label>
-					</div>
-					<select class="sltBox searchIpt" name="t3">
-						<option value="010">전체</option>
-						<option value="011">제목</option>
-						<option value="011">내용</option>
-					</select> -->
-                            <input type="text" name="searchText" class="iptText searchIpt" placeholder="제목, 내용" value=""><button type="submit" class="searchBtn">검색</button>
+                            <input type="text" name="searchText" class="iptText searchIpt" placeholder="제목, 내용" value="">
+                            <button type="button" class="searchBtn" onclick="javascript:goSearch();">검색</button>
                         </div>
                     </form>
                     <ul class="pagination">
@@ -118,14 +120,13 @@
       $('.headerlocation').load('header.html', function (res, status, xhr) {
  
          if (status == "success" && xhr.status == 200) {
-           this.innerHTML(res);
+           this.innerHTML = res;
          }
        });
      </script>
 
 
     <script src="review.js"></script>
-    <!-- <script src="blog.js"></script> -->
     <script>
       
         function goWrite(inputno) {
@@ -138,18 +139,65 @@
         function goDetail (inputno) {
   
           console.log(inputno);
-          window.location.href = 'blog-det.html?review_no='+inputno;
+          window.location.href = 'blog-det.html?blog_no='+inputno;
 
         }
+
+        function goSearch() {
+
+          var fs = document.searchForm;
+          // console.log(fs);
+          var searchTextv = fs.searchText.value;
+          // console.log(searchTextv);
+
+          $.ajax({
+            type:"GET",
+            dataType:"json",
+            url: "search.php",
+            data: {'mode':'search', 'searchText':searchTextv},
+            success : function(json) {
+              console.log(json);
+              // console.log(json.title);
+
+            if (json.res == "notok") {
+
+
+            } else {
+
+              $(".blogList").html(blogchange(json));
+                console.log(blogchange(json));
+
+            }
+
+          }, error : function(xhr, status, error) {
+
+            console.log("실패");
+            console.log(xhr);
+            console.log(error);
+          }
+          })
+
+      }
+
+
+      function blogchange (blogdata) {
+
+        var str = '';
+
+        blogdata.forEach(function(item,index){
+
+          
+          var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
+          var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
+          var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
+          str = str+str2+str3+str4; 
+        })
+
+
+        return str;
+
+      }
+
     </script>
   </body>
 </html>
-
-
-
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
-  jQuery( document ).ready( function( $ ) {
-    // code ...
-  } );
-</script> -->

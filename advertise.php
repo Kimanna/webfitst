@@ -1,95 +1,115 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>어학원 홍보</title>
 
-      <!-- Bootstrap core CSS -->
-      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<?php
 
-<!-- Custom styles for this template -->
-<link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
-<!-- Custom styles for this template -->
-<link href="headernav.css" rel="stylesheet">
-<link href="advertise.css" rel="stylesheet">
+session_start();
+$userId = $_SESSION['userId'];
 
-
-</head>
-<body>
-<div class="container">
-  <header class="blog-header py-3">
-    <div class="row flex-nowrap justify-content-between align-items-center">
-      <div class="col-4 pt-1">
-        <a class="text-muted" href="#">Introduce</a>
-      </div>
-      <div class="col-4 text-center">
-        <a class="blog-header-logo text-dark" href="index.html">어학연수 모임</a>
-      </div>
-      <div class="col-4 d-flex justify-content-end align-items-center">
-        <a class="btn btn-sm btn-outline-secondary" href="login.html">Sign up</a>
-      </div>
-    </div>
-  </header>
-
-  <div class="nav-scroller py-1 mb-2">
-    <nav class="nav d-flex justify-content-between">
-      <a class="p-2 text-muted" href="advertise.php">어학원홍보</a>
-      <a class="p-2 text-muted" href="#">연수후기</a>
-      <a class="p-2 text-muted" href="#">연수blog</a>
-      <a class="p-2 text-muted" href="#">온라인Q&A</a>
-    </nav>
-  </div>
-  <main role="main" class="container">
-    <div class="row">
-      <aside class="lnbBox h-md-400" id="lnbBox03">어학연수 나라별
-        <ul class="lnb">
-          <li>
-            <a href="#">미국/캐나다</a>
-          </li>
-          <li>
-            <a href="#">영국/아일랜드</a>
-          </li>
-          <li>
-            <a href="#">호주/뉴질랜드</a>
-          </li>
-          <li>
-            <a href="#">필리핀/몰타</a>
-          </li>
-      </aside>
-      <section>
-            <article>
-            </article>
-      </section>
-    </div>
-
-
-  </main>
-  
-  <footer class="blog-footer">
-  <p>Copyright ⓒ 2020 - 2021 어학연수모임. All rights reserved.</p>
-  <p>이메일 : <a href="https://getbootstrap.com/">kan12888@gmail.com</a></p>
-  <p>
-    <a href="#">Back to top</a>
-  </p>
-</footer>
+  $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
+  if (!$conn) {
+      die ('Failed'.mysqli_connect_error());
+  }
 
 
 
+ $mode = $_POST["mode"];
+
+
+  if ($mode == "create") {
+
+    $sc_country = $_POST["sc_country"];
+    $sc_town = $_POST["sc_town"];
+    $sc_advantg = $_POST["sc_advantg"];
+    $sc_hpage = $_POST["sc_hpage"];
+    $sc_email = $_POST["sc_email"];
+    $sc_add = $_POST["sc_add"];
+    $sc_tel = $_POST["sc_tel"];
+    $sc_fax = $_POST["sc_fax"];
+    $sc_name = $_POST["sc_name"];
+    $sc_fyear = $_POST["sc_fyear"];
+    $sc_stqty = $_POST["sc_stqty"];
+    $sc_stqtypct = $_POST["sc_stpct"];
+    $sc_exp = $_POST["sc_exp"];
+    $sc_etc = $_POST["sc_etc"];
+
+
+    $uploadBase = 'uploadimg';
+    $filen = $_FILES['sc_thumbnail']['name'];
+
+
+      //이미지 file upload code
+      if( isset($_FILES['sc_thumbnail']) && !empty($_FILES['sc_thumbnail']) ){
+        $uploadStatus = $_FILES['sc_thumbnail']['error'];
+        if( $uploadStatus==0 ){
+
+            if( !move_uploaded_file($_FILES['sc_thumbnail']['tmp_name'], "$uploadBase/$filen" )) {
+                throw new Exception("fileUploadCopy");
+            }
+
+        } else{
+            if( $uploadStatus==1 ){ throw new Exception("fileUploadIniSize"); }
+            else if( $uploadStatus==2 ){ throw new Exception("fileUploadFormSize"); }
+            else if( $uploadStatus==3 ){ throw new Exception("fileUploadPartial"); } // THIS ERROR ...
+            else if( $uploadStatus==4 ){ throw new Exception("fileUploadNoFile"); }
+            else if( $uploadStatus==6 ){ throw new Exception("fileUploadNoTmpDir"); }
+            else if( $uploadStatus==7 ){ throw new Exception("fileUploadCantWrite"); }
+            else if( $uploadStatus==8 ){ throw new Exception("fileUploadExtension"); }
+            else{
+                throw new Exception("fileUploadSystem");
+            }
+        }
+      } else{
+        throw new Exception("fileUploadUpload"); // ... OR THIS ERROR]
+      }
+
+    $sc_thumbnail = "$uploadBase/$filen";
+
+    
+
+    $sql = "INSERT INTO advertise (created, aid, country, town, sc_advantg, sc_hpage, sc_email, sc_add, sc_tel, sc_fax, sc_name, sc_fyear, sc_stqty, sc_stqtypct, sc_exp, sc_etc, sc_thumbnail) VALUES (
+      NOW(),
+      '$userId', 
+      '$sc_country',
+      '$sc_town',
+      '$sc_advantg',
+      '$sc_hpage',
+      '$sc_email',
+      '$sc_add',
+      '$sc_tel',
+      '$sc_fax',
+      '$sc_name',
+      '$sc_fyear',
+      '$sc_stqty',
+      '$sc_stqtypct',
+      '$sc_exp',
+      '$sc_etc',
+      '$sc_thumbnail'
+    )";
 
 
 
 
+   } else if ($mode == "update") {
 
-</body>
-</html>
+   } else if ($mode == "delete") {
+
+   }
+
+   if ($conn->query($sql) === true ){
+
+    echo("<script>window.alert('게시글이 등록 되었습니다.')
+          location.replace('http://localhost/advertise.html');
+          </script>"); 
+
+    } else {
+
+    echo"error :".$sql.$conn->error; 
+
+    }
 
 
+    
 
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script>
-  jQuery( document ).ready( function( $ ) {
-    // code ...
-  } );
-</script> -->
+?>

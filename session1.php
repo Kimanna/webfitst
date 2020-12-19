@@ -6,7 +6,7 @@ session_start();
 if(isset($_SESSION['userId'])) {
 
   echo ("<script> 
-        location.replace('http://localhost/blog-wri.html');
+        location.replace('http://localhost/review-wri.html');
         </script>)");
 
 

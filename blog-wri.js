@@ -113,6 +113,8 @@
 //       console.error ( error );
 //     });
 
+
+
 CKEDITOR.replace('content' ,{
   height : 300,
   filebrowserUploadUrl:"blog-wri_img.php"
@@ -120,57 +122,68 @@ CKEDITOR.replace('content' ,{
 
 
 
+// 나라, 지역 선택 스피너
+var country = document.querySelector('#countryname');
+// var choose = document.querySelector('#choosecountry');
 
-// blog-Wri.html에서 모든 정보를 다 입력했는지 확인하는 부분
+
+
+//등록 수정 삭제 버튼을 삽입하기위해 선택하는 부분
+var btnresist = document.querySelector('.boardBtns');
+
+
+
+// blog-wri.html에서 모든 정보를 다 입력했는지 확인하는 부분
 // form (hidden) 안에 데이터 mode 정보를 입력해줌 create/update 인지
 // 수정인 경우 파라미터 정보 (글넘버) 를 append하여 넘겨줌 
-function storySave() {
 
-  var formObj = $("form[role='form']");
 
-  console.log(formObj);
 
-    // if( formObj.title.value.trim() == "") {
-    //     alert("제목을 입력해주세요.");
-    //     return;
-    // }
-
-  var mode ='<input type="hidden" name="mode" value="create"/>';
-  formObj.attr("action", "blog-wri.php");
-
-  formObj.append(mode);
-
-  console.log(formObj);
-  formObj.submit();
-
-}
+// function blogSave() {
 
   
-  //버튼의 Text이름이 수정인 경우 수정하는 review-wri.php로 이동하며, 
-  // else인 경우 게시글이 등록되는 review-rwri.php로 이동
-  
+//   var formObj = $("form[role='form']");
 
-  // const queryString = window.location.search;
-  // const urlParams = new URLSearchParams(queryString);
-  // var formObj = $("form[role='form']");
+//   console.log(formObj);
+//   console.log(formObj.title.value);
+//   console.log(formObj.title.value.trim());
+//   console.log(formObj.country.value.trim());
+
+//   if( formObj.title.value.trim() == "") {
+//       alert("제목을 입력해주세요.");
+//       return;
+//   }
+//   if ( formObj.country.value.trim() == "") {
+//       alert("나라를 선택해 주세요.");
+//       return;
+//   } else {
+//     return;
+//   }
+// }
 
   // if (btnresist.firstElementChild.innerText == "수정") {
 
 
   //   var mode ='<input type="hidden" name="mode" value="update"/>';
-  //   var hidden ='<input type="hidden" name="review_no" value="'+urlParams.get('review_no')+'"/>';
-  //   formObj.attr("action", "review-wri.php");
+  //   var hidden ='<input type="hidden" name="blog_no" value="'+urlParams.get('blog_no')+'"/>';
+  //   formObj.attr("action", "blog-wri.php");
   //   formObj.append(mode).append(hidden);
   //   formObj.submit();
 
   // } else {
 
   //   var mode ='<input type="hidden" name="mode" value="create"/>';
-  //   formObj.attr("action", "review-wri.php");
+  //   formObj.attr("action", "blog-wri.php");
   //   formObj.append(mode);
   //   formObj.submit();
 
   // }
+
+
+
+  
+ 
+
 
   
   

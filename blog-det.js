@@ -5,14 +5,15 @@ window.onload = function() {
 
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
-  // console.log(urlParams.get('blog_no')); // url파라미터중 게시물넘버(blog_no) 추출
+  console.log(queryString); // url파라미터중 게시물넘버(blog_no) 추출
+  console.log(urlParams.get('blog_no')); // url파라미터중 게시물넘버(blog_no) 추출
 
   var active = document.querySelectorAll('.boardView .title');
   var active2 = document.querySelectorAll('.boardView .boardContents');
   
   
-      $.get("review-det.php",
-      { review_no : urlParams.get('review_no') }, 
+      $.get("blog-det.php",
+      { blog_no : urlParams.get('blog_no') }, 
         function(data, status){
 
           console.log(data);
@@ -23,38 +24,48 @@ window.onload = function() {
           // console.log(active2[2].innerHTML = "안녕");
 //          active[i].nextElementSibling.innerHTML = obj[i+4];
 
-          
-          var str2 = '<img src="'+obj[7]+'" style="width: 362px; height: 100% !important;">';
-          $(".title").Text = obj[3];
+          var str = '<div class="blogdetail" style="font-weight:normal; margin-top:10px; font-size:13px;">&nbsp;&nbsp;'+obj[2]+'<span style="color:gray">&nbsp;&nbsp;&nbsp;'+obj[1]+'</span></div>';
+          console.log(str);
+          active[0].innerHTML = obj[3]+str;
+          active2[0].innerHTML = obj[4]+'<p><br></p>';
+
+          // console.log(obj[5].parseJSON());
 
           
           var str1 = '<button type="button" class="btn lg" id="register" onclick="javascript:goUpdate('+urlParams.get('review_no')+');">리뷰 수정</button>';
           $(".updatebt").html(str1);
 
   
-          for (var i = 0; i < active.length ; i++) {
+          var updatebt = '<button type="button" class="btn lg" onclick="location.href='+'blog-wri.html?'+queryString+';">수&nbsp;&nbsp;정</button>';
+          // var deletebt = '<button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">삭&nbsp;&nbsp;제</button>
+
+
+
+          // for (var i = 0; i < active.length ; i++) {
             
-            if ( i >= '3' ) {
+          //   if ( i >= '3' ) {
 
-              active2[i].innerHTML = obj[i+5];
+          //     active2[i].innerHTML = obj[i+5];
 
-            } else {
+          //   } else {
 
-              active2[i].innerHTML = obj[i+4];
-              console.log(obj[i+4]);
+          //     active2[i].innerHTML = obj[i+4];
+          //     console.log(obj[i+4]);
 
-            }
+          //   }
 
-            if ( !obj[i] ) {
-              console.log(!obj[i]);
-              obj[i] = "입력값 없음";
-            } 
+          //   if ( !obj[i] ) {
+          //     console.log(!obj[i]);
+          //     obj[i] = "입력값 없음";
+          //   } 
             
-          }
+          // }
 
  
     })
 }
+
+// ["3","2020-12-18 01:59:11","hello1","save","<p><img alt=\"\" src=\"uploadimg\/1587797183.jpg\" style=\"float:right; height:238px; width:212px\" \/>\ub2e4\uc591\ud55c \uc5b4\ud559\uc5f0\uc218\uc758 \uc77c\uc0c1\uc744 \uacf5\uc720\ud574\uc8fc\uc138\uc694<\/p>\r\n"]
 
 function getUrlParams() {
   var params = {};
