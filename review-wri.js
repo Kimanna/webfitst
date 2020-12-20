@@ -27,6 +27,9 @@ window.onload = function() {
 
             console.log(data);
             console.log(jQuery.parseJSON(data));
+            console.log(jQuery.parseJSON(data).res);
+            console.log(jQuery.parseJSON(data).res == 'notok');
+            console.log(jQuery.parseJSON(data).res == 'ok');
             
             
             if (jQuery.parseJSON(data).res == 'notok') {
@@ -42,37 +45,37 @@ window.onload = function() {
                 btnresist.lastElementChild.innerText = "뒤로가기";
                 
 
-                var obj = jQuery.parseJSON(data);
-                // console.log(obj[5]);
+                var obj = jQuery.parseJSON(data).data;
+                console.log(obj.title);
 
-                f.school.value = obj[4];
-                $('#countryname').val(obj[3]).prop("selected",true);
+                f.school.value = obj.school;
+                $('#countryname').val(obj.country).prop("selected",true);
                 istown ();
                 
-                $('#townselect').val(obj[5]).prop("selected",true);
+                $('#townselect').val(obj.town).prop("selected",true);
 
 
-                f.writer.value = obj[6];
+                f.writer.value = obj.writername;
  //               f.thumbnail.value = obj[7];
-                f.st_homepage.value = obj[8];
+                f.st_homepage.value = obj.st_homepage;
                
-                f.st_content14.value = obj[9];
-                f.st_content1.value = obj[10];
-                f.st_content2.value = obj[11];
-                f.st_content15.value = obj[12];
-                f.st_content4.value = obj[13];
-                f.st_content5.value = obj[14];
-                f.st_content16.value = obj[15];
-                f.st_content12.value = obj[16];
-                f.st_content6.value = obj[17];
-                f.st_content22.value = obj[18];
-                f.st_content13.value = obj[19];
-                f.st_content7.value = obj[20];
-                f.st_content9.value = obj[21];
-                f.st_content3.value = obj[22];
-                f.st_content18.value = obj[23];
-                f.st_content19.value = obj[24];
-                f.st_content20.value = obj[25];
+                f.st_content14.value = obj.st_content14;
+                f.st_content1.value = obj.st_content1;
+                f.st_content2.value = obj.st_content2;
+                f.st_content15.value = obj.st_content15;
+                f.st_content4.value = obj.st_content4;
+                f.st_content5.value = obj.st_content5;
+                f.st_content16.value = obj.st_content16;
+                f.st_content12.value = obj.st_content12;
+                f.st_content6.value = obj.st_content6;
+                f.st_content22.value =  obj.st_content22;
+                f.st_content13.value = obj.st_content13;
+                f.st_content7.value =  obj.st_content7;
+                f.st_content9.value = obj.st_content9;
+                f.st_content3.value = obj.st_content3;
+                f.st_content18.value =  obj.st_content18;
+                f.st_content19.value =  obj.st_content19;
+                f.st_content20.value =  obj.st_content20;
             
           }
        

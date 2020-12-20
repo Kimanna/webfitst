@@ -7,6 +7,7 @@
 //로그인시 사용
 $userId = $_POST["id"];
 $userPw = $_POST["password"];
+$checkbox = $_POST["checkbox"];
 
 //include ("connect.php");
 // $sql == "SELECT * FROM blogin where id='$userId' && pass='$$userPw'";
@@ -31,6 +32,17 @@ if ($row['id']==$userId && $row['pass']==$loginpw_hash) {
   session_start();
   
   $_SESSION['userId'] = $userId;
+
+
+
+ //auto login checkbox 체크여부 후 쿠키저장
+    if ($checkbox) {
+
+       setcookie("autouserId",$userId, time()+60,'/');
+
+    }
+
+
   echo("<script>location.replace('http://localhost/index.html');</script>"); 
 
 
@@ -44,4 +56,6 @@ if ($row['id']==$userId && $row['pass']==$loginpw_hash) {
   
 }
 
+
+  
 ?>

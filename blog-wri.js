@@ -123,13 +123,11 @@ CKEDITOR.replace('content' ,{
 
 
 // 나라, 지역 선택 스피너
-var country = document.querySelector('#countryname');
+// var country = document.querySelector('#countryname');
 // var choose = document.querySelector('#choosecountry');
 
 
 
-//등록 수정 삭제 버튼을 삽입하기위해 선택하는 부분
-var btnresist = document.querySelector('.boardBtns');
 
 
 

@@ -15,7 +15,8 @@
     <link href="signin.css" rel="stylesheet">
     <link rel="stylesheet" href="find_idpw.css">
 
-
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    
   </head>
 
   <body class="text-center">
@@ -36,7 +37,7 @@
       </div>
     </header>
     <main id="container">
-      <form class="form-signin" action="signin.php" method="POST">
+      <form class="form-signin"  role="form" autocomplete="off" method="post">
           <img class="mb-4" src="/images/unnamed.jpg" alt="" width="300" height="230">
           <h1 class="h3 mb-3 font-weight-normal">로그인</h1>
         
@@ -49,10 +50,10 @@
           
           <div class="checkbox mb-3">
               <label for="remember_me">
-                <input type="checkbox" value="remember-me"> Remember me
+                <input type="checkbox" name="check" id="remember-me"> 아이디/비밀번호 기억
               </label>
             </div>
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+              <button class="btn btn-lg btn-primary btn-block" type="button" onclick="loginbt();">Sign in</button>
             <div>  
         </div>  
         <div class="options">
@@ -70,11 +71,153 @@
       </p>
     </footer>
     </div>
+    <script>
+
+      $(window).ready(function() {
+
+        // if (getCookie("autouserId")) {
+
+        //   $("input:checkbox[name=check]").is(":checked") == true
+        //   $("#remember-me").prop("checked", true);
 
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script src="signin.js"></script>
+
+        
+
+           
+        // }
+
+
+        displayCookie();
+
+
+
+      });
+
+      // function displayCookie() {
+      //   var txtName = "";
+      //   // 쿠키 여부 확인
+      //   if (document.cookie != "") {
+      //       //alert(document.cookie);  // txtName=red;
+      //       txtName = document.cookie.split("=")[1];
+      //   }
+      //   document.getElementById("inputEmail").value = txtName;
+      // }
+
+          // 쿠키 읽어오는 함수
+    function displayCookie() {
+        var txtName = "";
+
+        alert(txtName); 
+        // 쿠키 여부 확인
+        if (document.cookie != "") {
+            // 여러개의 쿠키 읽어오기
+
+            var cookies = document.cookie.split("; ");
+            // 쿠키 개수만큼 반복
+            for (var i=0; i<cookies.length; i++) {
+
+
+                if (cookies[i].split("=")[0] == "autouserId")  {
+                    alert(document.cookie);  // txtName=red;
+                    txtName = cookies[i].split("=")[1];            
+                }
+            }
+        }
+        document.getElementById("inputEmail").value = txtName;
+    }
+
+
+      
+      
+      function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+          "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+      }
+
+
+      
+        var inputEmail = document.getElementById('inputEmail');
+        var inputPassword = document.getElementById('inputPassword');
+
+        var remember_me = document.querySelector('#remember-me');
+        var error = document.getElementById("error_next_box");
+
+
+        inputEmail.addEventListener("focusout", checkId);
+        inputPassword.addEventListener("focusout", checkPw);
+
+        function checkId () {
+          if(inputEmail.value == "") {
+            error.innerHTML = "ID 를 입력해 주세요";
+            error.style.display = "block";
+            error.style.color = "red";
+            return false;
+
+          } else {
+            error.style.display = "none";
+            return true;
+          }
+
+        }
+
+          function checkPw() {
+            if(inputPassword.value == "") {
+              error.innerHTML = "PW 를 입력해 주세요";
+              error.style.display = "block";
+              error.style.color = "red";
+              error.style.marginBottom = "10px";
+              return false;
+
+            } else {
+              error.style.display = "none";
+              return true;
+
+            }
+
+          }
+
+         
+    function loginbt() {
+
+        var formObj = $(".form-signin");
+
+        console.log(formObj);
+        // var formObj2 = $("form[role='form']");
+
+        // console.log(formObj2);
+
+          if (checkId() == true && checkPw() == true) {
+
+            if ($("input:checkbox[name=check]").is(":checked") == true) {
+
+              var mode ='<input type="hidden" name="checkbox" value="true"/>';
+
+              console.log(remember_me); 
+
+
+            } else {
+                  //체크가 안되어있을때.
+
+              var mode ='<input type="hidden" name="checkbox" value="false"/>';
+              
+              console.log("notcheck"); 
+
+            }
+
+
+            formObj.attr("action", "signin.php");
+            formObj.append(mode);
+            formObj.submit();
+
+          }
+
+    }
+
+
+    </script>
+
   </body>
 </html>

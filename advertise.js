@@ -79,7 +79,7 @@ var country = document.querySelector('#countryname');
 console.log(country);
 
 
-country.innerHTML = "나라를 선택해 주세요.";
+// country.innerHTML = "나라를 선택해 주세요.";
 // country.style.display = "inline-block";
 
 country.addEventListener("click", istown);
@@ -125,7 +125,7 @@ function istown () {
 
 function townlist (co) {
   
-  var str1 = '<select name="town" id="townselect"><option value>지역선택</option>';
+  var str1 = '<label for="country" style="margin-top: 15px; display: block;">국가선택</label><select name="sc_town" id="townselect"><option value>지역선택</option>';
 
   if (co === "USA") {
     

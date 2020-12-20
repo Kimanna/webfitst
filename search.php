@@ -54,6 +54,7 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
     echo json_encode(array('res'=>"notok"));
 
   }
+  $conn->close();
 
 
 ?>

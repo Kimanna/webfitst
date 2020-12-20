@@ -4,7 +4,10 @@
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
 
-//게시글 수정 DB
+
+session_start();
+$userId = $_SESSION['userId'];
+
 
 $mode = $_POST["mode"];
 // print_r($mode);
@@ -24,7 +27,6 @@ if(isset($mode)) {
       $uploadBase = 'uploadimg';
       $filen = $_FILES['thumbnail']['name'];
 
-      $userId = "8";
       $country = $_POST["country"];
       $school = $_POST["school"];
       $town = $_POST["town"];
@@ -135,7 +137,6 @@ if(isset($mode)) {
     $filen = $_FILES['thumbnail']['name'];
 
     $review_no = $_POST["review_no"];
-    $userId = "8";
     $country = $_POST["country"];
     $school = $_POST["school"];
     $town = $_POST["town"];
@@ -228,7 +229,8 @@ if(isset($mode)) {
   } else {
     $review_no = $_POST["review_no"];
 
-    $sql = "DELETE FROM review WHERE review_no = '$review_no' ";
+    $sql = "UPDATE review SET deleted = 1 WHERE review_no = '$review_no'";
+
 
     if(mysqli_query($conn, $sql)) {
       echo ("<script> 

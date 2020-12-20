@@ -95,7 +95,7 @@
                               <!-- <div id="editor">다양한 어학연수의 일상을 공유해주세요</div> -->
                             </div>
                             <div class="boardBtns topmargin">
-                              <button type="button" class="btn lg" onclick="javascript:blogSave();">등록</button>
+                              <button type="button" class="btn lg" id="postblog" onclick="javascript:blogSave();">등록</button>
                               <a class="btn backbtn" href="blog.html">목록으로</a>
                             </div>
                         </form>
@@ -120,18 +120,62 @@
            this.innerHTML = res;
          }
        });
-     </script>
-     <script>
+
+      var queryString = window.location.search;
+      var urlParams = new URLSearchParams(queryString);
+      console.log(queryString); // url 파일경로 포함 추출
+      console.log(urlParams.get('blog_no')); // url파라미터중 게시물넘버(blog_no) 추출
+
+      var f = document.storyForm;
+      var btnresist = document.querySelector('.boardBtns');
+
+      // console.log(urlParams != null);
+      // console.log(urlParams == "" );
+
+      // 페이지가 로드 됐을떄 쿼리스트링이 null 값이 아닌경우 수정으로 간주
+       if ( urlParams != "" ) {
+
+        $('#postblog').html('수정');
+
+         $.get("blog-det.php",
+         { blog_no : urlParams.get('blog_no') },
+         function(data, status){
+           
+          console.log(data);
+
+          if (jQuery.parseJSON(data).res == 'ok') {
+            if (jQuery.parseJSON(data).mine == 'ok') {
+
+              
+              var jsondata = jQuery.parseJSON(data).data;
+  
+              f.title.value = jsondata.title;
+              f.content.value = jsondata.content;
+              f.country.value = jsondata.country;
+              // f.thumbnail.value = jsondata.thumbnail;
+
+
+            } else {
+
+
+            }
+
+
+          }
+
+
+         })
+
+       } else {
+
+        $('#postblog').html('등록');
+       }
+
        function blogSave() {
 
-        var f = document.storyForm;
+        //등록 수정 삭제 버튼을 삽입하기위해 선택하는 부분
         var btnresist = document.querySelector('.boardBtns');
 
-        console.log(f);
-        console.log(f.title.value);
-        console.log(f.title.value.trim() == "");
-        console.log(btnresist.firstElementChild.innerText);
-        console.log(btnresist.lastElementChild.innerText);
 
           var formObj = $("form[role='form']");
 
@@ -167,6 +211,11 @@
        }
      </script>
     <script src="review.js"></script>
-    <script src="blog-wri.js"></script>
+    <script>
+      CKEDITOR.replace('content' ,{
+        height : 300,
+        filebrowserUploadUrl:"blog-wri_img.php"
+      })
+    </script>
 </body>
 </html>
