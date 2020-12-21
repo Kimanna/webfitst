@@ -1,10 +1,10 @@
 <?php
 
-// echo json_encode($_GET["mode"]); 
-
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 $searchText = $_GET["searchText"];
-// echo json_encode($searchText);
+// $searchText = "go";
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
  if (!$conn) {
@@ -12,48 +12,43 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 } else {
 //  echo "success";
 }
-  $sql = "SELECT * FROM blog WHERE title OR element LIKE '%$searchText%'";
-  // 
+  $sql = "SELECT * FROM blog WHERE title LIKE '%$searchText%' OR element LIKE '%$searchText%'";
+
   
   $result = mysqli_query($conn, $sql);
-  // $row = mysqli_fetch_assoc($result);
+  // $row = mysqli_fetch_row($result);
 
+  
 
-  // $rowarray = array(
-  //   'title'=>$row['title'],
-  //   'thumbnail'=>$row['thumbnail'],
-  //   'element'=>$row['element'],
-  //   'created'=>$row['created'],
-  //   'blog_no'=>$row['blog_no'],
-  // );
-
-  $data = array(); 
-
-  while ($row = $sql->ferch_array()){
-
-    extract($row);
-     $rowarray = array($data,
-     array(
-    'title'=>$row['title'],
-    'thumbnail'=>$row['thumbnail'],
-    'element'=>$row['element'],
-    'created'=>$row['created'],
-    'blog_no'=>$row['blog_no'],
-   ));
-  }
-
-
-  if ( mysqli_num_rows($result) > 0 ) {
+if ( mysqli_num_rows($result) > 0 ) {
     
-    echo json_encode($rowarray);
 
-  }
+    $dataarry = [];
 
-  else{
+    while($row = mysqli_fetch_assoc($result)) {
+      
+      
+
+    
+      // $row = array('blog_no'=>$row['blog_no'],'title'=>$row['title'], 'created'=>$row['created'], 'aid'=>$row['aid'], 'thumbnail'=>$row['thumbnail'], 'element'=>$row['element']);
+      
+      echo json_encode(array('res'=>"notok", 'data'=>$row));
+    }
+    
+
+    
+  } else {
 
     echo json_encode(array('res'=>"notok"));
 
   }
+
+  var_dump($row);
+
+    
+        
+
+
   $conn->close();
 
 

@@ -34,16 +34,22 @@ if ( mysqli_num_rows($result) > 0 ) {
   
   
   // echo json_encode($row);
+  if (isset($_SESSION['userId'])) {
 
-  if ($row['aid']==$userId) {
+    if ($row['aid']==$userId) {
 
-    echo json_encode(array('res'=>'ok', 'mine'=>'ok', 'data'=>$row));
-
+      echo json_encode(array('res'=>'ok', 'mine'=>'ok', 'data'=>$row));
+  
+    } else {
+  
+      echo json_encode(array('res'=>'ok', 'mine'=>'notok', 'data'=>$row));
+    }
+  
   } else {
 
     echo json_encode(array('res'=>'ok', 'mine'=>'notok', 'data'=>$row));
-  }
 
+  }
 
 }
 

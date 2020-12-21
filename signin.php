@@ -34,11 +34,11 @@ if ($row['id']==$userId && $row['pass']==$loginpw_hash) {
   $_SESSION['userId'] = $userId;
 
 
-
  //auto login checkbox 체크여부 후 쿠키저장
     if ($checkbox) {
 
-       setcookie("autouserId",$userId, time()+60,'/');
+       setcookie("autouserId",$userId, time()+60*60,'/');
+      //  setcookie("autouserId",$userId, time()+60*60,'/');
 
     }
 

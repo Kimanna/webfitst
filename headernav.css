@@ -74,8 +74,8 @@ div {
 }
 
 .text-muted {
-  color: #4A56A8 !important;
-  font-size: 1.3rem !important;
+  color:rosybrown !important;
+  font-size: 1.40rem !important;
   font-weight: bold !important;
 
 }
@@ -116,7 +116,7 @@ h6 {
 .nav-scroller {
   position: relative;
   z-index: 2;
-  height: 2.75rem;
+  height: 2.20rem;
   overflow-y: hidden;
 }
 

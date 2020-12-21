@@ -79,18 +79,12 @@
 
         //   $("input:checkbox[name=check]").is(":checked") == true
         //   $("#remember-me").prop("checked", true);
-
-
-
-        
-
            
         // }
 
 
+        
         displayCookie();
-
-
 
       });
 
@@ -108,18 +102,19 @@
     function displayCookie() {
         var txtName = "";
 
-        alert(txtName); 
         // 쿠키 여부 확인
         if (document.cookie != "") {
+            
+          
             // 여러개의 쿠키 읽어오기
-
             var cookies = document.cookie.split("; ");
+
             // 쿠키 개수만큼 반복
             for (var i=0; i<cookies.length; i++) {
 
 
                 if (cookies[i].split("=")[0] == "autouserId")  {
-                    alert(document.cookie);  // txtName=red;
+                    // alheert(document.cookie);  // txtName=red;
                     txtName = cookies[i].split("=")[1];            
                 }
             }

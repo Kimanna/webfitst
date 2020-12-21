@@ -19,10 +19,6 @@ window.onload = function() {
           var jsondata = jQuery.parseJSON(data).data;
           console.log(jsondata);
           
-          // console.log(jsondata[5]);
-          // console.log(active[0].nextElementSibling.innerHTML = "안녕하셈");
-          // console.log(active2[2].innerHTML = "안녕");
-//          active[i].nextElementSibling.innerHTML = jsondata[i+4];
 
           if ( jQuery.parseJSON(data).res == 'ok') {
 
@@ -39,8 +35,6 @@ window.onload = function() {
 
             }
           }
-
-          console.log(jsondata.country);
 
           active2[0].innerHTML = jsondata.school;
           active2[1].innerHTML = jsondata.country+'_'+jsondata.town;
@@ -63,33 +57,93 @@ window.onload = function() {
           active2[18].innerHTML = jsondata.st_content18;
           active2[19].innerHTML = jsondata.st_content19;
           active2[20].innerHTML = jsondata.st_content20;
-
   
-          // for (var i = 0; i < active.length ; i++) {
-            
-          //   if ( i >= '3' ) {
-
-          //     active2[i].innerHTML = jsondata;
-
-          //   } else {
-
-          //     active2[i].innerHTML = jsondata[i+4];
-          //     console.log(jsondata[i+4]);
-
-          //   }
-
-          //   if ( !jsondata[i] ) {
-          //     console.log(!jsondata[i]);
-          //     jsondata[i] = "입력값 없음";
-          //   } 
-            
-          // }
           var str2 = '<img src="'+jsondata.thumbnail+'" style="width: 362px; height: 100% !important;">';
           $("#imginput").html(str2);
+
           
+
+
+            // 쿠키 읽어오는 함수
+            var txtName = "";
+
+              
+            // 여러개의 쿠키 읽어오기
+            var cookies = document.cookie.split("; ");
+            // console.log(cookies);
+            
+            // 쿠키 개수만큼 반복
+            for (var i=0; i<cookies.length; i++) {
+
+
+                if (cookies[i].split("=")[0] == "reviewlist11")  {
+                    txtName = cookies[i].split("=")[1];            
+                }
+            }
+
+            // 현재 열람했던 게시물이 없는경우 저장함
+            if (txtName == "" || txtName == null) {
+
+              var listarr = [];
+              var obj = { 'type' : 'review', 'no' : jsondata.review_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.school, 'created' : jsondata.created };
+              listarr.push(obj);
+              var makejsonstring = JSON.stringify(listarr);
+              console.log(makejsonstring);
+
+              document.cookie = 'reviewlist11' + '=' + makejsonstring +'; SameSite=Strict; Secure';
+
+
+            } else {
+
+                // 값이 여러개인 경우 배열로 저장돼있음
+                var jsonps = JSON.parse(txtName);
+                console.log(jsonps);
+
+
+                  // 이미 쿠키에 저장된 상태인지 확인하는 for문으로 연결되는 메소드 이미 저장됨 = true/ 저장안됨 = false
+                  if (issetlist(jsonps, jsondata) == false) {
+                    console.log(jsonps[0]);
+                    console.log(jsonps[0].review_no);
+
+                    if (jsonps.length >= 5) {
+                      jsonps.shift();
+                    }
+
+                    var obj = { 'type' : 'review', 'no' : jsondata.review_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.school, 'created' : jsondata.created };
+
+                    jsonps.push(obj);
+                    console.log(jsonps);
+                    
+                    var stringjson = JSON.stringify(jsonps);
+
+                    document.cookie = 'reviewlist11' + '=' + stringjson +'; SameSite=Strict; Secure';
+
+                    }
+
+            }
 
  
     })
+}
+
+function issetlist ( jsonps, jsondata ) {
+
+  var issetdata = false;
+  for (var i=0 ; i < jsonps.length ; i++ ) {
+
+    // 블로그 개시물을 하나라도 본상태면 if안으로
+    if ( jsonps[i].type == "review" ) {
+
+      // 이미 본 게시물인 경우 쿠키에 저장 안함
+      if (jsonps[i].no == jsondata.review_no) {
+        console.log("이미 저장된 쿠키");
+        issetdata = true;
+        return;
+      }
+    }
+    issetdata = false;
+  }
+  return issetdata;
 }
 
 function getUrlParams() {
