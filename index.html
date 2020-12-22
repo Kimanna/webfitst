@@ -11,14 +11,26 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+    <link rel="stylesheet" href="images/fontello.css">
+
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="headernav.css" rel="stylesheet">
     <link href="advertise.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
   </head>
   <body>
@@ -41,9 +53,115 @@
     <div class="container">
       <div class="headerlocation"></div>
 
-      <div class="imgmargin text-white rounded bg-po">
-        <img class="bd-placeholder-img" src="/images/main.jpg" width="100%" height="100%" style='border-radius: 7px;' preserveAspectRatio="xMidYMid meet" focusable="false" role="img" aria-label="Placeholder: Thumbnail"></img>
+      <div class="imgmargin text-white rounded bg-po" style="width:100%; height:250px;">
+
+        
+        <div id="myCarousel"  class="carousel slide" data-bs-ride="carousel" >
+          <ol class="carousel-indicators">
+            <li data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#myCarousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <a href="review.html">
+                <img src="images/thumb01.jpg" class="d-block w-100" style="object-fit: cover; height: 250px;" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5 style="font-size: 25px; font-weight: bold; font-family:sans-serif;">꿈, 현실이 되다!</h5>
+                <p style="font-size: 17px; font-weight: bold; font-family:sans-serif;">생생한 어학연수 후기를 지금 바로 확인해 보세요!</p>
+              </div></a>
+            </div>
+            <div class="carousel-item">
+              <a href="blog.html">
+              <img src="images/thumb02.png" class="d-block w-100" style="object-fit: cover; height: 250px;" alt="..."></a>
+              <div class="carousel-caption d-none d-md-block">
+                <h5 style="font-size: 25px; font-weight: bold; font-family:sans-serif;">꿈같은 해외연수 경험!</h5>
+                <p style="font-size: 17px; font-weight: bold; font-family:sans-serif;">해외에선 지금! 각나라별 연수생활은 어떤지 확인해 보세요!</p>
+              </div></a>
+            </div>
+            <div class="carousel-item">
+              <a href="onlineQA.html">
+              <img src="images/thumb03.jpg" class="d-block w-100" style="object-fit: cover; height: 250px;" alt="..."></a>
+              <div class="carousel-caption d-none d-md-block">
+                <h5 style="font-size: 25px; font-weight: bold; font-family:sans-serif;">온라인 Q&A</h5>
+                <p style="font-size: 17px; font-weight: bold; font-family:sans-serif;">막연한 어학연수 생활.. 궁금한건 관리자에게 물어봐요.</p>
+              </div></a>
+            </div>
+          </div>
+          <a id="left" class="left carousel-control-prev" href="#myCarousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </a>
+          <a id="right" class="right carousel-control-next" href="#myCarousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </a>
+        </div>
+    
       </div>
+
+          <div class="bg02">
+        <div class="inner" style="padding-top:10px;">
+            <div class="news" style="background:#fff; padding:11px 0 0 0;">
+                <div class="main_tit05">
+                    <span class="red_bar"></span>
+                    <a>블로그소식</a>
+                    <a href="blog.html" class="r_more">[더보기+]</a>
+                </div>
+                <div id="GlobalList">
+                    <ul class="clearfix slick-initialized slick-slider">
+                        <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;"></button>
+                        <div aria-live="polite" class="slick-list draggable">
+                            <div class="slick-track" role="listbox">
+                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="true" tabindex="">
+                                    <a href="review.html" class="img" tabindex="">
+                                        <img style="width: 310px;" src="images/au.png" alt>
+                                        <div class="red">[캐나다]II어학원후기</div>
+                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="txt">II 너무좋아욤</div>
+                                    </a>
+                                </li>
+                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
+                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
+                                        <img src="images/au.png" alt>
+                                        <div class="red">[캐나다]II어학원후기</div>
+                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="txt">II 너무좋아욤</div>
+                                    </a>
+                                </li>
+                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
+                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
+                                        <img src="images/au.png" alt>
+                                        <div class="red">[캐나다]II어학원후기</div>
+                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="txt">II 너무좋아욤</div>
+                                    </a>
+                                </li>
+                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
+                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
+                                        <img src="images/au.png" alt>
+                                        <div class="red">[캐나다]II어학원후기</div>
+                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="txt">II 너무좋아욤</div>
+                                    </a>
+                                </li>
+                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
+                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
+                                        <img src="images/au.png" alt>
+                                        <div class="red">[캐나다]II어학원후기</div>
+                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="txt">II 너무좋아욤</div>
+                                    </a>
+                                </li>
+                            </div>
+                        </div>
+                        <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="next" role="button">Next</button>
+                    </ul>
+                </div>
+                <!-- /index_slide4.php에서 확인 -->
+            </div>
+        </div>
+    </div>
 
       <div class="row mb-2">
         <div class="col-md-6">
@@ -52,11 +170,11 @@
               <strong class="d-inline-block mb-2 text-primary">연수스토리</strong>
               <h3 class="mb-0">London School</h3>
               <div class="mb-1 text-muted">Des 02</div>
-              <p class="card-text mb-auto">LSE는 런던에 두 지점이 있습니다. 한지점은 30대 이상의 학생들이 단기간을 전문적으로 공부하기 위해...</p>
+              <p class="card-text mb-auto">LSE는 런던에 두 지점이 있습니다. LSE는 런던에 두 지점이 있습니다.LSE는 런던에 두 지점이 있습니다.LSE는 런던에 두 지점이 있습니다.LSE는 런던에 두 지점이 있습니다.LSE는 런던에 두 지점이 있습니다.한지점은 30대 이상의 학생들이 단기간을 전문적으로 공부하기 위해...</p>
               <a href="#" class="stretched-link">Continue reading</a>
             </div>
             <div class="col-auto d-none d-lg-block">
-              <img class="bd-placeholder-img" width="200" height="250" src="/images/thumb01.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+              <img class="bd-placeholder-img" width="200" height="250" src="images/thumb01.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
             </div>
           </div>
         </div>
@@ -70,11 +188,12 @@
               <a href="#" class="stretched-link">Continue reading</a>
             </div>
             <div class="col-auto d-none d-lg-block">
-              <img class="bd-placeholder-img" width="200" height="250" src="/images/20191213034907i.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
+              <img class="bd-placeholder-img" width="200" height="250" src="images/20191213034907i.jpg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/></img>
             </div>
           </div>
         </div>
       </div>
+
     </div>
     
 <footer class="blog-footer">
@@ -84,6 +203,7 @@
     <a href="#">Back to top</a>
   </p>
 </footer>
+
 <script>
   $('.headerlocation').load('header.html', function (res, status, xhr) {
 
@@ -91,16 +211,85 @@
        this.innerHTML = res;
      }
    });
-  //  $('.cookielocation').load('cookie.php', function (res, status, xhr) {
 
-  //     if (status == "success" && xhr.status == 200) {
-  //       this.innerHTML = res;
-  //     }
-  //   });
    
+ 
+$(function(){
+    // 이미지 슬라이드 컨트롤를 사용하기 위해서는 carousel를 실행해야한다.
+    $('#myCarousel').carousel({
+    // 슬리아딩 자동 순환 지연 시간 false면 자동 순환하지 않는다.
+    interval: 3000,
+    // hover를 설정하면 마우스를 가져대면 자동 순환이 멈춘다.
+    pause: "hover",
+    // 순환 설정, true면 1 -> 2가면 다시 1로 돌아가서 반복
+    wrap: true
+    });
+});
+
+// $('#myCarousel').on('slide.bs.carousel', function () {
+
+//   // do something…
+// })
+
+var myCarousel = document.getElementById('myCarousel')
+
+myCarousel.addEventListener('show.bs.carousel', function () {
+  // if (!data) {
+
+   alert ("data");
+
+
+    // return event.preventDefault() // stops modal from being shown
+  // }
+})
+
+$("#left").on("click", function() {
+  $('#myCarousel').carousel('prev');
+});
+// 이미지 슬라이드 다음 페이지 이동
+$("#right").on("click", function() {
+  $('#myCarousel').carousel('next');
+});
 
 
 
+			$('.slick-slide .slick-cloned').slick(
+        {
+				// slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
+				infinite : true, 	//무한 반복 옵션	 
+				slidesToShow : 3,		// 한 화면에 보여질 컨텐츠 개수
+				slidesToScroll : 1,		//스크롤 한번에 움직일 컨텐츠 개수
+				speed : 100,	 // 다음 버튼 누르고 다음 화면 뜨는데까지 걸리는 시간(ms)
+				arrows : true, 		// 옆으로 이동하는 화살표 표시 여부
+				// dots : true, 		// 스크롤바 아래 점으로 페이지네이션 여부
+				// autoplay : true,			// 자동 스크롤 사용 여부
+				// autoplaySpeed : 10000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
+				// pauseOnHover : true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
+				vertical : false,		// 세로 방향 슬라이드 옵션
+				// prevArrow : "<button type='button' class='slick-prev'>Previous</button>",		// 이전 화살표 모양 설정
+				// nextArrow : "<button type='button' class='slick-next'>Next</button>",		// 다음 화살표 모양 설정
+				// dotsClass : "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
+				draggable : true, 	//드래그 가능 여부 
+				
+				responsive: [ // 반응형 웹 구현 옵션
+					{  
+						breakpoint: 960, //화면 사이즈 960px
+						settings: {
+							//위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+							slidesToShow:3 
+						} 
+					},
+					{ 
+						breakpoint: 768, //화면 사이즈 768px
+						settings: {	
+							//위에 옵션이 디폴트 , 여기에 추가하면 그걸로 변경
+							slidesToShow:2 
+						} 
+					}
+				]
+
+			});
+  		
 
 
 
@@ -184,6 +373,241 @@
 
 
  </script>
+     <style>
+      .bg02 {
+          width: 100%;
+      }
+
+      .inner {
+          width: 1100px;
+          position: relative;
+          margin-left: auto;
+          margin-right: auto;
+      }
+
+      .main_tit05 {
+          width:1100px;
+          border-bottom: 1px solid #cbcbcb;
+          margin-left: 0;
+          display: inline-block;
+      }
+
+      .red_bar {
+          width: 3px;
+          height: 16px;
+          background: #D9422C;
+          display: inline-block;
+      }
+
+      .main_tit05>a {
+          font-family: 'Noto Sans KR', sans-serif;
+          font-size: 20px;
+          font-weight: 400;
+          margin-left: 5px;
+          line-height: 40px;
+          display: inline-block;
+      }
+
+      a:visited {
+          color: #363636;
+          text-decoration: none;
+      }
+
+      a.r_more {
+          float: right;
+          font-family: 'Noto Sans KR', sans-serif;
+          font-size: 14px;
+          font-weight: 300;
+          color: #D9422C;
+      }
+
+      .news ul {
+          padding: 0 40px;
+          margin-top: 20px;
+          margin-bottom: 15px;
+      }
+
+      .slick-slider {
+          position: relative;
+          display: block;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          -webkit-touch-callout: none;
+          -khtml-user-select: none;
+          -ms-touch-action: pan-y;
+          touch-action: pan-y;
+          -webkit-tap-highlight-color: transparent;
+      }
+
+      .news .slick-prev {
+          left: 0;
+      }
+
+      .news .slick-prev,
+      .news .slick-next {
+          padding: 0;
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          margin-top: -25px;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          text-indent: -9999px;
+          background: transparent;
+          z-index: 99;
+          width: 30px;
+          height: 30px;
+          background: url(../m_icon_safe.png) no-repeat;
+      }
+
+      .slick-slider .slick-track,
+      .slick-slider .slick-list {
+          -webkit-transform: translate3d(0, 0, 0);
+          -moz-transform: translate3d(0, 0, 0);
+          -ms-transform: translate3d(0, 0, 0);
+          -o-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+      }
+
+      .slick-list {
+          position: relative;
+          display: block;
+          overflow: hidden;
+          margin: 0;
+          padding: 0;
+      }
+
+      .slick-track {
+          position: relative;
+          top: 0;
+          left: 0;
+          display: block;
+      }
+
+      .slick-initialized .slick-slide {
+          display: block;
+      }
+
+      .news li {
+          position: relative;
+          /* border: 1px solid #E3E3E3; */
+          margin: 0 12px;
+          font-family: '굴림';
+      }
+
+      .slick-slide {
+          display: none;
+          float: left;
+          height: 100%;
+          min-height: 1px;
+          outline: 0;
+      }
+
+      li {
+          display: list-item;
+          text-align: -webkit-match-parent;
+      }
+
+      .news li a {
+          position: relative;
+          display: block;
+      }
+
+      a:visited {
+          color: #363636;
+          text-decoration: none;
+      }
+
+      .news .img img {
+          width: 100%;
+          height: 200px;
+      }
+
+      .slick-slide img {
+          display: block;
+          outline: 0;
+      }
+
+      img {
+          /* max-width: 100%; */
+          vertical-align: top;
+      }
+
+      img,
+      fieldset {
+          border: 0px;
+      }
+
+      .news .red {
+          margin-top: 3px;
+          font-family: 'Noto Sans KR', sans-serif;
+          font-size: 13px;
+      }
+
+      .red {
+          color: #d9422c !important;
+      }
+
+      .news .tit_01 {
+          display: block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+      .news .tit_01 {
+          font-weight: 500;
+          color: #363636;
+          font-family: 'Noto Sans KR', sans-serif;
+          font-size: 18px;
+          margin: 0 10px 5px 0;
+      }
+
+      .news .txt {
+          margin: 0 10px 15px 0;
+          line-height: 1.6;
+          color: #636363;
+          font-family: 'Noto Sans KR', sans-serif;
+          font-size: 14px;
+          font-weight: 300;
+          padding-top: 0;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 4;
+      }
+
+      .news .slick-next {
+          right: 0;
+          background-position: 0 -31px;
+      }
+
+      .news .slick-prev,
+      .news .slick-next {
+          padding: 0;
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          margin-top: -25px;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          text-indent: -9999px;
+          background: transparent;
+          z-index: 99;
+          width: 30px;
+          height: 30px;
+          /* font-family: "fontello"; */
+          background: url(images/m_icon_safe.png) no-repeat;
+      }
+  </style>
+
+
 
 </body>
 </html>

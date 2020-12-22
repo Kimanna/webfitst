@@ -124,7 +124,6 @@
          }
        });
      </script>
-    <script src="review.js"></script>
     <script>
       
         function goWrite(inputno) {
@@ -162,8 +161,9 @@
 
             } else {
 
-              $(".blogList").html(blogchange(json));
-                console.log(blogchange(json));
+              
+              $(".blogList").html(blogsearch(json));
+                console.log(blogsearch(json));
 
             }
 
@@ -178,24 +178,24 @@
       }
 
 
-      function blogchange (blogdata) {
+      function blogsearch (blogdata) {
+
+        if (blogdata.data != null) {
 
         var str = '';
 
-        blogdata.forEach(function(item,index){
-
-          
-          var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
-          var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
-          var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
+        for (var i = 0 ; i < blogdata.data.length ; i++) {
+          var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+blogdata.data[i].blog_no+');"><img src="'+blogdata.data[i].thumbnail+'"></a></div></div>';
+          var str3 = '<div class="blogText"><a href="javascript:goDetail('+blogdata.data[i].blog_no+');"><p class="titleText">'+blogdata.data[i].title+'</p><p></p>';
+          var str4 = '<p class="prvText">'+blogdata.data[i].element+'</p><div class="titledate" style="text-align:right;">'+blogdata.data[i].created+'</div></a></div></div>';
           str = str+str2+str3+str4; 
-        })
-
-
+        }
+      }
         return str;
-
       }
 
     </script>
+    <script src="review.js"></script>
+
   </body>
 </html>

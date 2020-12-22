@@ -175,8 +175,6 @@ function goView(inputno) {
 
       }, error : function(xhr, status, error) {
 //        var err = JSON.parse(xhr.responseText);
-          // var obj = jQuery.parseJSON('{"name":"John"}');
-
         // console.log(err.Message);
         // console.log("실패");
       }
@@ -205,15 +203,16 @@ function blogchange (blogdata) {
 
   var str = '';
 
-  blogdata.forEach(function(item,index){
 
-    
-    var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
-    var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
-    var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
-    str = str+str2+str3+str4; 
-  })
 
+      blogdata.forEach(function(item,index){
+
+        
+        var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
+        var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
+        var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
+        str = str+str2+str3+str4; 
+      })
 
   return str;
 

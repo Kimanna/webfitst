@@ -16,7 +16,7 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 
   
   $result = mysqli_query($conn, $sql);
-  // $row = mysqli_fetch_row($result);
+  // $row = mysqli_fetch_assoc($result);
 
   
 
@@ -28,13 +28,17 @@ if ( mysqli_num_rows($result) > 0 ) {
     while($row = mysqli_fetch_assoc($result)) {
       
       
-
     
-      // $row = array('blog_no'=>$row['blog_no'],'title'=>$row['title'], 'created'=>$row['created'], 'aid'=>$row['aid'], 'thumbnail'=>$row['thumbnail'], 'element'=>$row['element']);
+       $row = array('blog_no'=>$row['blog_no'],'title'=>$row['title'], 'created'=>$row['created'], 'aid'=>$row['aid'], 'thumbnail'=>$row['thumbnail'], 'element'=>$row['element']);
       
-      echo json_encode(array('res'=>"notok", 'data'=>$row));
-    }
+       array_push ($dataarry, $row);
+     
+      }
+
+      echo json_encode(array('res'=>"ok", 'data'=>$dataarry));
     
+    // echo json_encode(array('res'=>"ok", 'data'=>$row));
+    // echo json_encode(array('res'=>"ok", 'data'=>$row));
 
     
   } else {
@@ -43,7 +47,7 @@ if ( mysqli_num_rows($result) > 0 ) {
 
   }
 
-  var_dump($row);
+  // var_dump($row);
 
     
         
