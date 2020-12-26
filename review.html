@@ -30,19 +30,19 @@
                     </h2>
                     <ul class="lnb">
                         <li>
-                          <a href="javascript:goView('rca');">모든국가보기</a>
+                          <a href="javascript:goView(1,1);">모든국가보기</a>
                         </li>
                         <li>
-                            <a href="javascript:goView('rc1');">미국/캐나다</a>
+                            <a href="javascript:goView(2,1);">미국/캐나다</a>
                         </li>
                         <li>
-                            <a href="javascript:goView('rc2');">영국/아일랜드</a>
+                            <a href="javascript:goView(3,1);">영국/아일랜드</a>
                         </li>
                         <li>
-                            <a href="javascript:goView('rc3');">호주/뉴질랜드</a>
+                            <a href="javascript:goView(4,1);">호주/뉴질랜드</a>
                         </li>
                         <li>
-                            <a href="javascript:goView('rc4');">필리핀/몰타</a>
+                            <a href="javascript:goView(5,1);">필리핀/몰타</a>
                         </li>
                     </ul>
                 </aside>
@@ -63,19 +63,8 @@
 
                     <div class="galleryList">
                     </div>
-                    <ul class="pagination">
-                      <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                      <li><a href="#" class="current">1</a></li>
-                      <li><a href="javascript:goPage(2);">2</a></li>
-                      <li><a href="javascript:goPage(3);">3</a></li>
-                      <li><a href="javascript:goPage(4);">4</a></li>
-                      <li><a href="javascript:goPage(5);">5</a></li>
-                      <li><a href="javascript:goPage(6);">6</a></li>
-                      <li><a href="javascript:goPage(7);">7</a></li>
-                      <li><a href="javascript:goPage(8);">8</a></li>
-                      <li><a href="javascript:goPage(9);">9</a></li>
-                      <li><a href="javascript:goPage(10);">10</a></li>
-                      <li><a href="javascript:goPage(2);"><i class="fa fa-angle-right"></i></a></li>
+                    <ul class="pagination" id="paging">
+
                   </ul>
                 </div>
             </div>
@@ -89,15 +78,95 @@
             </p>
         </footer>
     </div>
+    <script src="review.js"></script>
+
     <script>
       $('.headerlocation').load('header.html', function (res, status, xhr) {
  
          if (status == "success" && xhr.status == 200) {
            this.innerHTML = res;
          }
+
        });
+
+
+      function goPage(inputno, totalData, currentPage){
+
+    // var totalPage = 1000;    // 총 데이터 수
+      var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
+      var pageCount = 5;        // 한 화면에 나타낼 페이지 수
+
+      console.log("totalData : " + totalData);
+      console.log("currentPage : " + currentPage);
+      
+      var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+      var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+      
+      console.log("totalPage : " + totalPage);
+      console.log("pageGroup : " + pageGroup);
+
+      var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+      if(last > totalPage)
+          last = totalPage;
+      var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+      var next = last+1;
+      var prev = first-1;
+
+      if ( totalPage < 1) {
+        first = last;
+      }
+
+      
+      console.log("last : " + last);
+      console.log("first : " + first);
+      console.log("next : " + next);
+      console.log("prev : " + prev);
+
+
+      var $pingingView = $("#paging");
+      
+      var html = "";
+      
+      if(prev > 0)
+          html += "<li><a href=\"#\"><i class=\"icon-left-open-outline\"><</i></a></li>";
+      
+      for(var i=first; i <= last; i++){
+
+        if ( currentPage == i) {
+
+          html += "<li><a href=\"#\" class=\"current\">" + i + "</a></li>";
+
+        } else if ( i > 0) {
+          
+          html += "<li><a href=\"javascript:goView(" + inputno + "," + i +");\">" + i + "</a></li>";
+
+        }
+        
+      }
+      
+      if(last < totalPage)
+          html += "<li><a href=\"javascript:goView(" + inputno + "," + next +");\"><i class=\"icon-right-open-outline\">></i></a></li>";
+          
+      $("#paging").html(html);    // 페이지 목록 생성
+      // $("#paging a").css("color", "black");
+      $("#paging .current").css({"text-decoration":"none", 
+                                         "color":"red", 
+                                         "font-weight":"bold"});    // 현재 페이지 표시
+                                         
+      // $("#paging a").click(function(){
+          
+      //     var $item = $(this);
+      //     var $id = $item.attr("id");
+      //     var selectedPage = $item.text();
+          
+      //     if($id == "next")    selectedPage = next;
+      //     if($id == "prev")    selectedPage = prev;
+          
+      //     goPage(totalData, selectedPage);
+      //   });
+      }
+
      </script>
-    <script src="review.js"></script>
     <script>
         // review.html 에서 등록하기 버튼을 클릭한 경우 작동하는 메서드
         // 로그인 상태면 글을 쓸 수 있지만 로그인상태가 아니면 글을 쓸수 없다는 메시지를 출력 ---------------수정해야함

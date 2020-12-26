@@ -110,52 +110,36 @@
                 </div>
                 <div id="GlobalList">
                     <ul class="clearfix slick-initialized slick-slider">
-                        <button type="button" data-role="none" class="slick-prev slick-arrow" aria-label="Previous" role="button" style="display: block;"></button>
+                        <button type="button" data-role="none" class="slick-prev slick-arrow prevblg" aria-label="Previous" role="button" style="display: block;"></button>
                         <div aria-live="polite" class="slick-list draggable">
                             <div class="slick-track" role="listbox">
                                 <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="true" tabindex="">
-                                    <a href="review.html" class="img" tabindex="">
+                                    <a href="blog.html" class="img" tabindex="">
                                         <img style="width: 310px;" src="images/au.png" alt>
                                         <div class="red">[캐나다]II어학원후기</div>
-                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="tit_01">II 어학연수 후기</div>
                                         <div class="txt">II 너무좋아욤</div>
                                     </a>
                                 </li>
                                 <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
-                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
-                                        <img src="images/au.png" alt>
+                                    <a href="blog.html" class="img" tabindex="">
+                                        <img style="width: 310px;" src="images/thumb03.jpg" alt>
                                         <div class="red">[캐나다]II어학원후기</div>
-                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="tit_01">II 어학연수 후기</div>
                                         <div class="txt">II 너무좋아욤</div>
                                     </a>
                                 </li>
                                 <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
-                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
-                                        <img src="images/au.png" alt>
+                                    <a href="blog.html" class="img" tabindex="">
+                                        <img style="width: 310px;" src="images/unnamed.jpg" alt>
                                         <div class="red">[캐나다]II어학원후기</div>
-                                        <div class="tit_01">EF II 어학연수 후기</div>
-                                        <div class="txt">II 너무좋아욤</div>
-                                    </a>
-                                </li>
-                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
-                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
-                                        <img src="images/au.png" alt>
-                                        <div class="red">[캐나다]II어학원후기</div>
-                                        <div class="tit_01">EF II 어학연수 후기</div>
-                                        <div class="txt">II 너무좋아욤</div>
-                                    </a>
-                                </li>
-                                <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
-                                    <a style="width: 310px;" href="review.html" class="img" tabindex="">
-                                        <img src="images/au.png" alt>
-                                        <div class="red">[캐나다]II어학원후기</div>
-                                        <div class="tit_01">EF II 어학연수 후기</div>
+                                        <div class="tit_01">II 어학연수 후기</div>
                                         <div class="txt">II 너무좋아욤</div>
                                     </a>
                                 </li>
                             </div>
                         </div>
-                        <button type="button" data-role="none" class="slick-next slick-arrow" aria-label="next" role="button">Next</button>
+                        <button type="button" data-role="none" class="slick-next slick-arrow nextblg" aria-label="next" role="button">Next</button>
                     </ul>
                 </div>
                 <!-- /index_slide4.php에서 확인 -->
@@ -253,6 +237,7 @@ $("#right").on("click", function() {
 
 
 
+
 			$('.slick-slide .slick-cloned').slick(
         {
 				// slide: 'div',		//슬라이드 되어야 할 태그 ex) div, li 
@@ -266,8 +251,8 @@ $("#right").on("click", function() {
 				// autoplaySpeed : 10000, 		// 자동 스크롤 시 다음으로 넘어가는데 걸리는 시간 (ms)
 				// pauseOnHover : true,		// 슬라이드 이동	시 마우스 호버하면 슬라이더 멈추게 설정
 				vertical : false,		// 세로 방향 슬라이드 옵션
-				// prevArrow : "<button type='button' class='slick-prev'>Previous</button>",		// 이전 화살표 모양 설정
-				// nextArrow : "<button type='button' class='slick-next'>Next</button>",		// 다음 화살표 모양 설정
+				prevArrow : $('.prevblg'),		// 이전 화살표 모양 설정
+				nextArrow : $('.nextblg'),		// 다음 화살표 모양 설정
 				// dotsClass : "slick-dots", 	//아래 나오는 페이지네이션(점) css class 지정
 				draggable : true, 	//드래그 가능 여부 
 				
@@ -288,10 +273,21 @@ $("#right").on("click", function() {
 					}
 				]
 
-			});
-  		
+      });
+      
 
+      $('.your-slider').on('click', function (e){ let slideClicked = $(e.currentTarget).attr("data-slick-index"); console.log(slideClicked); });
 
+      $('#slider-div').slick('slickAdd',"<div>새로운 아이템</div>");
+
+      // <li class="slick-slide slick-cloned" data-slick-index="" aria-hidden="" tabindex="">
+      //     <a style="width: 310px;" href="review.html" class="img" tabindex="">
+      //         <img src="images/au.png" alt>
+      //         <div class="red">[캐나다]II어학원후기</div>
+      //         <div class="tit_01">EF II 어학연수 후기</div>
+      //         <div class="txt">II 너무좋아욤</div>
+      //     </a>
+      // </li>
 
 
 
@@ -605,6 +601,21 @@ $("#right").on("click", function() {
           /* font-family: "fontello"; */
           background: url(images/m_icon_safe.png) no-repeat;
       }
+
+      .slick-arrow{
+          z-index: 2; /* prev버튼은 위치 이동시 이미지 뒤로 숨겨짐 */
+          position:absolute;  /* 원하는 위치에 지정  */
+          top: 50%; 
+          width: 50px; 
+          height: 50px; 
+          transform: translateY(-25px);
+        }
+        .slick-prev.slick-arrow{ /* prev 이전 */
+          left: 0;
+        }
+        .slick-next.slick-arrow{ /* next 다음 */
+          right: 0;
+}
   </style>
 
 

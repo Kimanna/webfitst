@@ -90,19 +90,8 @@
                             <input type="text" name="searchText" class="iptText searchIpt" placeholder="제목, 내용" value=""><button type="submit" class="searchBtn">검색</button>
                         </div>
                     </form>
-                    <ul class="pagination">
-                        <li><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                        <li><a href="#" class="current">1</a></li>
-                        <li><a href="javascript:goPage(2);">2</a></li>
-                        <li><a href="javascript:goPage(3);">3</a></li>
-                        <li><a href="javascript:goPage(4);">4</a></li>
-                        <li><a href="javascript:goPage(5);">5</a></li>
-                        <li><a href="javascript:goPage(6);">6</a></li>
-                        <li><a href="javascript:goPage(7);">7</a></li>
-                        <li><a href="javascript:goPage(8);">8</a></li>
-                        <li><a href="javascript:goPage(9);">9</a></li>
-                        <li><a href="javascript:goPage(10);">10</a></li>
-                        <li><a href="javascript:goPage(2);"><i class="fa fa-angle-right"></i></a></li>
+                    <ul class="pagination" id="paging">
+                      
                     </ul>
                 </div>
             </div>
@@ -117,9 +106,78 @@
     </div>
 
     <script src="review.js"></script>
-    <!-- <script src="blog.js"></script> -->
     <script>
+      function goPage(totalData, currentPage){
+
+// var totalPage = 1000;    // 총 데이터 수
+      var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
+      var pageCount = 5;        // 한 화면에 나타낼 페이지 수
+
+  console.log("currentPage : " + currentPage);
       
+      var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
+      var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
+      
+      console.log("pageGroup : " + pageGroup);
+      var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
+      if(last > totalPage)
+          last = totalPage;
+      var first = last - (pageCount-1);    // 화면에 보여질 첫번째 페이지 번호
+      var next = last+1;
+      var prev = first-1;
+
+      if ( totalPage < 1) {
+        first = last;
+      }
+
+      
+      console.log("last : " + last);
+      console.log("first : " + first);
+      console.log("next : " + next);
+      console.log("prev : " + prev);
+
+      var $pingingView = $("#paging");
+      
+      var html = "";
+      
+      if(prev > 0)
+          html += "<li><a href=\"#\"><i class=\"icon-left-open-outline\"></i></a></li>";
+      
+      for(var i=first; i <= last; i++){
+
+        if ( currentPage == i) {
+
+          html += "<li><a href=\"#\" class=\"current\">" + i + "</a></li>";
+
+        } else if ( i > 0) {
+          
+          html += "<li><a href=\"javascript:goPage("+ i +");\">" + i + "</a></li>";
+
+        }
+        
+      }
+      
+      if(last < totalPage)
+          html += "<li><a href=\"javascript:goPage("+ next +");\"><i class=\"icon-right-open-outline\"></i></a></li>";
+          
+      $("#paging").html(html);    // 페이지 목록 생성
+      // $("#paging a").css("color", "black");
+      $("#paging .current").css({"text-decoration":"none", 
+                                         "color":"red", 
+                                         "font-weight":"bold"});    // 현재 페이지 표시
+                                         
+      // $("#paging a").click(function(){
+          
+      //     var $item = $(this);
+      //     var $id = $item.attr("id");
+      //     var selectedPage = $item.text();
+          
+      //     if($id == "next")    selectedPage = next;
+      //     if($id == "prev")    selectedPage = prev;
+          
+      //     goPage(totalData, selectedPage);
+      //   });
+      }
         function goWrite(inputno) {
 
           window.location.href = 'blog-wri.html';
