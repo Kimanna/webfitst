@@ -22,78 +22,16 @@
 </head>
 
 <body>
+
+  <div class="container">
+    <div class="headerlocation"></div>
+    
+  </div>
   <div>
   <ul class="pagination" id="paging">
 </ul>
 </div>
 <script>
-
-// function paging (totalData, currentPage) {
-//   var dataPerPage = 10;
-//   var pageCount = 5;
-
-//   console.log("currentPage : "+currentPage);
-//   console.log("totalData : "+totalData);
-
-  
-//   var totalPage = Math.ceil(totalData / dataPerPage);
-//   var pageGroup = Math.ceil(currentPage / pageCount);
-
-//   console.log("pageGroup : "+pageGroup);
-//   console.log("totalPage : "+totalPage);
-
-//   var last = pageGroup * pageCount;
-
-  
-//   if (last > totalPage) {
-    
-//     last = totalPage;
-//   }
-//   console.log("first : "+ first - 1);
-  
-//   var first = last - (pageCount - 1);
-//   var next = last + 1;
-//   var prev = fitst - 1;
-
-//   console.log("last : "+ last);
-//   console.log("fitst : "+ fitst);
-//   console.log("next : "+ next);
-//   console.log("prev : "+ prev);
-
-//   if (totalPage < 1) {
-//     first = last;
-  
-//   }
-
-//   var pages = $("#paging");
-//   pages.empty();
-
-//   if(first > 5) {
-//     pages.append ("<li class=\"pagination-item\">"+
-//       "<a onclick=\"GetTarget("+(prev)+");\" style='margin-left:2px'>prev</a></li>");
-//     }
-
-//     for (var j = fitst ; j <= last ; j++ ) {
-//       if ( currentPage === (j)) {
-//         pages.append("<li class=\"pagination-item\">" + "<a class='active' onclick=\"GetTarget("+(j)+");\" style='margin-left:2px'>" +(j)+"</a></li>");
-
-//       } else if (j > 0) {
-//         pages.append("<li class=\"pagination-item\">" + "<a onclick=\"GetTarget("+(j)+");\" style='margin-left:2px'>" +(j)+"</a></li>");
-
-//       }
-//     }
-
-//   if ( next > 5 && next < totalPage ) {
-//     pages.append("<li class=\"pagination-item\">" + "<a onclick=\"GetTarget("+(next)+");\" style='margin-left:2px'>next</a></li>");
-
-//   }
-  
-
-// }
-
-
-
-
 function goPage(totalData, currentPage){
 
   // var totalPage = 1000;    // 총 데이터 수
@@ -154,20 +92,18 @@ function goPage(totalData, currentPage){
                                            "color":"red", 
                                            "font-weight":"bold"});    // 현재 페이지 표시
                                            
-        // $("#paging a").click(function(){
+        $("#paging a").click(function(){
             
-        //     var $item = $(this);
-        //     var $id = $item.attr("id");
-        //     var selectedPage = $item.text();
+            var $item = $(this);
+            var $id = $item.attr("id");
+            var selectedPage = $item.text();
             
-        //     if($id == "next")    selectedPage = next;
-        //     if($id == "prev")    selectedPage = prev;
+            if($id == "next")    selectedPage = next;
+            if($id == "prev")    selectedPage = prev;
             
-        //     goPage(totalData, selectedPage);
-        //   });
+            goPage(totalData, selectedPage);
+          });
         }
-        
-        
         
         $("document").ready(function(){    
           

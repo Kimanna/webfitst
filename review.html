@@ -15,6 +15,7 @@
     <!-- Custom styles for this template -->
     <link href="headernav.css" rel="stylesheet">
     <link href="advertise.css" rel="stylesheet">
+    <!-- <link href="/images/fontello.css" rel="stylesheet"> -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 
@@ -25,8 +26,8 @@
         <main role="main" class="container">
             <div class="row flex-nowrap justify-content-between">
                 <aside class="lnbBox text" id="lnbBox03">
-                    <h2 class="lnbTitle">
-                        <img src="" alt="어학연수 나라별">
+                    <h2 class="lnbTitle" style="font-size: 16px; color:peru;">
+                        <img src="images/world-shape-public-symbol.png" style="width: 27px; height: 27px; color: burlywood;">&nbsp;&nbsp;연수후기 국가별
                     </h2>
                     <ul class="lnb">
                         <li>
@@ -93,7 +94,7 @@
       function goPage(inputno, totalData, currentPage){
 
     // var totalPage = 1000;    // 총 데이터 수
-      var dataPerPage = 5;    // 한 페이지에 나타낼 데이터 수
+      var dataPerPage = 9;    // 한 페이지에 나타낼 데이터 수
       var pageCount = 5;        // 한 화면에 나타낼 페이지 수
 
       console.log("totalData : " + totalData);
@@ -128,7 +129,7 @@
       var html = "";
       
       if(prev > 0)
-          html += "<li><a href=\"#\"><i class=\"icon-left-open-outline\"><</i></a></li>";
+          html += "<li><a href=\"javascript:goView("+ inputno + "," + prev + ");\"><img src=\"images/keyboard-left-arrow-button.png\" style=\"width: 15px; height: 15px;\"></a></li>";
       
       for(var i=first; i <= last; i++){
 
@@ -145,7 +146,7 @@
       }
       
       if(last < totalPage)
-          html += "<li><a href=\"javascript:goView(" + inputno + "," + next +");\"><i class=\"icon-right-open-outline\">></i></a></li>";
+          html += "<li><a href=\"javascript:goView(" + inputno + "," + next +");\"><img src=\"images/keyboard-right-arrow-button.png\" style=\"width: 12px; height: 12px;\"></a></li>";
           
       $("#paging").html(html);    // 페이지 목록 생성
       // $("#paging a").css("color", "black");
@@ -185,5 +186,6 @@
 
         }
     </script>
+
 </body>
 </html>
