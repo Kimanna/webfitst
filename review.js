@@ -132,7 +132,7 @@ function goView(inputno, pageno) {
 
           } else if (json.data[0].blog_no != null) {
 
-            $(".blogList").html(blogchange(jsondata));
+            $(".blogList").html(blogchange(jsondata, pageno));
             console.log(blogchange(jsondata));
 
             goPage(inputno, json.totalData, pageno);
@@ -174,7 +174,7 @@ function reviewchange (reviewdata) {
   return str0+str5+str1;
 }
 
-function blogchange (blogdata) {
+function blogchange (blogdata, gopageno) {
 
   var str = '';
 
@@ -182,9 +182,10 @@ function blogchange (blogdata) {
 
         
         var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
-        var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+');"><p class="titleText">'+item.title+'</p><p></p>';
-        var str4 = '<p class="prvText">'+item.element+'</p><div class="titledate" style="text-align:right;">'+item.created+'</div></a></div></div>';
-        str = str+str2+str3+str4; 
+        var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+','+gopageno+');"><p class="titleText">'+item.title+'</p><p></p>';
+        var str4 = '<p class="prvText">'+item.element+'</p><div class="writerview"><div class="profile_date_area">작성자 : '+item.aid+'   <span style="color:gray;">'+item.created+'</span></div>';
+        var str5 = '<div class="detail_area"><div>조회수 : '+item.view+'<span>   댓글 : '+item.comment+'</span></div></div></div></a></div></div>';
+        str = str+str2+str3+str4+str5; 
       })
 
   return str;

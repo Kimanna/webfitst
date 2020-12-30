@@ -9,6 +9,9 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 if (!$conn) {
       die ('Failed'.mysqli_connect_error());
 }
+if (isset($_GET["page"])) {
+  $page = $_GET["page"];
+}
 
 if (isset($_GET["mode"])) {
   $blog_no = $_GET["blog_no"];

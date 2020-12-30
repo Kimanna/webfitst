@@ -13,7 +13,7 @@ if (isset($_SESSION['userId'])) {
 }
 
 // $blog_no = '20';
-$sql = "SELECT * FROM blog WHERE blog_no = '$blog_no'";
+$sql = "SELECT * FROM blog LEFT JOIN topic ON blog.aid=topic.id WHERE blog_no = '$blog_no'";
 
 
 $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
@@ -23,7 +23,11 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 //  echo "success";
 }
 
-//$sql = "SELECT * FROM review limit 9";      페이지네이션때 적용할 예정
+// 조회수 증가시키는 query
+$sql1 = "UPDATE blog SET view=view+1 WHERE blog_no = '$blog_no'";
+$result1 = mysqli_query($conn, $sql1);
+
+//데이터 조회 후 전달하는 query
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 

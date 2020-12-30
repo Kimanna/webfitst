@@ -978,6 +978,119 @@ a:hover {
 
 
 
+.title_area {
+  padding: 1px 10px;
+  overflow: hidden;
+}
+.writerview {
+  display: flex;
+  padding: 5px 5px;
+}
+
+.profile_area {
+  width: 80%;
+}
+
+.profile_area img {
+  width: 65px; 
+  height: 60px;
+  object-fit: fill;
+  vertical-align: top;
+}
+
+.profile_info {
+  display: inline-block;
+  margin: 5px 10px;
+  font-size: 15px;
+}
+
+.writer_id span {
+  background-color:#ccc;
+  color: chocolate;
+  font-size: 13px;
+  padding: 2px 2px;
+  margin-left: 10px;
+}
+
+.detail_area {
+  padding-top: 5px;
+}
+
+
+.articleTool {
+  align-self: center;
+}
+
+.articleTool img {
+  vertical-align: center;
+}
+
+.button_url {
+  margin-left: 20px !important;
+}
+
+
+
+/* 댓글부분 */
+.cm_area {
+  overflow: hidden
+}
+.cm_header {
+  background-color:aliceblue;
+  padding: 10px 15px;
+}
+.cm_add_area {
+  
+}
+.cm_title h3{
+  font-size: 16px;
+  padding: 5px 5px;
+}
+.cm_profile_area {
+  margin: 5px 5px;
+  display: flex;
+}
+.cm_profileimg {
+  width: 10%
+}
+.cm_profileimg img {
+  width: 50px;
+  height: 50px;
+  object-fit: fill;
+}
+.cm_inputcmt {
+}
+.cm_inputcmt input {
+  border-right: 0px;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 1px;
+  border-bottom-color: dimgrey;
+  font-size: 14px;
+}
+input:focus{
+/*            box-shadow: none;*/
+              border-right: 0px;
+  border-left: 0px;
+  border-top: 0px;
+  border-bottom: 1.5px;
+  border-bottom-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -992,12 +1105,19 @@ a:hover {
 }
 
 
-/* .titlefont {
-  font-size: 14px;
+.titlefont {
+  font-size: 20px;
+  font-style: bold;
+  margin-bottom: 10px;
 }
 
-.datefont {
+.profile_date_area {
+  width: 70%;
+  align-self: end;
+}
+
+/* .datefont {
   font-size: 11px; 
   color:dimgray; 
   margin-bottom: 8px;
-} */
+}  */

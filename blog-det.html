@@ -57,12 +57,98 @@
                     </div>
                     <h1 class="pageTitle">블로그 활동단</h1>
                     <div class="boardView">
-                        <div class="title" style="font-weight:bold; font-size:16px;">[영국어학연수]
+                        <div class="title title_area">
+                          <div class="titlefont">title</div>
+                            <div class="writerview">
+                                <div class="profile_area">
+                                    <img src="">
+                                    <div class="profile_info">
+                                        <div class="writer_id"></div>
+                                        <div class="detail_area" style="color:gray;"></div>
+                                    </div>
+                                </div>
+                                <div class="articleTool">
+                                    <a href="#" role="button" class="button_comment">댓글</a>
+                                    <a href="#" role="button" class="button_url">URL 복사<img src="images/copy-content.png" style="width: 15px; height: 15px;"></a>
+                                    <div class="toast_url_copy_successful" style="display: none;">URL 이 복사되었습니다. 원하는 곳에 붙여 넣으세요.</div>
+    <!--                                class="toast_url_copy_leave_active URL_copy_leave_to"-->
+                                </div>
+                            </div>
                         </div>
                         <div class="boardContents" style="overflow: hidden;">
                         </div>
+
+
+                        <div class="cm_area">
+                          <div class="cm_header">
+                              <div class="cm_add_area">
+                                  <div class="cm_title">
+                                      <h3 class="cm_count">댓글 N개</h3>
+                                  </div>
+                                  <div class="cm_profile_area">
+                                      <div class="cm_profileimg"><img src=""></div>
+                                      <div class="cm_inputcmt">
+                                          <input type="text" name="comment" maxlength="100" placeholder="공개 댓글 추가...">
+                                          <button>답글</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="cm_contents">
+                              <div class="cm_box">
+                                  <div class="cm_authimg"><img src=""></div>
+                                  <div class="cm_content_area">
+                                      <div class="cm_header">hello<span>10개월전</span></div>
+                                      <div class="cm_content">좋은정보 감사합니다</div>
+                                      <div class="cm_replybt"><img src=""><span>1</span><img src=""><span>1</span><span role="button">답글</span></div>
+                                      <div class="cm_reply_dialog">
+                                          <div class="cm_replybox">
+                                              <div class="cm_reply_img"><img src=""></div>
+                                              <div class="cm_reply">
+                                                  <input type="text" name="reply" maxlength="100" placeholder="공개 답글 추가..." class="cm_replay_content">
+                                                  <div class="applybt">
+                                                      <button>취소</button>
+                                                      <button>답글</button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="cm_reply_area">
+                                          <div class="cm_replyviewbt">
+                                              <div class="cm_hide"><img src=""><span>다른사용자의 답글 N 개 보기</span></div>
+                                              <div class="cm_view"><img src=""><span>댓글 N개 숨기기</span></div>
+                                          </div>
+                                          <div class="cm_replyviewbox">
+                                              <div class="cm_replyeach">
+                                                  <div class="cm_authimg"><img src=""></div>
+                                                  <div class="cm_content_area">
+                                                      <div class="cm_header">hello<span>10개월전</span></div>
+                                                      <div class="cm_content">좋은정보 감사합니다</div>
+                                                      <div class="cm_replybt"><img src=""><img src=""><span>답글</span></div>
+                                                      <div class="cm_reply_dialog">
+                                                          <div class="cm_replybox">
+                                                              <div class="cm_reply_img"><img src=""></div>
+                                                              <div class="cm_reply">
+                                                                  <input type="text" name="reply" maxlength="100" placeholder="공개 답글 추가..." class="cm_replay_content">
+                                                                  <div class="applybt">
+                                                                      <button>취소</button>
+                                                                      <button>답글</button>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+  
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+  
+
                         <div class="boardBtns">
-                         <button type="button" class="btn lg" onclick="location.href='blog.html?npage=1&searchText=';">목록으로</button>
                         </div>
                     </div>
                 </div>

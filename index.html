@@ -32,7 +32,9 @@
 
   </head>
   <body>
-    <div style="position:fixed; width:160px; right:40px; top: 50px; z-index: 1;"> 
+    <a href class="open_btn"><img src="images/go-back-left-arrow.png"></a>
+    <div class="cookielocation" style="position:fixed; width:160px; right:40px; top: 50px; z-index: 1;"> 
+    <a href class="close"><img src="images/right-arrow-forward.png"></a>
       <div id="sidebar" style="padding: 0px 5px; border: 1px solid; background-color: white; border-color:darkgray; box-shadow: 5px 5px 10px grey; ">	
         <ul style="width:100%;padding:0;">
           <li style="font-weight: bold; text-align: center; font-size: 15px; margin-bottom: 6px; color: firebrick;">최근 방문한 후기
@@ -40,7 +42,6 @@
             </li>
             <div style="text-align: center;">
               <div class="scrollbarauto">
-
             </div>
           </div>
         </ul>
@@ -94,7 +95,6 @@
             <span class="visually-hidden">Next</span>
           </a>
         </div>
-    
       </div>
 
       <div class="bg02">
@@ -161,7 +161,7 @@
           </div>
         </div>
       </div>
-
+      <input tyle="image" src="images/main.jpg" role="button">
       <!-- <div class="row mb-2">
         <div class="col-md-6">
           <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -209,6 +209,9 @@
        this.innerHTML = res;
      }
    });
+
+  //  var queryString = window.location.pathname;
+  //  console.log(queryString);
 
 
    $.getJSON("review.php", { 'rc' : 6, 'page' : 1}, function(data, status) {
@@ -342,6 +345,8 @@ myCarousel.addEventListener('show.bs.carousel', function () {
 
  }
 
+
+
  function reviewchange (reviewdata) {
 
     var str5 = '';
@@ -370,6 +375,20 @@ myCarousel.addEventListener('show.bs.carousel', function () {
   return str5;
   }
 
+  $(".open_btn").click(function() {
+    $(".cookielocation").css('right','40px');
+    $(".open_btn").css('display','none');
+    $(".close").css('display','block');
+
+ })
+
+
+ $(".close").click(function() {
+    $(".cookielocation").css('right','-200px');
+    $(".open_btn").css('display','block');
+    $(".close").css('display','none');
+
+ })
 
  </script>
  <style>
@@ -613,6 +632,35 @@ fieldset {
     font-family: 'Noto Sans KR', sans-serif;
     font-weight: 300;
     font-size: 14px;
+}
+.cookielocation .close {
+    position: absolute;
+    width: 15px;
+    height: 25px;
+    top: 40px;
+    border: 1px solid #ddd;
+    z-index: 1;
+    padding: 10px 10px;
+    left: -36px;
+    display: block;
+}
+
+     
+.open_btn {
+    position: fixed;
+    top: 90px;
+    border: 1px solid #ddd;
+    z-index: 1;
+    padding: 10px 10px !important;
+    right: -1px;
+    display: none;
+}
+
+.close img,
+.open_btn img {
+    object-fit: fill;
+    width: 15px;
+    height: 25px;
 }
 
  </style>

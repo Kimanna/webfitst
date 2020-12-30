@@ -1,20 +1,22 @@
 
 
-// 페이지가 로드되면 파라미터로 전달받은 게시물 넘버로 데이터가져옴
-window.onload = function() {
-
   var queryString = window.location.search;
   var urlParams = new URLSearchParams(queryString);
   console.log(queryString); // url 파일경로 포함 추출
   console.log(urlParams.get('blog_no')); // url파라미터중 게시물넘버(blog_no) 추출
 
-  var active = document.querySelectorAll('.boardView .title');
+
+// 페이지가 로드되면 파라미터로 전달받은 게시물 넘버로 데이터가져옴
+window.onload = function() {
+
+
+  var active = document.querySelector('.boardView .title');
   var active2 = document.querySelectorAll('.boardView .boardContents');
   // var active3 = document.querySelectorAll('.boardBtns');
   
   
       $.get("blog-det.php",
-      { blog_no : urlParams.get('blog_no') }, 
+      { blog_no : urlParams.get('blog_no'), page : urlParams.get('page') }, 
         function(data, status){
 
           console.log(data);
@@ -23,32 +25,42 @@ window.onload = function() {
           // 게시물 응답시 게시물이 있으면 res == ok / 내가쓴 게시물인경우 mine == ok 데이터는 data 배열로 응답
           if (jQuery.parseJSON(data).res == 'ok') {
 
+            var golist = '<button type="button" class="btn lg" onclick="location.href="blog.html?blog_no='+urlParams.get('blog_no')+'&page='+urlParams.get('page')+'&searchText=";">목록으로</button>';
+
             // 내가쓴 게시물 인 경우 수정, 삭제버튼 추가 
             if (jQuery.parseJSON(data).mine == 'ok') {
 
               // var thisfilefullname = document.URL.substring(document.URL.lastIndexOf("/") + 1, document.URL.length);
 
-              var updatebtn = '<button type="button" class="btn lg" onclick="javascript:goUpdate('+urlParams.get('blog_no')+');">수 정</button>';
-              var deletebtn = '<button type="button" class="btn lg" onclick="javascript:goDelete('+urlParams.get('blog_no')+');">삭 제</button>';
+              var updatebtn = '<button type="button" class="btn lg" onclick="javascript:goUpdate('+urlParams.get('blog_no')+'&page='+urlParams.get('page')+');">수 정</button>';
+              var deletebtn = '<button type="button" class="btn lg" onclick="javascript:goDelete('+urlParams.get('blog_no')+'&page='+urlParams.get('page')+');">삭 제</button>';
+
              
-             
-              $(".boardBtns").html(updatebtn+deletebtn); 
-      
+              $(".boardBtns").html(updatebtn+deletebtn+golist); 
     
+
 
 
             // 내가쓴 게시물이 아닌경우 ----------------------추후 댓글 기능시 구현
             } else {
 
+              $(".boardBtns").html(golist); 
+
             }
 
             // db 에 저장된 상세게시물의 data 가져옴 
             var jsondata = jQuery.parseJSON(data).data;
-            // var blogdata = jQuery.parseJSON(jsondata);
             console.log(jsondata);
 
+            $(".titlefont").text(jsondata.title);
+            $(".profile_area img").attr("src",jsondata.profileimg);
+            $(".writer_id").html(jsondata.id+'<a href="blog.html"><span>1:1 채팅</span></a>');
+            $(".detail_area").html(jsondata.created+'<span class="view" style="color:#343a40; margin-left:15px;">조회수 '+jsondata.view+'</span>');
+            $(".button_comment").html("댓글 "+jsondata.comment+'<img src="images/underline-button.png" style="width: 15px; height: 15px;">');
+
+
             var str = '<div class="blogdetail" style="font-weight:normal; margin-top:10px; font-size:13px;">&nbsp;&nbsp;'+jsondata.aid+'<span style="color:gray">&nbsp;&nbsp;&nbsp;'+jsondata.created+'</span></div>';
-            active[0].innerHTML = jsondata.title+str;
+            // active.innerHTML = jsondata.title+str;
             active2[0].innerHTML = jsondata.content+'<p><br></p>';
            
 
@@ -181,13 +193,18 @@ function goDelete(deleteno) {
 
 }
 
+$('.button_url').on({'click' : function(){
+
+  window.ClipboardData.setData("Text",queryString);
+}})
+
+
 function getUrlParams() {
   var params = {};
   window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
   return params;
 }
 var Param = getUrlParams();
-
 
 console.log(getUrlParams() == null);  
 
