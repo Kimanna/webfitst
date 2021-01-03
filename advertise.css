@@ -1036,51 +1036,154 @@ a:hover {
   overflow: hidden
 }
 .cm_header {
-  background-color:aliceblue;
+  /* background-color:rgb(240, 245, 248); */
   padding: 10px 15px;
 }
 .cm_add_area {
   
 }
 .cm_title h3{
-  font-size: 16px;
+  font-size: 18px;
   padding: 5px 5px;
 }
-.cm_profile_area {
-  margin: 5px 5px;
+
+.cm_profile_area,
+.cm_box {
+  margin: 10px 5px;
   display: flex;
 }
-.cm_profileimg {
-  width: 10%
+
+.cm_profileimg,
+.cm_reply_img {
+  width: 8%
 }
-.cm_profileimg img {
+
+.cm_area img {
   width: 50px;
   height: 50px;
   object-fit: fill;
 }
-.cm_inputcmt {
+
+.cm_area .cm_replyeach .cm_authimg img,
+.cm_area .cm_replybox img {
+  width: 40px;
+  height: 40px;
+  object-fit: fill;
 }
-.cm_inputcmt input {
-  border-right: 0px;
-  border-left: 0px;
-  border-top: 0px;
-  border-bottom: 1px;
-  border-bottom-color: dimgrey;
+
+.cm_replybt {
+  margin-top: 5px;
+}
+
+
+.cm_replyviewbt img,
+.cm_replybt img {
+  width: 18px;
+  height: 18px;
+  color: #888;
+  object-fit: fill;
+  margin-right: 8px;
+}
+
+.cm_replybt span {
+  margin-right: 10px;
+}
+
+.cm_inputcmt,
+.cm_content_area {
+  width: 92%;
   font-size: 14px;
 }
+
+.cm_reply .cm_btn,
+.cm_inputcmt .cm_btn{
+  text-align: end;
+  margin-top: 6px;
+
+}
+
+.cm_reply input,
+.cm_inputcmt input {
+  border: 0px;
+  width: 100%;
+  border-bottom: dimgrey 1px solid;
+  font-size: 14px;
+  display: block;
+}
+
 input:focus{
 /*            box-shadow: none;*/
-              border-right: 0px;
-  border-left: 0px;
-  border-top: 0px;
-  border-bottom: 1.5px;
-  border-bottom-color: black;
+  border-bottom: dimgrey 1.5px solid;
+}
+
+.cm_contents {
+  /* background-color: aliceblue; */
+  padding: 10px 15px;
+}
+
+.cm_content_ares,
+.cm_reply {
+  width: 92%;
+  font-size: 14px;
+  font-family: sans-serif;
+}
+
+.cm_content {
+  margin-top: 3px;
+}
+
+.cm_authimg {
+  width: 8%;
 }
 
 
+.cm_reply_img {
+  width: 8%;
+}
 
+.hidden {
+  display: none;
+}
 
+.cm_hide, .cm_view {
 
+  margin: 20px 0px;
+  cursor: pointer;
+  color: dodgerblue;
+
+}
+
+.toast_url_copy_successful {
+
+  visibility: visible;
+  border-radius: 20px;
+  z-index: 1;
+  transition: opacity .5s, visibility .5s, transform .5s;
+  background-color: #666666;
+  color: #FFFFFF;   
+  font-size: 12px;
+  padding: 5px 15px;
+  margin-top: 8px;
+}
+
+.toast_url_copy_successful.hiddent {
+
+  visibility: hidden;
+
+}
+
+.toast_reply {
+
+  position: absolute;
+  border-radius: 20px;
+  z-index: 1;
+  transition: opacity .5s, visibility .5s, transform .5s;
+  background-color: #666666;
+  color: #FFFFFF;   
+  font-size: 12px;
+  padding: 5px 15px;
+  margin-top: 8px;
+}
 
 
 

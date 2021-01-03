@@ -9,6 +9,8 @@
 // 페이지가 로드되면 파라미터로 전달받은 게시물 넘버로 데이터가져옴
 window.onload = function() {
 
+  // console.log($('input'));
+
 
   var active = document.querySelector('.boardView .title');
   var active2 = document.querySelectorAll('.boardView .boardContents');
@@ -56,12 +58,13 @@ window.onload = function() {
             $(".profile_area img").attr("src",jsondata.profileimg);
             $(".writer_id").html(jsondata.id+'<a href="blog.html"><span>1:1 채팅</span></a>');
             $(".detail_area").html(jsondata.created+'<span class="view" style="color:#343a40; margin-left:15px;">조회수 '+jsondata.view+'</span>');
-            $(".button_comment").html("댓글 "+jsondata.comment+'<img src="images/underline-button.png" style="width: 15px; height: 15px;">');
+            // $(".button_comment").html("댓글 "+jsondata.comment+'<img src="images/underline-button.png" style="width: 15px; height: 15px;">');
 
 
             var str = '<div class="blogdetail" style="font-weight:normal; margin-top:10px; font-size:13px;">&nbsp;&nbsp;'+jsondata.aid+'<span style="color:gray">&nbsp;&nbsp;&nbsp;'+jsondata.created+'</span></div>';
             // active.innerHTML = jsondata.title+str;
             active2[0].innerHTML = jsondata.content+'<p><br></p>';
+
            
 
             // cookie 이미 본 게시물 저장하는 코드
@@ -137,6 +140,7 @@ window.onload = function() {
     })
 }
 
+
 function issetlist ( jsonps, jsondata ) {
 
   var issetdata = false;
@@ -193,10 +197,10 @@ function goDelete(deleteno) {
 
 }
 
-$('.button_url').on({'click' : function(){
 
-  window.ClipboardData.setData("Text",queryString);
-}})
+
+
+
 
 
 function getUrlParams() {

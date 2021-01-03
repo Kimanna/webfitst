@@ -54,7 +54,7 @@ if ($rc < 6 ) {
 
 
 
-// $res = mysqli_query($conn, "SELECT * FROM review WHERE deleted=0 ORDER BY review_no DESC LIMIT $page1,5");
+// $res = mysqli_query($conn, "SELECT * FROM review WHERE (deleted=0 ORDER BY review_no D)ESC LIMIT $page1,5");
 
 
 // while ( $row = mysqli_fetch_array ($res) ) {
@@ -67,8 +67,6 @@ if ($rc < 6 ) {
 
 
 //  왼쪽 tap nav 클릭했을 각 페이지마다 review, blog, advertise 테이블에서 데이터가져옴
-//  pagination적용시   LIMIT 9 값으로 데이터 가져올 예정 --------------------------------
-
 
 
  if ( $rc == 1) {
@@ -76,68 +74,69 @@ if ($rc < 6 ) {
    $res = mysqli_query($conn, "SELECT * FROM review WHERE deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 2) {
-  $sql = "SELECT * FROM review WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $sql = "SELECT * FROM review WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY review_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 3 ) {
-  $sql = "SELECT * FROM review WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $sql = "SELECT * FROM review WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY review_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 4 ) {
-  $sql = "SELECT * FROM review WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $sql = "SELECT * FROM review WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY review_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 5 ) {
-  $sql = "SELECT * FROM review WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $sql = "SELECT * FROM review WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY review_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 6 ) {
   $sql = "SELECT * FROM blog WHERE deleted=0 ORDER BY blog_no DESC";
   $res = mysqli_query($conn, "SELECT * FROM blog WHERE deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 7 ) {
-  $sql = "SELECT * FROM blog WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM blog WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY blog_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 8 ) {
-  $sql = "SELECT * FROM blog WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM blog WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY blog_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 9 ) {
-  $sql = "SELECT * FROM blog WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM blog WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY blog_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 10 ) {
-  $sql = "SELECT * FROM blog WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM blog WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY blog_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 11 ) {
   $sql = "SELECT * FROM advertise WHERE deleted=0 ORDER BY advertise_no DESC";
   $res = mysqli_query($conn, "SELECT * FROM advertise WHERE deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 12 ) {
-  $sql = "SELECT * FROM advertise WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY advertise_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE country='USA' OR country='CAN' AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM advertise WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY advertise_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 13 ) {
-  $sql = "SELECT * FROM advertise WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY advertise_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE country='GBR' OR country='IRL' AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM advertise WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY advertise_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 14 ) {
-  $sql = "SELECT * FROM advertise WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY advertise_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE country='AUS' OR country='NZL' AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM advertise WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY advertise_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 15 ) {
-  $sql = "SELECT * FROM advertise WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY advertise_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE country='PHL' OR country='MLT' AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
+  $sql = "SELECT * FROM advertise WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY advertise_no DESC";
+  $res = mysqli_query($conn, "SELECT * FROM advertise WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY advertise_no DESC LIMIT $page1,5");
 
 } 
 
 
 $result = mysqli_query($conn, $sql);
 
+$totalData = mysqli_num_rows($result);
 
-if ( mysqli_num_rows($result) > 0 ) {
+if ( $totalData > 0 ) {
 
    $dataarry = [];
   while ($row = mysqli_fetch_array($res))
@@ -146,7 +145,7 @@ if ( mysqli_num_rows($result) > 0 ) {
       array_push ($dataarry, $row);
   }
 
-  echo json_encode(array('res'=>"ok", 'totalData'=> mysqli_num_rows($result), 'data'=>$dataarry));
+  echo json_encode(array('res'=>"ok", 'totalData'=> $totalData, 'data'=>$dataarry));
 
 }
 
