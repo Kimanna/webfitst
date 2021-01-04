@@ -32,9 +32,9 @@
 
   </head>
   <body>
-    <a href class="open_btn"><img src="images/go-back-left-arrow.png"></a>
+    <a class="open_btn"><img src="images/go-back-left-arrow.png"></a>
     <div class="cookielocation" style="position:fixed; width:160px; right:40px; top: 50px; z-index: 1;"> 
-    <a href class="close"><img src="images/right-arrow-forward.png"></a>
+    <a class="close"><img src="images/right-arrow-forward.png"></a>
       <div id="sidebar" style="padding: 0px 5px; border: 1px solid; background-color: white; border-color:darkgray; box-shadow: 5px 5px 10px grey; ">	
         <ul style="width:100%;padding:0;">
           <li style="font-weight: bold; text-align: center; font-size: 15px; margin-bottom: 6px; color: firebrick;">최근 방문한 후기
@@ -116,52 +116,50 @@
             <div class="reviewlist mt20 mr20">
               <div class="title_box">
                 <span class="red_bar"></span>
-                <a>어학연수 Q&A</a>
+                <a>댓글 많은 글 list</a>
                 <a href="" class="r_more">[더보기+]</a>
-                <a href="" class="r_more" style="padding-right: 3px;">[문의하기]</a>
               </div>
               <ul class="list03 typ02">
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">COVID-19를 대하는 유학생의 자세.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">여왕을 사랑한 도시, 퀸즈타운.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">세부 필수 여행지 가와산, 오슬롭 투어.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">호주에서 다른나라 음식들.</a>
                 </li>
               </ul>
             </div>
             <div class="qna mt20 mr20">
               <div class="title_box">
                 <span class="red_bar"></span>
-                <a>어학연수 Q&A</a>
+                <a>인기 채팅방 list</a>
                 <a href="" class="r_more">[더보기+]</a>
-                <a href="" class="r_more" style="padding-right: 3px;">[문의하기]</a>
+                <a href="" class="r_more" style="padding-right: 3px;">[방만들기]</a>
               </div>
               <ul class="list03 typ02">
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">호주 어학연수 계획중인 사람 모여라.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">해외 비자 준비 같이해요.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">같이 영어공부하면서 어학연수 준비해요.</a>
                 </li>
                 <li>
-                  <a href="">어학연수 준비중인데 코로나 때문에 영향없을지 문의 드립니다.</a>
+                  <a href="">어학연수 모임.</a>
                 </li>
               </ul>
             </div>
 
           </div>
         </div>
-      </div>
-      <input tyle="image" src="images/main.jpg" role="button">
+      </div><br>
       <!-- <div class="row mb-2">
         <div class="col-md-6">
           <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
@@ -282,17 +280,6 @@ $(function(){
 //   // do something…
 // })
 
-var myCarousel = document.getElementById('myCarousel')
-
-myCarousel.addEventListener('show.bs.carousel', function () {
-  // if (!data) {
-
-   alert ("data");
-
-
-    // return event.preventDefault() // stops modal from being shown
-  // }
-})
 
   // $('.clearfix').on('click', function (e){ let slideClicked = $(e.currentTarget).attr("data-slick-index"); console.log(slideClicked); });
 
@@ -393,275 +380,6 @@ myCarousel.addEventListener('show.bs.carousel', function () {
  </script>
  <style>
 
-   /* 메인창 */
-
-.bg02 {
-  width: 100%;
-}
-
-.inner {
-  width: 1050px;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.main_tit05 {
-  width: 1050px;
-  border-bottom: 1px solid #cbcbcb;
-  margin-left: 0;
-  display: inline-block;
-}
-
-.red_bar {
-  width: 3px;
-  height: 16px;
-  background: #D9422C;
-  display: inline-block;
-}
-
-.main_tit05>a {
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  margin-left: 5px;
-  line-height: 40px;
-  display: inline-block;
-}
-
-
-a.r_more {
-  float: right;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-  color: #D9422C;
-}
-
-.news ul {
-  padding: 0 40px;
-  margin-top: 20px;
-  margin-bottom: 15px;
-}
-
-.news .slick-prev {
-  left: 0;
-}
-
-.slick-slider .slick-track,
-.slick-slider .slick-list {
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-
-.slick-list {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-
-.slick-track {
-  position: relative;
-  top: 0;
-  left: 0;
-  display: block;
-}
-
-.slick-initialized .slick-slide {
-  display: block;
-}
-
-.news li {
-  position: relative;
-  /* border: 1px solid #E3E3E3; */
-  margin: 0 12px;
-  font-family: '굴림';
-}
-
-
-li {
-  display: list-item;
-  text-align: -webkit-match-parent;
-}
-
-.news li a {
-  position: relative;
-  display: block;
-}
-
-
-.news .img img {
-  width: 100%;
-  height: 200px;
-}
-
-.slick-slide img {
-  display: block;
-  outline: 0;
-}
-
-img {
-  /* max-width: 100%; */
-  vertical-align: top;
-}
-
-img,
-fieldset {
-  border: 0px;
-}
-
-.news .red {
-  margin-top: 3px;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 13px;
-}
-
-.red {
-  color: #d9422c !important;
-}
-
-.news .tit_01 {
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.news .tit_01 {
-  font-weight: 500;
-  color: #363636;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 18px;
-  margin: 0 10px 5px 0;
-}
-
-.news .txt {
-  margin: 0 10px 15px 0;
-  line-height: 1.6;
-  color: #636363;
-  font-family: 'Noto Sans KR', sans-serif;
-  font-size: 14px;
-  font-weight: 300;
-  padding-top: 0;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-}
-
-.news .slick-next {
-  right: 0;
-  background-position: 0 -31px;
-}
-
-.news .slick-prev,
-.news .slick-next {
-  padding: 0;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  margin-top: -25px;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  text-indent: -9999px;
-  background: transparent;
-  z-index: 99;
-  width: 30px;
-  height: 30px;
-  /* background-size: 30px 30px; */
-  background: url(images/keyboard-left-arrow-button.png) no-repeat 0 center center;
-}
-
-.slick-arrow{
-  z-index: 2; /* prev버튼은 위치 이동시 이미지 뒤로 숨겨짐 */
-  position:absolute;  /* 원하는 위치에 지정  */
-  top: 50%; 
-  width: 50px; 
-  height: 50px; 
-  transform: translateY(-25px);
-}
-.slick-prev.slick-arrow{ /* prev 이전 */
-  left: 0;
-}
-.slick-next.slick-arrow{ /* next 다음 */
-  right: 0;
-}
-
-.n_wrap {
-  display: flex;
-}
-.reviewlist, .qna {
-  width: 50%;
-  border: 1px solid #A8A8A8;
-  padding: 20px 25px;
-}
-.title_box {
-  border-bottom: 1px solid #cbcbcb;
-  font-size: 18px;
-  font-style: bold;
-}
-
-.mr20 {
-    margin-right: 20px !important;
-}
-.mt20 {
-    margin-top: 20px !important;
-}
-
-.list03 li {
-    line-height: 2.2;
-    padding-left: 10px;
-    /* width: 10px;
-    height: 10px; */
-    /* background-size: 10px 10px; */
-    /* background: url(/images/verification-mark.png) no-repeat 0 center; */
-    position: relative;
-}
-
-.list03 li a {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 300;
-    font-size: 14px;
-}
-.cookielocation .close {
-    position: absolute;
-    width: 15px;
-    height: 25px;
-    top: 40px;
-    border: 1px solid #ddd;
-    z-index: 1;
-    padding: 10px 10px;
-    left: -36px;
-    display: block;
-}
-
-     
-.open_btn {
-    position: fixed;
-    top: 90px;
-    border: 1px solid #ddd;
-    z-index: 1;
-    padding: 10px 10px !important;
-    right: -1px;
-    display: none;
-}
-
-.close img,
-.open_btn img {
-    object-fit: fill;
-    width: 15px;
-    height: 25px;
-}
 
  </style>
 

@@ -63,7 +63,7 @@
 
 
 
-                          <div class="blogBox">
+                          <!-- <div class="blogBox">
                             <div class="blogThumb" style="overflow: hidden;">
                                   <div class="thumbImg imgLiquidFill imgLiquid">
                                     <a href="javascript:goDetail(5580);">
@@ -85,7 +85,7 @@
                                     </a>
                               </div>
                           </div>
-                            
+                             -->
     
                         </div>
                     <form name="searchForm" method="get">
@@ -125,6 +125,7 @@
           
         }
 
+        
 
         function goDetail (inputno, gopageno) {
   
@@ -225,13 +226,13 @@
         var html = "";
         
         if(prev > 0)
-            html += "<li><a href=\"javascript:goView("+ inputno + "," + prev + ");\"><img src=\"images/keyboard-left-arrow-button.png\" style=\"width: 15px; height: 15px;\"></a></li>";
+            html += "<li><a href=\"javascript:goView("+ inputno + "," + prev + ");\"><img src=\"images/keyboard-left-arrow-button.png\" style=\"width: 15px; height: 15px; vertical-align: middle;\"></a></li>";
         
         for(var i=first; i <= last; i++){
 
           if ( currentPage == i) {
 
-            html += "<li><a href=\"#\" class=\"current\">" + i + "</a></li>";
+            html += "<li><a class=\"current\">" + i + "</a></li>";
 
           } else if ( i > 0) {
             
@@ -242,7 +243,7 @@
         }
         
         if(last < totalPage)
-            html += "<li><a href=\"javascript:goView(" + inputno + "," + next +");\"><img src=\"images/keyboard-right-arrow-button.png\" style=\"width: 12px; height: 12px;\"></a></li>";
+            html += "<li><a href=\"javascript:goView(" + inputno + "," + next +");\"><img src=\"images/keyboard-right-arrow-button.png\" style=\"width: 12px; height: 12px; vertical-align: middle;\"></a></li>";
             
         $("#paging").html(html);    // 페이지 목록 생성
         // $("#paging a").css("color", "black");

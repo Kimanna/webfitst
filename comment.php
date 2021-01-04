@@ -10,30 +10,20 @@ $conn = mysqli_connect("127.0.0.1","root","tkfkdgo","userinfo");
 //  echo "success";
 }
 
-// session_start();
-
-// if (isset($_SESSION['userId'])) {
-  
-//     $userId = $_SESSION['userId'];
-// }
-
 
 if (isset($_POST["mode"])) {
   
+  $userId = $_POST['userId'];
   $page = $_POST["page"];
-
-  $userId = "hello1";
 
   $commenttext = $_POST["comment"];
   $post_no = $_POST["post_no"];
-  $replykey = $_POST["replykey"];
   $reply_cno = $_POST["reply_cno"];
 
 
 
-  $sql = "INSERT INTO comment (created, replykey, reply_cno, aid, commenttext, post_no, deleted) VALUES (
+  $sql = "INSERT INTO comment (created, reply_cno, aid, commenttext, post_no, deleted) VALUES (
     NOW(),
-    '$replykey',
     '$reply_cno',
     '$userId', 
     '$commenttext',
@@ -43,7 +33,7 @@ if (isset($_POST["mode"])) {
 
   if ($conn->query($sql) === true ){
 
-      $result = mysqli_query($conn, "SELECT * FROM comment LEFT JOIN topic ON comment.aid=topic.id WHERE post_no=$post_no AND deleted=0 ORDER BY comment_no DESC");
+      $result = mysqli_query($conn, "SELECT c.comment_no, c.created, c.reply_cno, c.commenttext, c.post_no, c.deleted, t.id, t.profileimg FROM comment c LEFT JOIN topic t ON c.aid=t.id WHERE post_no=$post_no AND deleted=0 ORDER BY comment_no DESC ");
 
 
   } else {
@@ -61,15 +51,13 @@ if (isset($_POST["mode"])) {
 
   } else if ($mode == "read") {
 
-    $post_no = $_POST["post_no"];
+    $post_no = $_GET["post_no"];
 
-    $result = mysqli_query($conn, "SELECT * FROM comment LEFT JOIN topic ON comment.aid=topic.id WHERE post_no=$post_no AND deleted=0 ORDER BY comment_no DESC");
-
+    $result = mysqli_query($conn, "SELECT c.comment_no, c.created, c.reply_cno, c.commenttext, c.post_no, c.deleted, t.id, t.profileimg FROM comment c LEFT JOIN topic t ON c.aid=t.id WHERE post_no=$post_no AND deleted=0 ORDER BY comment_no DESC ");
   }
 }
 
 
-// $result = mysqli_query($conn, $sql);
 
 $totalData = mysqli_num_rows($result);
 

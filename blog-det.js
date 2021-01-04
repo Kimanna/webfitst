@@ -67,78 +67,253 @@ window.onload = function() {
 
            
 
-            // cookie 이미 본 게시물 저장하는 코드
-            var date = new Date();
-            date.setDate(date.getDate()+7);
+            // // cookie 이미 본 게시물 저장하는 코드
+            // var date = new Date();
+            // date.setDate(date.getDate()+7);
          
-            // document.cookie = 'reviewlist' + '=' + makejson +'; SameSite=Strict; Secure';
-            // console.log(document.cookie);
-
             
-            // 쿠키 읽어오는 함수
-              var txtName = "";
+            // // 쿠키 읽어오는 함수
+            //   var txtName = "";
 
               
-                // 여러개의 쿠키 읽어오기
-                var cookies = document.cookie.split("; ");
-                // console.log(cookies);
+            //     // 여러개의 쿠키 읽어오기
+            //     var cookies = document.cookie.split("; ");
+            //     // console.log(cookies);
                 
-                // 쿠키 개수만큼 반복
-                for (var i=0; i<cookies.length; i++) {
+            //     // 쿠키 개수만큼 반복
+            //     for (var i=0; i<cookies.length; i++) {
     
     
-                    if (cookies[i].split("=")[0] == "reviewlist11")  {
-                        txtName = cookies[i].split("=")[1];            
-                    }
-                }
+            //         if (cookies[i].split("=")[0] == "reviewlist11")  {
+            //             txtName = cookies[i].split("=")[1];            
+            //         }
+            //     }
 
-                // 현재 열람했던 게시물이 없는경우 저장함
-                if (txtName == "" || txtName == null) {
+            //     // 현재 열람했던 게시물이 없는경우 저장함
+            //     if (txtName == "" || txtName == null) {
 
-                  var listarr = [];
-                  var obj = { 'type' : 'blog', 'no' : jsondata.blog_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.title, 'created' : jsondata.created };
-                  listarr.push(obj);
-                  var makejsonstring = JSON.stringify(listarr);
-                  console.log(makejsonstring);
+            //       var listarr = [];
+            //       var obj = { 'type' : 'blog', 'no' : jsondata.blog_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.title, 'created' : jsondata.created };
+            //       listarr.push(obj);
+            //       var makejsonstring = JSON.stringify(listarr);
+            //       console.log(makejsonstring);
 
-                  document.cookie = 'reviewlist11' + '=' + makejsonstring +'; SameSite=Strict; Secure';
-
-
-                } else {
-
-                    // 값이 여러개인 경우 배열로 저장돼있음
-                    var jsonps = JSON.parse(txtName);
-                    console.log(jsonps);
+            //       document.cookie = 'reviewlist11' + '=' + makejsonstring +'; SameSite=Strict; Secure';
 
 
-                      // 이미 쿠키에 저장된 상태인지 확인하는 for문으로 연결되는 메소드 이미 저장됨 = true/ 저장안됨 = false
-                      if (issetlist(jsonps, jsondata) == false) {
-                        console.log(jsonps[0]);
-                        console.log(jsonps[0].blog_no);
+            //     } else {
 
-                        if (jsonps.length >= 5) {
-                          jsonps.shift();
-                        }
+            //         // 값이 여러개인 경우 배열로 저장돼있음
+            //         var jsonps = JSON.parse(txtName);
+            //         console.log(jsonps);
 
-                        var obj = { 'type' : 'blog', 'no' : jsondata.blog_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.title, 'created' : jsondata.created };
+
+            //           // 이미 쿠키에 저장된 상태인지 확인하는 for문으로 연결되는 메소드 이미 저장됨 = true/ 저장안됨 = false
+            //           if (issetlist(jsonps, jsondata) == false) {
+            //             console.log(jsonps[0]);
+            //             console.log(jsonps[0].blog_no);
+
+            //             if (jsonps.length >= 5) {
+            //               jsonps.shift();
+            //             }
+
+            //             var obj = { 'type' : 'blog', 'no' : jsondata.blog_no, 'thumbnail': jsondata.thumbnail, 'title' : jsondata.title, 'created' : jsondata.created };
  
-                        jsonps.push(obj);
-                        console.log(jsonps);
+            //             jsonps.push(obj);
+            //             console.log(jsonps);
                         
-                        var stringjson = JSON.stringify(jsonps);
+            //             var stringjson = JSON.stringify(jsonps);
 
-                        document.cookie = 'reviewlist11' + '=' + stringjson +'; SameSite=Strict; Secure';
+            //             document.cookie = 'reviewlist11' + '=' + stringjson +'; SameSite=Strict; Secure';
 
-                        }
+            //             }
 
-                }
+            //     }
 
           } else {
 
           }
- 
     })
+
+    session_check();
+
+    reply_comment();
+
 }
+
+function session_check() {
+
+  $.getJSON("sessionck.php",
+   function (session, status){
+     console.log(session);
+
+     if (session.res == "ok") {
+
+      $('.inputimg').attr("src",session.data.profileimg);
+      $('.sandcomment').before('<input class=\"sanduserid\" type="hidden" name=\"'+session.data.id+'\">');
+
+     } else {
+
+      $('.sandcomment').before('<input class=\"sanduserid\" type="hidden" name=\"\">');
+
+     }
+   })
+
+}
+
+function reply_comment() {
+
+
+  $.getJSON("comment.php",
+  { mode :'read', post_no : urlParams.get('blog_no'), page : urlParams.get('page') },
+    function(data1, status){
+
+      console.log(data1);
+
+      if (data1.res == 'ok') {
+
+        $('.cm_contents').removeClass('hidden');
+        $('.cm_count').html('총 댓글 '+data1.totalData+'개');
+        commentdata(data1.data);
+
+      } else {
+
+        $('.cm_count').html('현재 댓글이 없습니다.');
+        $('.cm_contents').addClass('hidden');
+
+      }
+  });
+
+}
+
+function commentdata(cmdata) {
+
+  var cm_srting = '';
+  for (var c = 0 ; c < cmdata.length ; c++ ) {
+   
+    if (cmdata[c].reply_cno == 0) {
+
+      var interval = new Date().getTime()-new Date(cmdata[c].created).getTime()
+      var currentDate = Math.floor(interval /(1000*60*60*24));
+      
+        cm_srting +=
+        '<div class=\"cm_box\">'+
+            '<div class=\"cm_authimg\"><img src=\"'+cmdata[c].profileimg+'\"></div>'+
+            '<div class=\"cm_content_area\">'+
+                '<div class=\"cm_id\">'+cmdata[c].id+'<span style=\"color:darkgray\">   '+currentDate+' 일 전</span></div>'+
+                '<div class=\"cm_content\">'+cmdata[c].commenttext+'</div>'+
+                '<div class=\"cm_replybt\"><img src=\"images/thumb-up-button.png\"><span>1</span><img src=\"images/thumb-down-button.png\"><span>1</span><span class=\"reply_bt\" role=\"button\">답글</span></div>'+
+                '<div class=\"cm_reply_dialog hidden\">'+
+                    '<div class=\"cm_box cm_replybox\">'+
+                        '<div class=\"cm_reply_img\"><img src=\"images/thumb101.jpeg\"></div>'+
+                        '<div class=\"cm_reply\">'+
+                            '<input class=\"inputuserid\" type=\"hidden\" name=\"\">'+
+                            '<input class=\"reply_cno\" type=\"hidden\" name=\"'+cmdata[c].comment_no+'\">'+
+                            '<input type=\"text\" name=\"reply\" maxlength=\"100\" placeholder=\"공개 답글 추가...\" class=\"cm_replay_content sandcomment\">'+
+                            '<div class=\"cm_btn hidden\">'+
+                              '<a class=\"btn replycancel_re\" style=\"color: white;\">취소</a>'+
+                              '<a class=\"btn replysand\" style=\"color: white;\" name=\"'+cmdata[c].comment_no+'\">답글</a>'+
+                              '<div class=\"toast_reply hidden\">댓글을 작성해 주세요</div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '<div id=\"cm_reply_id_'+cmdata[c].comment_no+'\" class=\"cm_reply_area\" value=\"'+cmdata[c].comment_no+'\">'+
+                  '<div class=\"cm_replyviewbt\" value=\"0\">'+
+                    '<div class=\"cm_view hidden\"><img src=\"images/drop-down-arrow.png\"><span>답글 <span id=\"v\">0</span> 개 보기</span></div>'+
+                    '<div class=\"cm_hide hidden\"><img src=\"images/drop-up-arrow.png\"><span>댓글 <span id=\"h\">0</span> 개 숨기기</span></div>'+
+                  '</div>'+
+                  '<div class=\"cm_replyviewbox hidden\">'+
+                  '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+        '</div>'
+    } 
+  }
+  $('.cm_contents').html(cm_srting);
+
+  var cm_reply = '';
+
+  for (var d = 0 ; d < cmdata.length ; d++ ) {
+   
+    if ( cmdata[d].reply_cno != 0 ) {
+      
+
+      var commentno = $('#cm_reply_id_' + cmdata[d].reply_cno).attr('value');
+
+      if (cmdata[d].reply_cno == commentno) {
+        $( '#cm_reply_id_' + cmdata[d].reply_cno ).find('.cm_view').removeClass('hidden');
+
+      console.log($( '#cm_reply_id_' + cmdata[d].reply_cno ).find('.cm_view'));
+        
+        $( '#cm_reply_id_' + cmdata[d].reply_cno ).find('#v').text(Number($( '#cm_reply_id_' + cmdata[d].reply_cno ).find('#v').text())+1);
+        $( '#cm_reply_id_' + cmdata[d].reply_cno ).find('#h').text(Number($( '#cm_reply_id_' + cmdata[d].reply_cno ).find('#h').text())+1);
+
+        var interval = new Date().getTime()-new Date(cmdata[d].created).getTime()
+        var currentDate = Math.floor(interval /(1000*60*60*24));
+  
+
+        cm_reply =  
+            '<div class=\"cm_box cm_replyeach\">'+
+                '<div class=\"cm_authimg\"><img src=\"'+cmdata[d].profileimg+'\"></div>'+
+                '<div class=\"cm_content_area\">'+
+                    '<div>'+cmdata[d].id+'<span style=\"color:darkgray\">  '+currentDate+' 일 전</span></div>'+
+                    '<div class=\"cm_content\">'+cmdata[d].commenttext+'</div>'+
+                    '<div class=\"cm_replybt\"><img src=\"images/thumb-up-button.png\"><span>1</span><img src=\"images/thumb-down-button.png\"><span>1</span><span class=\"reply_bt\">답글</span></div>'+
+                    '<div class=\"cm_reply_dialog hidden\">'+
+                        '<div class=\"cm_box cm_replybox\">'+
+                            '<div class=\"cm_reply_img\"><img src=\"images/thumb103.jpeg\"></div>'+
+                            '<div class=\"cm_reply\">'+
+                                '<input class=\"inputuserid\" type=\"hidden\" name=\"\">'+
+                                '<input class=\"reply_cno\" type=\"hidden\" name=\"'+cmdata[d].comment_no+'\">'+
+                                '<input type=\"text\" name=\"reply\" maxlength=\"100\" placeholder=\"공개 답글 추가...\" class=\"cm_replay_content sandcomment\">'+
+                                '<div class=\"cm_btn hidden\">'+
+                                  '<a class=\"btn replycancel_re\" style=\"color: white;\">취소</a>'+
+                                  '<a class=\"btn replysand\" style=\"color: white;\" name=\"'+cmdata[d].comment_no+'\">답글</a>'+
+                                '</div>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'
+
+            $( '#cm_reply_id_' + cmdata[d].reply_cno ).find('.cm_replyviewbox').append( cm_reply )
+
+          }
+    }
+
+  }
+
+  $('input').focusin(function(){
+    $(this).next('div').removeClass('hidden');
+  })
+  
+  $('.cm_view').on('click', function(){
+    $(this).parent('div').next('.cm_replyviewbox').removeClass('hidden');
+    $(this).addClass('hidden');
+    $(this).next('.cm_hide').removeClass('hidden');
+  })
+  
+  $('.cm_hide').on('click', function(){
+    $(this).parent('div').next('.cm_replyviewbox').addClass('hidden');
+    $(this).addClass('hidden');
+    $(this).prev('.cm_view').removeClass('hidden');
+  })
+  
+  $('.reply_bt').on('click', function() {
+    $(this).parent('.cm_replybt').next('.cm_reply_dialog').removeClass('hidden');
+  })
+  
+  $('.replycancel').on('click', function() {
+    $(this).parent('.cm_btn').addClass('hidden');
+  })
+
+  $('.replycancel_re').on('click', function() {
+    $(this).closest('.cm_reply_dialog').addClass('hidden');
+  })
+  
+}
+
 
 
 function issetlist ( jsonps, jsondata ) {
@@ -196,10 +371,6 @@ function goDelete(deleteno) {
   }) 
 
 }
-
-
-
-
 
 
 

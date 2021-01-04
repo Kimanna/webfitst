@@ -131,6 +131,7 @@ if ($rc < 6 ) {
 
 } 
 
+// SELECT b.blog_no, COUNT(c.post_no) AS cnt FROM blog b LEFT JOIN comment c ON (b.blog_no=c.post_no) GROUP BY b.blog_no;
 
 $result = mysqli_query($conn, $sql);
 

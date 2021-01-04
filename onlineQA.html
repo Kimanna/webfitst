@@ -11,7 +11,7 @@
 
     <!-- Custom styles for this template -->
     <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
-    <link rel="stylesheet" href="images/fontello.css">
+    <!-- <link rel="stylesheet" href="images/fontello.css"> -->
 
 
     <!-- Custom styles for this template -->
@@ -112,6 +112,25 @@ function goPage(totalData, currentPage){
           goPage(60, 1);
           
 });
+
+var epoch = new Date (Date.UTC(cmdata.created));
+
+
+$.getJSON("comment.php",
+    { mode :'read', post_no : 27, page : 1 },
+      function(data1, status){
+
+        console.log(data1);
+
+        if (data1.res == 'ok') {
+
+
+        } else {
+
+        }
+
+      
+    });
 </script>
 </body>
 </html>

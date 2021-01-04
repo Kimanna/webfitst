@@ -176,12 +176,13 @@ function reviewchange (reviewdata) {
 
 function blogchange (blogdata, gopageno) {
 
+  
   var str = '';
 
       blogdata.forEach(function(item,index){
 
         
-        var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+');"><img src="'+item.thumbnail+'"></a></div></div>';
+        var str2 = '<div class="blogBox"><div class="blogThumb"><div class="thumbImg imgLiquidFill imgLiquid"><a href="javascript:goDetail('+item.blog_no+','+gopageno+');"><img src="'+item.thumbnail+'"></a></div></div>';
         var str3 = '<div class="blogText"><a href="javascript:goDetail('+item.blog_no+','+gopageno+');"><p class="titleText">'+item.title+'</p><p></p>';
         var str4 = '<p class="prvText">'+item.element+'</p><div class="writerview"><div class="profile_date_area">작성자 : '+item.aid+'   <span style="color:gray;">'+item.created+'</span></div>';
         var str5 = '<div class="detail_area"><div>조회수 : '+item.view+'<span>   댓글 : '+item.comment+'</span></div></div></div></a></div></div>';
