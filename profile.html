@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어학원 홍보</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="headernav.css" rel="stylesheet">
+    <link href="advertise.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="headerlocation"></div>
+        <main role="main" class="container">
+
+          
+
+        </main>
+
+        <footer class="blog-footer">
+            <p>Copyright ⓒ 2020 - 2021 어학연수모임. All rights reserved.</p>
+            <p>이메일 : <a href="https://getbootstrap.com/">kan12888@gmail.com</a></p>
+            <p>
+                <a href="#">Back to top</a>
+            </p>
+        </footer>
+    </div>
+  <script>
+     $('.headerlocation').load('header.html', function (res, status, xhr) {
+ 
+        if (status == "success" && xhr.status == 200) {
+          this.innerHTML = res;
+
+        }
+
+    });
+
+
+
+
+  </script>
+
+
+</body>
+</html>
+

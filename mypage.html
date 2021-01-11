@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>어학원 홍보</title>
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="headernav.css" rel="stylesheet">
+    <link href="advertise.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="headerlocation"></div>
+        <main role="main" class="container">
+            <div class="division_area divbox">
+                <div class="profile_area diveachbox">
+                  <div>
+                    <span class="red_bar"></span>
+                    <div class="mypage_title">프로필</div>
+                  </div>
+                    <a class="profileimg"></a>
+                    <div class="mypage_subtitle nickname_title">별명</div>
+                    <div class="nickname"></div>
+                    <a class="btn mypage_btn profile_edit">수  정</a>
+                </div>
+                <div class="myinfo_area diveachbox">
+                    <span class="red_bar"></span>
+                    <div class="mypage_title">회원정보수정</div>
+                    <table>
+                        <tr>
+                        <th class="mypage_subtitle">이름</th>
+                        <td class="name"></td>
+                        </tr>
+                        <tr>
+                        <th class="mypage_subtitle">생년월일</th>
+                        <td class="born"></td>
+                        </tr>
+                        <tr>
+                        <th class="mypage_subtitle">성별</th>
+                        <td class="gender"></td>
+                        </tr>
+                        <tr>
+                        <th class="mypage_subtitle">이메일</th>
+                        <td class="email"></td>
+                        </tr>
+                    </table>
+                    <a class="btn mypage_btn userinfo_edit">수  정</a>
+                </div>
+                <div class="writtenMe_area diveachbox">
+                    <div>
+                        <span class="red_bar"></span>
+                        <div class="mypage_title">내가 작성한 글</div>
+                    </div>
+                    <ul class="writtenMe_list_review">[review 목록]
+                    </ul>
+                    <button id="review_addbtn" class="btn more_btn" onclick="moreList('review_more');"><span>더보기</span></button>
+
+                    <ul class="writtenMe_list_blog">[blog 목록]
+                    </ul>
+                    <button id="blog_addbtn" class="btn more_btn" onclick="moreList('blog_more');"><span>더보기</span></button>
+                </div>
+                <div class="participating_chatroom_area diveachbox">
+                  <div>
+                    <span class="red_bar"></span>
+                  <div class="mypage_title">내 채팅방 목록</div>
+                  </div>
+                </div>
+            
+            </div>
+        </main>
+
+        <footer class="blog-footer">
+            <p>Copyright ⓒ 2020 - 2021 어학연수모임. All rights reserved.</p>
+            <p>이메일 : <a href="https://getbootstrap.com/">kan12888@gmail.com</a></p>
+            <p>
+                <a href="#">Back to top</a>
+            </p>
+        </footer>
+    </div>
+  <script>
+     $('.headerlocation').load('header.html', function (res, status, xhr) {
+ 
+        if (status == "success" && xhr.status == 200) {
+          this.innerHTML = res;
+
+        }
+
+    });
+
+
+
+    // 현재 로그인중인 user 의 회원정보, Written 게시물, 데이터 가져오는 부분  
+    $.getJSON( "mypage.php", {
+      start_number : 0
+    }, function (mypagedata){
+
+      console.log(mypagedata);
+
+      if (mypagedata.res == 'ok') {
+
+
+
+        // profile 부분 img/nickname
+        var user_index = mypagedata.userprofiledata.auth_id; // user_index 변수
+
+        $('.profileimg').attr("href","profile.html?edit=profile&index=" + user_index);
+        $('.profileimg').append('<img src=\"' + mypagedata.userprofiledata.profileimg + '\">');
+        $('.nickname').append(mypagedata.userprofiledata.nickname);
+        
+        $('.profile_edit').attr("href","profile.html?edit=profile&index=" + user_index);
+
+
+
+        // 회원정보부분 name,born,email,gender 
+        $('.name').append(mypagedata.userprofiledata.name);
+        $('.born').append(mypagedata.userprofiledata.birth);
+        $('.email').append(mypagedata.userprofiledata.email);
+
+
+
+        // 성별을 text 로 담기위한 변수
+        var gender = "";
+
+        // 1이면 남자, 2이면 여자 text 로 변환
+        if (mypagedata.userprofiledata.gender == 1) gender = "남자";
+        else gender = "여자";
+
+        $('.gender').append(gender);
+        $('.userinfo_edit').attr("href","profile.html?edit=userinfo&index="+user_index);
+        
+
+
+        // 내가쓴 글 목록부분 처음엔 review/blog 각 3개의 글만 보여줌    
+        var review_list = mypagedata.reviewdata;
+        var blog_list = mypagedata.blogdata;
+        
+        // console.log (review_list.length);
+        // console.log (review_list.length != 0);
+   
+           
+        // review 목록을 생성하기 위한 for 문 
+        // a li tag를 review_list_tag 배열에 담아서 append
+        var review_list_tag = [];
+
+        if (review_list.length == 0) {
+
+            review_list_tag.push("<li>게시글이 없습니다.</li>");
+          
+        } else {
+
+          for (var review_temp = 0 ; review_temp < review_list.length ; review_temp++) {
+              review_list_tag.push("<a href='review-det.html?review_no=" + review_list[review_temp].review_no + "'><li>" + review_list[review_temp].school + "</li></a>");
+          }
+        }
+
+
+
+        // blog 목록을 생성하기 위한 for 문 
+        var blog_list_tag = [];
+        if (blog_list.length == 0) {
+
+            blog_list_tag.push("<li>게시글이 없습니다.</li>");
+          
+        } else {
+          
+          for (var blog_temp = 0 ; blog_temp < blog_list.length ; blog_temp++) {
+              blog_list_tag.push("<a href='blog-det.html?blog_no=" + blog_list[blog_temp].blog_no + "'><li>" + blog_list[blog_temp].title + "</li></a>");
+          }
+        }  
+        
+          // 데이터가 3개보다 적으면 더보기 버튼 숨김 
+        if (review_list.length < 3) $('#review_addbtn').style("display","none");
+        if (blog_list.length < 3) $('#blog_addbtn').style("display","none");
+    
+  
+        
+        $('.writtenMe_list_review').append(review_list_tag);
+        $('.writtenMe_list_blog').append(blog_list_tag);
+
+      } else {
+
+        alert('세션이 만료되었습니다, 다시 로그인 해주세요');
+        location.replace('index.html');
+
+      }
+
+    })
+
+
+
+
+    // 더보기 버튼 onclick 에 정의된 메서드
+    // 목록을 사용자가 원하는 경우 동적으로 추가하기위함
+    function moreList (which_list) {
+
+      console.log(which_list);
+      
+      var start_number = 0;    // 마지막 리스트 번호를 알아내기 위한 변수
+      var add_list_tag = [];   // html tag 를 담기위한 변수
+
+
+      if (which_list == 'review_more') {
+
+        start_number = $('.writtenMe_list_review a').length;
+
+      } else if (which_list == 'blog_more') {
+
+        start_number = $('.writtenMe_list_blog a').length;
+
+      }
+
+
+      $.ajax({
+        url: "mypage.php",
+        type:"get",
+        dataType:"json",
+        data:{ "which_list" : which_list, "start_number" : start_number },
+
+        success : function (more_data) {
+          console.log(more_data);
+
+          // review 의 더보기 버튼을 클릭한 경우
+          if (which_list == 'review_more') {
+
+
+            // review의 데이터가 더이상 없는경우 notok를 return 하기때문에 더보기 버튼을 지움 + 넘어온 데이터의 수가 3보다 작은경우에도 더보기 버튼을 지움
+            if ( more_data.res == 'notok' ) $('#review_addbtn').remove();
+            else {
+              
+              if (more_data.reviewdata.length < 3 ) $('#review_addbtn').remove();
+
+
+              for (var review_temp = 0 ; review_temp < more_data.reviewdata.length ; review_temp++) {
+                add_list_tag.push("<a href='review-det.html?review_no=" + more_data.reviewdata[review_temp].review_no + "'><li>" + more_data.reviewdata[review_temp].school + "</li></a>");
+              }
+
+              $('.writtenMe_list_review').append(add_list_tag);
+
+            }
+
+          } else if (which_list == 'blog_more') {
+
+
+            // blog 데이터가 더이상 없는경우 notok를 return 하기때문에 더보기 버튼을 지움 + 넘어온 데이터의 수가 3보다 작은경우에도 더보기 버튼을 지움
+            if ( more_data.res == 'notok' ) $('#blog_addbtn').remove();
+            else {
+              
+              if (more_data.blogdata.length < 3 ) $('#blog_addbtn').remove();
+
+
+              for (var review_temp = 0 ; review_temp < more_data.blogdata.length ; review_temp++) {
+                add_list_tag.push("<a href='blog-det.html?blog_no=" + more_data.blogdata[review_temp].blog_no + "'><li>" + more_data.blogdata[review_temp].title + "</li></a>");
+              }
+
+              $('.writtenMe_list_blog').append(add_list_tag);
+
+            }
+          }
+
+        }
+      });
+
+    }
+
+
+
+  </script>
+
+
+</body>
+</html>
+

@@ -1507,6 +1507,99 @@ input:focus{
   align-self: end;
 }
 
+
+/* mypage */
+
+.divbox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 30px 0px;
+}
+
+.diveachbox {
+  width: 450px;
+  padding: 30px 30px;
+  border: 1px solid #bdbdbd; 
+  margin: 10px 10px;
+}
+
+.mypage_title {
+  font-size: 23px;
+  margin-bottom: 15px;
+  border-bottom:tan;
+  display: inline-block;
+}
+
+.mypage_subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  display: inline-block;
+}
+
+.nickname_title {
+  margin-left: 30px;
+  vertical-align: bottom;
+}
+
+.profileimg {
+  display: inline-block;
+  margin-right: 30px;
+}
+
+.profileimg img {
+  overflow: hidden;
+  width: 100px;
+  height: 100px;
+  vertical-align: center;
+}
+
+.nickname {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: bottom;
+  font-size: 14px;
+}
+
+.mypage_btn {
+  display: block;
+  margin-top: 30px !important;
+  color: lightcyan !important;
+  font-size: medium;
+  font-weight: 400;
+}
+
+table tr td {
+padding-left: 25px;
+font-size: 14px;
+}
+
+.writtenMe_area li {
+font-size: 15px;
+font-weight: 400;
+color: #29434e;
+margin-left: 10px;
+margin-bottom: 6px;
+}
+
+.writtenMe_area ul {
+margin: 0px 0px;
+padding: 0px 15px;
+}
+
+.writtenMe_list_review,
+.writtenMe_list_blog {
+color:#455a64;
+font-size: 18px;
+font-weight: 600;
+}
+
+.more_btn {
+position: relative;
+left: 40%;
+}
+
 /* .datefont {
   font-size: 11px; 
   color:dimgray; 

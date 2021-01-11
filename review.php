@@ -54,7 +54,7 @@ if ($rc < 6 ) {
 
 
 
-// $res = mysqli_query($conn, "SELECT * FROM review WHERE (deleted=0 ORDER BY review_no D)ESC LIMIT $page1,5");
+// $res = mysqli_query($conn, "SELECT * FROM review WHERE (deleted=0 ORDER BY review_no DESC LIMIT $page1,5");
 
 
 // while ( $row = mysqli_fetch_array ($res) ) {
@@ -71,43 +71,43 @@ if ($rc < 6 ) {
 
  if ( $rc == 1) {
    $sql = "SELECT * FROM review WHERE deleted=0 ORDER BY review_no DESC";
-   $res = mysqli_query($conn, "SELECT * FROM review WHERE deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+   $res = mysqli_query($conn, "SELECT r.*, COUNT(c.comment_no) AS commentcount FROM review r LEFT JOIN comment_review c ON r.review_no = c.post_no AND c.deleted=0 WHERE r.deleted=0 GROUP BY r.review_no ORDER BY review_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 2) {
   $sql = "SELECT * FROM review WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $res = mysqli_query($conn, "SELECT r.*, COUNT(c.comment_no) AS commentcount FROM review r LEFT JOIN comment_review c ON r.review_no = c.post_no AND c.deleted=0 WHERE (r.country='USA' OR r.country='CAN') AND r.deleted=0 GROUP BY r.blog_no ORDER BY r.reivew_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 3 ) {
   $sql = "SELECT * FROM review WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $res = mysqli_query($conn, "SELECT r.*, COUNT(c.comment_no) AS commentcount FROM review r LEFT JOIN comment_review c ON r.review_no = c.post_no AND c.deleted=0 WHERE (r.country='GBR' OR r.country='IRL') AND r.deleted=0 GROUP BY r.blog_no ORDER BY r.reivew_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 4 ) {
   $sql = "SELECT * FROM review WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $res = mysqli_query($conn, "SELECT r.*, COUNT(c.comment_no) AS commentcount FROM review r LEFT JOIN comment_review c ON r.review_no = c.post_no AND c.deleted=0 WHERE (r.country='AUS' OR r.country='NZL') AND r.deleted=0 GROUP BY r.blog_no ORDER BY r.reivew_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 5 ) {
   $sql = "SELECT * FROM review WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY review_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM review WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY review_no DESC LIMIT $page1,9");
+  $res = mysqli_query($conn, "SELECT r.*, COUNT(c.comment_no) AS commentcount FROM review r LEFT JOIN comment_review c ON r.review_no = c.post_no AND c.deleted=0 WHERE (r.country='PHL' OR r.country='MLT') AND r.deleted=0 GROUP BY r.blog_no ORDER BY r.reivew_no DESC LIMIT $page1,9");
 
 } else if ( $rc == 6 ) {
   $sql = "SELECT * FROM blog WHERE deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $res = mysqli_query($conn, "SELECT b.*, COUNT(c.comment_no) AS commentcount FROM blog b LEFT JOIN comment c ON b.blog_no = c.post_no AND c.deleted=0 WHERE b.deleted=0 GROUP BY b.blog_no ORDER BY blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 7 ) {
   $sql = "SELECT * FROM blog WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='USA' OR country='CAN') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $res = mysqli_query($conn, "SELECT b.*, COUNT(c.comment_no) AS commentcount FROM blog b LEFT JOIN comment c ON b.blog_no = c.post_no AND c.deleted=0 WHERE (b.country='USA' OR b.country='CAN') AND b.deleted=0 GROUP BY b.blog_no ORDER BY b.blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 8 ) {
   $sql = "SELECT * FROM blog WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='GBR' OR country='IRL') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $res = mysqli_query($conn, "SELECT b.*, COUNT(c.comment_no) AS commentcount FROM blog b LEFT JOIN comment c ON b.blog_no = c.post_no AND c.deleted=0 WHERE (b.country='GBR' OR b.country='IRL') AND b.deleted=0 GROUP BY b.blog_no ORDER BY b.blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 9 ) {
   $sql = "SELECT * FROM blog WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='AUS' OR country='NZL') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $res = mysqli_query($conn, "SELECT b.*, COUNT(c.comment_no) AS commentcount FROM blog b LEFT JOIN comment c ON b.blog_no = c.post_no AND c.deleted=0 WHERE (b.country='AUS' OR b.country='NZL') AND b.deleted=0 GROUP BY b.blog_no ORDER BY b.blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 10 ) {
   $sql = "SELECT * FROM blog WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY blog_no DESC";
-  $res = mysqli_query($conn, "SELECT * FROM blog WHERE (country='PHL' OR country='MLT') AND deleted=0 ORDER BY blog_no DESC LIMIT $page1,5");
+  $res = mysqli_query($conn, "SELECT b.*, COUNT(c.comment_no) AS commentcount FROM blog b LEFT JOIN comment c ON b.blog_no = c.post_no AND c.deleted=0 WHERE (b.country='PHL' OR b.country='MLT') AND b.deleted=0 GROUP BY b.blog_no ORDER BY b.blog_no DESC LIMIT $page1,5");
 
 } else if ( $rc == 11 ) {
   $sql = "SELECT * FROM advertise WHERE deleted=0 ORDER BY advertise_no DESC";

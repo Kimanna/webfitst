@@ -40,7 +40,7 @@ if ($conn->query($sql) === true ){
 
   echo("<script>
           window.alert('회원가입이 완료되었습니다. 로그인 해주세요')
-          location.replace('http://localhost/login.html');
+          location.replace('login.html');
          </script>"); 
 
 } else {
