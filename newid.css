@@ -184,3 +184,11 @@ select {
   font-weight: 400;
   font-family: Dotum,'돋움',Helvetica,sans-serif;
 }
+
+.auth_email {
+  display: inline-block;
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  cursor: pointer;
+}

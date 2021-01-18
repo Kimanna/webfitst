@@ -21,8 +21,9 @@ var email = document.querySelector('#email');
 var error = document.querySelectorAll('.error_next_box');
 
 var button = document.querySelector("#btnJoin");
+var email_authenticate = document.querySelector('#email_authenticate');
 
-
+ 
 /*이벤트 핸들러 연결*/
 
 id.addEventListener("keyup", checkId);
@@ -43,6 +44,7 @@ gender.addEventListener("focusout", function() {
 })
 email.addEventListener("focusout", isEmailCorrect);
 button.addEventListener("click", savemember);
+email_authenticate.addEventListener("click", sand_email);
 
 /*콜백 함수*/
 
@@ -223,13 +225,51 @@ function isEmailCorrect() {
     var emailPattern = /[a-z0-9]{2,}@[a-z0-9-]{2,}\.[a-z0-9]{2,}/;
 
     if(email.value === ""){ 
-        error[6].style.display = "none"; 
+        error[6].style.display = "block"; 
+        return false;
     } else if(!emailPattern.test(email.value)) {
         error[6].style.display = "block";
+        return false;
     } else {
         error[6].style.display = "none"; 
+        return true;
     }
 
+}
+
+function sand_email () {
+
+  // email형식이 맞는지 check하는 함수에서 true인 경우 ajax로 email발송
+  var input_user_email = email.value;
+
+  console.log(input_user_email);
+  
+  if (isEmailCorrect() == true) {
+    console.log(isEmailCorrect());
+
+    $.ajax({
+      url: "email_authenticate.php",
+      type: "get",
+      dataType: "json",
+      data: { "which_case_check" : "new_member" , "input_user_email" : input_user_email },
+      success : function (isit_success_email) {
+
+        console.log(isit_success_email);
+
+        // 기존에 가입되어있는 email인 경우 기존가입된 email 에러문구를 보여준다
+        if (isit_success_email.response == 'existing_email') {
+
+          error[6].style.display = "block";
+          error[6].innerHTML = "이미 가입된 email주소 입니다, 다른 email주소를 입력해 주세요."
+        
+        }
+
+
+      }
+
+    })
+
+  }
 }
 
 
