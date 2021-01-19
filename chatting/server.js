@@ -4,9 +4,11 @@ const express = require('express');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
+const upload = require('express-fileupload')
 
 var url = require('url');
 
+app.use(upload());
 
 // const server = app.listen(3000, () =>{
 //   console.log("start server : localhost:3000");
@@ -16,6 +18,13 @@ var url = require('url');
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
+
+app.use("/newroom", require("./routes/chat_room_result"));
+// app.use("/open_chat", require("./routes/chat_room_member"));
+
 
 
 var mysql      = require('mysql');
@@ -32,7 +41,24 @@ var pool = mysql.createPool({
 
 
 app.get('/chat_home', function (req, res) {
-  res.render('chat_home.html');
+
+  // user id를 query string 을 통해 가져오는 부분
+var queryData = url.parse(req.url, true).query;
+var user_id = queryData.id;
+
+  pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+   
+    connection.query('SELECT * FROM open_chat', function (error, results, fields) {
+      connection.release();
+   
+      if (error) throw error;
+      console.log(user_id);
+      
+      res.render('chat_home.html', {open_chat_data : results, userId : user_id});
+
+    });
+  }); 
 });
 
 // setting html 만들어야함.
@@ -47,7 +73,6 @@ app.get('/chat_room', function (req, res) {
   // user id를 query string 을 통해 가져오는 부분
   var queryData = url.parse(req.url, true).query;
   var user_id = queryData.id;
-  console.log(user_id);
   
 
   pool.getConnection(function(err, connection) {

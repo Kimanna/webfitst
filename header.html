@@ -40,7 +40,17 @@
   <a class="p-2 text-muted" href="review.html">연수후기</a>
   <a class="p-2 text-muted" href="blog.html">연수blog</a>
   
-  <a class="p-2 text-muted" href="http://localhost:3000/chat_home?id=hello">온라인Q&A</a>
+  <?php
+  if(isset($_SESSION['userId'])) {
+    ?>
+    <a class="p-2 text-muted" href="<?php echo 'http://localhost:3000/chat_home?id='.$_SESSION['userId'];?>">온라인 채팅</a>
+    <?php
+  } else {
+    ?>
+    <a class="p-2 text-muted" href="http://localhost:3000/chat_home">온라인 채팅</a>
+    <?php
+  }
+  ?>
   <a class="p-2 text-muted" href="advertise.html"></a>
 </nav>
 </div>
