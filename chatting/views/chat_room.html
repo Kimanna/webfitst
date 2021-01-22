@@ -12,8 +12,7 @@
 <div class="flex flex-row h-screen antialiased text-gray-800">
   <div class="flex flex-row w-96 flex-shrink-0 bg-gray-100 p-4">
     <div class="flex flex-col items-center py-4 flex-shrink-0 w-20 bg-indigo-800 rounded-3xl">
-      <a href="#"
-         class="flex items-center justify-center h-12 w-12 bg-indigo-100 text-indigo-800 rounded-full">
+      <a class="flex items-center justify-center h-12 w-12 bg-indigo-100 text-indigo-800 rounded-full">
         <svg class="w-8 h-8"
              fill="none"
              stroke="currentColor"
@@ -27,7 +26,7 @@
       </a>
       <ul class="flex flex-col space-y-2 mt-12">
         <li>
-          <a href="http://localhost:3000/chat_home?id=hello"
+          <a href="http://localhost:3000/chat_home?id=<%= userId %>"
              class="flex items-center">
             <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
               <svg class="w-6 h-6"
@@ -44,7 +43,7 @@
           </a>
         </li>
         <li>
-          <a href="http://localhost:3000/chat_room?id=hello"
+          <a href="http://localhost:3000/chat_room?id=<%= userId %>"
              class="flex items-center">
             <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
               <svg class="w-6 h-6"
@@ -78,7 +77,7 @@
           </a>
         </li> -->
         <li>
-          <a href="http://localhost:3000/chat_setting?id=hello"
+          <a href="http://localhost:3000/chat_setting?id=<%= userId %>"
              class="flex items-center">
             <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
               <svg class="w-6 h-6"
@@ -116,7 +115,7 @@
       <div class="flex flex-row items-center">
         <div class="flex flex-row items-center">
           <div class="text-xl font-semibold">Messages</div>
-          <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div>
+          <!-- <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div> -->
         </div>
         <div class="ml-auto">
           <button class="flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full">
@@ -161,31 +160,67 @@
       </div>
       <div class="mt-2">
         <div class="flex flex-col -mx-4">
+
+          <!--  open_chat list 시작되는 구역 -->
+          
+        <% for(var i = 0; i < open_chat_room_data.length; i++) { 
+          
+          var now_time = new Date().valueOf();
+          var time_gap = now_time - open_chat_room_data[i].last_message_time;
+          var time_gap_minute = Math.floor(time_gap/(1000 * 60));
+
+
+          var message_elapsed_time = '';
+
+          if (time_gap_minute > 59 ) {
+            var time_gap_hour = Math.floor(time_gap_minute/60);
+
+
+            if (time_gap_hour > 23) {
+              var time_gap_day = Math.ceil(time_gap_hour/24);
+
+              message_elapsed_time = time_gap_day + ' day';
+
+            } else {
+
+              message_elapsed_time = time_gap_hour + ' hou';
+            
+            }
+
+          } else {
+
+            message_elapsed_time = time_gap_minute + ' min';
+
+          }
+
+        %>
+          
+        <a class="room_id" data-value="open_chat<%=open_chat_room_data[i].open_chat_no %>">
           <div class="relative flex flex-row items-center p-4">
-            <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">5 min</div>
+            <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"><%= message_elapsed_time %></div>
             <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-              T
+                <img class="h-12 w-12 rounded-full object-cover" src="http://127.0.0.1/<%= open_chat_room_data[i].chat_thumbnail %>">
             </div>
             <div class="flex flex-col flex-grow ml-3">
-              <div class="text-sm font-medium">Cuberto</div>
-              <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
+              <div class="text-sm font-medium"><%= open_chat_room_data[i].chat_title %></div>
+              <div class="text-xs truncate w-40"><%= open_chat_room_data[i].last_message %></div>
             </div>
-            <div class="flex-shrink-0 ml-2 self-end mb-1">
-              <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">5</span>
-            </div>
-          </div>
-          <div class="flex flex-row items-center p-4 bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500">
-            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-              T
-            </div>
-            <div class="flex flex-col flex-grow ml-3">
-              <div class="flex items-center">
-                <div class="text-sm font-medium">UI Art Design</div>
-                <div class="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
+
+
+            <!-- 채팅창에 입장한 시간보다 나간시간이 더 크면서 && 채팅창 나간시간보다 마지막 전달된 메시지의 시간이 더 크면 new를 표시해줌 -->
+            <% if (open_chat_room_data[i].last_visit_time <= open_chat_room_data[i].last_leave_time && open_chat_room_data[i].last_message_time > open_chat_room_data[i].last_leave_time) { %>
+            
+              <div class="flex-shrink-0 ml-2 self-end mb-1">
+                <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">New</span>
               </div>
-              <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
-            </div>
+
+           <% }%>
+
           </div>
+        </a>
+
+          <% } %>
+
         </div>
       </div>
       <div class="mt-5">
@@ -199,7 +234,7 @@
               T
             </div>
             <div class="flex flex-col flex-grow ml-3">
-              <div class="text-sm font-medium">Flo Steinle</div>
+              <div class="text-sm font-medium">유재석</div>
               <div class="text-xs truncate w-40">Good after noon! how can i help you?</div>
             </div>
             <div class="flex-shrink-0 ml-2 self-end mb-1">
@@ -212,44 +247,7 @@
             </div>
             <div class="flex flex-col flex-grow ml-3">
               <div class="flex items-center">
-                <div class="text-sm font-medium">Sarah D</div>
-                <div class="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
-              </div>
-              <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
-            </div>
-          </div>
-          <div class="flex flex-row items-center p-4">
-            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-              T
-            </div>
-            <div class="flex flex-col flex-grow ml-3">
-              <div class="flex items-center">
-                <div class="text-sm font-medium">Sarah D</div>
-                <div class="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
-              </div>
-              <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
-            </div>
-          </div>
-          <div class="flex flex-row items-center p-4">
-            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-              T
-            </div>
-            <div class="flex flex-col flex-grow ml-3">
-              <div class="flex items-center">
-                <div class="text-sm font-medium">Sarah D</div>
-                <div class="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
-              </div>
-              <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
-            </div>
-          </div>
-          <div class="flex flex-row items-center p-4">
-            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
-              T
-            </div>
-            <div class="flex flex-col flex-grow ml-3">
-              <div class="flex items-center">
-                <div class="text-sm font-medium">Sarah D</div>
-                <div class="h-2 w-2 rounded-full bg-green-500 ml-2"></div>
+                <div class="text-sm font-medium">팀노바</div>
               </div>
               <div class="text-xs truncate w-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, doloribus?</div>
             </div>
@@ -273,7 +271,7 @@
     </div>
   </div>
   <div class="flex flex-col h-full w-full bg-white px-4 py-6">
-    <div class="flex flex-row items-center py-4 px-6 rounded-2xl shadow">
+    <!-- <div class="flex flex-row items-center py-4 px-6 rounded-2xl shadow">
       <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-100">
         T
       </div>
@@ -336,7 +334,9 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
+   
+   
     <div class="h-full overflow-hidden py-4">
       <div class="h-full overflow-y-auto">
         <div id="messages_area" class="grid grid-cols-12 gap-y-2">
@@ -434,8 +434,10 @@
       </div>
     </div>
     <form id="chat">
-      <input id="send_nickname" class="name" type="hidden">
-      <input id="send_profileimg" class="name" type="hidden">
+      <input id="send_id" value="<%= join_user_data[0].id %>" type="hidden">
+      <input id="send_nickname" value="<%= join_user_data[0].nickname %>" type="hidden">
+      <input id="send_profileimg" value="<%= join_user_data[0].profileimg %>" type="hidden">
+      <input id="send_room_id" type="hidden">
         <div class="flex flex-row items-center">
           <div class="flex flex-row items-center w-full border rounded-3xl h-12 px-2">
             <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
@@ -504,76 +506,182 @@
 <script>
     var socket = io(); //1
 
+
+    var user_id = $('#send_id').val();
+    var user_nickname = $('#send_nickname').val();
+    var user_profileimg = $('#send_profileimg').val();
+
+
+    var room_id = '';
+    var messages_area = $('#messages_area');
+
+
+    $('.room_id').click(function() {
+
+      messages_area.html('');
+
+      room_id = $(this).data("value");
+      $('#send_room_id').val(room_id);
+      console.log(room_id);
+
+      socket.emit('join_room', {
+
+      user_id: user_id,
+      nickname: user_nickname,
+      profileimg: user_profileimg,
+      room_id: room_id
+
+      });
+
+    })
+
+
+    socket.on('login', function(user_nickname, user_profileimg){ //4
+      messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-lg font-bold">' + user_nickname + ' 님이 입장 하셨습니다.</div>');
+
+    });
+
+
+    socket.on('chat_data', function(conversation_data){ //3
+      console.log(conversation_data);
+      
+
+      // 배열로 전달 된 대화내용 채팅창에 보여줌
+      for (var chat_temp = 0; chat_temp < conversation_data.length; chat_temp++ ) {
+
+          // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
+          var user_profileimg = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + conversation_data[chat_temp].profileimg + '\">';
+          var chat_sent_time = get_str_time (conversation_data[chat_temp].sent_time);
+          
+
+          // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
+          // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
+          if (conversation_data[chat_temp].sent_id == user_id) {
+
+            var message_html = 
+              `
+              <div class="col-start-6 col-end-13 p-3 rounded-lg">
+                  <div class="flex items-center justify-start flex-row-reverse">
+                    <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                    <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                      <div>${conversation_data[chat_temp].sent_message}</div>
+                    </div>
+                    <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+                  </div>
+                </div>`
+                  
+            messages_area.append(message_html);
+            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+          } else {
+
+            var message_html = `
+                <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                    <div class="flex flex-row items-center">
+                      <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                      <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                        <div>${conversation_data[chat_temp].sent_message}</div>
+                      </div>
+                      <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                    </div>
+                  </div>`
+                  
+            messages_area.append(message_html);
+            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+            }
+      }
+
+    });
+
+
+    socket.on('chat', function(send_user_id, nickname, profile, text, now_time){ //3
+      console.log(text);
+      
+
+      // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
+      var user_profileimg = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + profile + '\">';
+      var chat_sent_time = get_str_time (now_time);
+      
+
+
+       // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
+       // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
+      if (user_id == send_user_id) {
+
+        var message_html = 
+           `<div class="col-start-6 col-end-13 p-3 rounded-lg">
+              <div class="flex items-center justify-start flex-row-reverse">
+                <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                  <div>${text}</div>
+                </div>
+                <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+              </div>
+            </div>`
+              
+        messages_area.append(message_html);
+        messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+      } else {
+
+        var message_html = `
+            <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                <div class="flex flex-row items-center">
+                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                  <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                    <div>${text}</div>
+                  </div>
+                  <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                </div>
+              </div>`
+              
+        messages_area.append(message_html);
+        messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+       
+        }
+    });
+
+
+    // 채팅내용 서버로 발송
     $('#chat').on('submit', function(e){ //2
-      socket.emit('send message', $('#send_nickname').val(),  $('#send_profileimg').val(), $('#message').val());
+
+      console.log($('#send_nickname').val());
+      var now_time = new Date().valueOf();
+
+      console.log('chat 서버로 데이터 전달', user_id + user_nickname +  user_profileimg + $('#message').val() + $('#send_room_id').val() + now_time);
+      socket.emit('chat', user_id, user_nickname,  user_profileimg, $('#message').val(), $('#send_room_id').val(), now_time);
       $('#message').val('');
       $('#message').focus();
       e.preventDefault();
     });
 
-    socket.on('receive message', function(receive_nickname, receive_profileimg, receive_text){ //3
 
-      console.log(receive_nickname+ receive_profileimg+ receive_text);
+    function get_str_time (time) {
 
-      // 내가보낸 메시지면 if 안쪽으로 메시지 보냄
-      if (receive_nickname == $('#send_nickname').val()) {
+      var return_time = '';
+      var the_hours = new Date(time).getHours();
+      var the_minute = new Date(time).getMinutes();
 
-        // messageHTML (receive_profileimg,receive_text);
 
-        var message_html = `
-            <div class="col-start-6 col-end-13 p-3 rounded-lg">
-              <div class="flex items-center justify-start flex-row-reverse">
-                <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${receive_profileimg}</div>
-                <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                  <div>${receive_text}</div>
-                </div>
-              </div>
-            </div>`
-              
-        $('#messages_area').append(message_html);
+      if (the_hours <= 11) {
+
+        return return_time = 'am  ' + the_hours + ' : ' + the_minute;
 
       } else {
 
-        // messageHTML (receive_profileimg,receive_text);
+        if (the_hours == 12) {
+          return return_time = 'pm  ' + the_hours + ' : ' + the_minute;
 
-        var message_html = `
-            <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                <div class="flex flex-row items-center">
-                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${receive_profileimg}</div>
-                  <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                    <div>${receive_text}</div>
-                  </div>
-                </div>
-              </div>`
-              
-        $('#messages_area').append(message_html);
-        
+        } else {
+         return return_time = 'pm  ' + (the_hours-12) + ' : ' + the_minute;
+
+         }
       }
 
-      // $('#chatLog').scrollTop($('#chatLog')[0].scrollHeight);
-
-    });
-    socket.on('change name', function(user_nickname, user_profileimg){ //4
-      $('#send_nickname').val(user_nickname);
-      $('#send_profileimg').val('<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + user_profileimg + '\">');
-    });
-
-
-    
-    function messageHTML (img,text) {
-
-      var message_html = `
-            <div class="col-start-6 col-end-13 p-3 rounded-lg">
-              <div class="flex items-center justify-start flex-row-reverse">
-                <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${img}</div>
-                <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                  <div>${text}</div>
-                </div>
-              </div>
-            </div>`
-              
-        $('#messages_area').append(message_html);
     }
+
+
 
 </script>
 

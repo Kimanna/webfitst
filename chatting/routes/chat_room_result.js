@@ -19,12 +19,8 @@ var pool = mysql.createPool({
 router.post('/', function(req, res, next) {
   console.log("## post request : "+req.body.chat_room_title); 
   
-
-  // user id를 query string 을 통해 가져오는 부분
-  var queryData = url.parse(req.url, true).query;
-  var user_id = queryData.id; 
-
-
+  
+  var user_id = req.body.userId;
   var room_title = req.body.chat_room_title;
   var room_member = req.body.chat_room_member;
   var file = req.files.chat_room_img;
@@ -58,7 +54,7 @@ router.post('/', function(req, res, next) {
           connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date) VALUES(?,?,?)',[open_chat_no, user_id, now_time], function (error, results, fields) {
           });
       
-          // res.send({ title: 'Express', open_chat_no: open_chat_no, user_id: user_id });
+          res.redirect('/chat_room?id=' + user_id + '&room_type=open_room&room_no=' + open_chat_no);
 
         });
       });
