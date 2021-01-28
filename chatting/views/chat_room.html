@@ -8,6 +8,7 @@
   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body>
+
 <!-- component -->
 <div class="flex flex-row h-screen antialiased text-gray-800">
   <div class="flex flex-row w-96 flex-shrink-0 bg-gray-100 p-4">
@@ -133,7 +134,7 @@
         </div>
       </div>
       <div class="mt-5">
-        <ul class="flex flex-row items-center justify-between">
+        <!-- <ul class="flex flex-row items-center justify-between">
           <li>
             <a href="#"
                class="flex items-center pb-3 text-xs font-semibold relative text-indigo-800">
@@ -153,7 +154,7 @@
               <span>Starred</span>
             </a>
           </li>
-        </ul>
+        </ul> -->
       </div>
       <div class="mt-5">
         <div class="text-xs text-gray-400 font-semibold uppercase">오픈채팅</div>
@@ -172,26 +173,34 @@
 
           var message_elapsed_time = '';
 
-          if (time_gap_minute > 59 ) {
-            var time_gap_hour = Math.floor(time_gap_minute/60);
+          if (open_chat_room_data[i].last_message_time == null || open_chat_room_data[i].last_message_time == '') {
 
-
-            if (time_gap_hour > 23) {
-              var time_gap_day = Math.ceil(time_gap_hour/24);
-
-              message_elapsed_time = time_gap_day + ' day';
-
-            } else {
-
-              message_elapsed_time = time_gap_hour + ' hou';
-            
-            }
+            message_elapsed_time = '';
 
           } else {
+          
+          
+                if (time_gap_minute > 59 ) {
+                  var time_gap_hour = Math.floor(time_gap_minute/60);
 
-            message_elapsed_time = time_gap_minute + ' min';
 
-          }
+                  if (time_gap_hour > 23) {
+                    var time_gap_day = Math.ceil(time_gap_hour/24);
+
+                    message_elapsed_time = time_gap_day + ' days ago';
+
+                  } else {
+
+                    message_elapsed_time = time_gap_hour + ' hours ago';
+                  
+                  }
+
+                } else {
+
+                  message_elapsed_time = time_gap_minute + ' minutes ago';
+
+                }
+            }
 
         %>
           
@@ -440,7 +449,7 @@
       <input id="send_room_id" type="hidden">
         <div class="flex flex-row items-center">
           <div class="flex flex-row items-center w-full border rounded-3xl h-12 px-2">
-            <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
+            <!-- <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
               <svg class="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
@@ -451,13 +460,13 @@
                       stroke-width="2"
                       d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path>
               </svg>
-            </button>
+            </button> -->
             <div class="w-full">
               <input type="text" id="message"
-                    class="border border-transparent w-full focus:outline-none text-sm h-10 flex items-center" placeholder="Type your message....">
+                    class="border border-transparent w-full focus:outline-none text-sm h-10 flex items-center ml-1" placeholder="Type your message....">
             </div>
             <div class="flex flex-row">
-              <button class="flex items-center justify-center h-10 w-8 text-gray-400">
+              <!-- <button class="flex items-center justify-center h-10 w-8 text-gray-400">
                 <svg class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
@@ -468,7 +477,7 @@
                         stroke-width="2"
                         d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
                 </svg>
-              </button>
+              </button> -->
               <button class="flex items-center justify-center h-10 w-8 text-gray-400 ml-1 mr-2">
                 <svg class="w-5 h-5"
                     fill="none"
@@ -504,50 +513,84 @@
 <script src="/socket.io/socket.io.js"></script> <!-- 1 -->
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 <script>
-    var socket = io(); //1
+
+
+function getUrlParams() {
+    var params = {};
+    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
+    return params;
+  }
+  var Param = getUrlParams();
+
+
+  var socket = io(); //1
 
 
     var user_id = $('#send_id').val();
     var user_nickname = $('#send_nickname').val();
     var user_profileimg = $('#send_profileimg').val();
 
-
     var room_id = '';
     var messages_area = $('#messages_area');
 
 
-    $('.room_id').click(function() {
+      // // 방만들기 혹은 방 입장하기를 통해 들어온 경우
+      //   if(Param.room_type != '') {
 
-      messages_area.html('');
+      //       messages_area.html('');
 
-      room_id = $(this).data("value");
-      $('#send_room_id').val(room_id);
-      console.log(room_id);
+      //       room_id = Param.room_type + Param.room_no;
+      //       $('#send_room_id').val(room_id);
+      //       console.log(room_id);
 
-      socket.emit('join_room', {
+      //       socket.emit('join_room', {
 
-      user_id: user_id,
-      nickname: user_nickname,
-      profileimg: user_profileimg,
-      room_id: room_id
+      //       user_id: user_id,
+      //       nickname: user_nickname,
+      //       profileimg: user_profileimg,
+      //       room_id: room_id,
+      //       member_type: 'new_member'
 
-      });
+      //       });
+      //   } 
 
-    })
+      $('.room_id').click(function() {
+
+        messages_area.html('');
+
+        room_id = $(this).data("value");
+        $('#send_room_id').val(room_id);
+        console.log(room_id);
+
+        socket.emit('join_room', {
+
+        user_id: user_id,
+        nickname: user_nickname,
+        profileimg: user_profileimg,
+        room_id: room_id,
+        member_type: 'exist_member'
+
+        });
+
+      })
 
 
-    socket.on('login', function(user_nickname, user_profileimg){ //4
+    // 새로 방에 입장했을때 한번만 반응하는 메서드 ---------------------> 아직 구현안됨
+    socket.on('join_new_room', function(user_nickname){ //4
       messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-lg font-bold">' + user_nickname + ' 님이 입장 하셨습니다.</div>');
 
     });
 
 
+
+    // 데이터 베이스에 저장돼있던 chatting대화 데이터 가져오는 곳
     socket.on('chat_data', function(conversation_data){ //3
       console.log(conversation_data);
       
 
       // 배열로 전달 된 대화내용 채팅창에 보여줌
       for (var chat_temp = 0; chat_temp < conversation_data.length; chat_temp++ ) {
+
 
           // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
           var user_profileimg = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + conversation_data[chat_temp].profileimg + '\">';
@@ -643,7 +686,8 @@
     });
 
 
-    // 채팅내용 서버로 발송
+
+    // 실시간 채팅내용 서버로 발송
     $('#chat').on('submit', function(e){ //2
 
       console.log($('#send_nickname').val());
@@ -657,6 +701,8 @@
     });
 
 
+
+    // 채팅이 입력된 시간을 시,분만 보여주도록 변환해주는 메서드
     function get_str_time (time) {
 
       var return_time = '';
@@ -671,9 +717,11 @@
       } else {
 
         if (the_hours == 12) {
+
           return return_time = 'pm  ' + the_hours + ' : ' + the_minute;
 
         } else {
+
          return return_time = 'pm  ' + (the_hours-12) + ' : ' + the_minute;
 
          }

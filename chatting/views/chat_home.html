@@ -10,7 +10,7 @@
 <body>
 <!-- component -->
 <div class="flex flex-row h-screen antialiased text-gray-800">
-  <!-- <div class="flex flex-row w-96 flex-shrink-0 bg-gray-100 p-4"> -->
+  <div class="flex flex-row w-30 flex-shrink-0 bg-gray-100 p-4">
     <div class="flex flex-col items-center py-4 flex-shrink-0 w-20 bg-indigo-800 rounded-3xl">
       <a class="flex items-center justify-center h-12 w-12 bg-indigo-100 text-indigo-800 rounded-full">
         <svg class="w-8 h-8"
@@ -95,12 +95,13 @@
         </svg>
       </button>
     </div>
-
+  </div>
   <div class="flex-1 bg-gray-100 dark:bg-gray-100 overflow-y-auto transition duration-500 ease-in-out">
   <div class="px-24 py-12 text-gray-700 dark:text-gray-500 transition duration-500 ease-in-out">
     <h2 class="text-4xl font-medium capitalize">오픈 채팅방</h2>
     <div class="mt-1 mb-4 flex items-center justify-between">
       <span class="text-sm">총 <%= open_chat_data.length %> 개 방</span>
+
 
 
          <!-- 방 개설하기 버튼 -->
@@ -120,78 +121,116 @@
     <div class="flex flex-col mt-2">
 
 
+    <!-- db에서 조회한 방 목록을 보여주는 부분 -->
     <% if (open_chat_data != null && open_chat_data.length > 0) { 
         for ( var i = 0; i < open_chat_data.length; i++ ) { %>
-            
 
-
+        
   
       <div class="flex flex-row mt-2">
         <div class="flex w-full items-center justify-between bg-white dark:bg-gray-800 px-8 py-6 border-l-4 border-green-500 dark:border-green-300">
+          <input id="open_chat_no" type="hidden" value="<%= open_chat_data[i].open_chat_no %>">
 
+
+          
           <!-- card -->
           <div class="flex">
-            <img
-              class="h-40 w-50 object-cover"
+            <img 
+              class="h-40 w-64 object-cover"
               src="http://127.0.0.1/<%= open_chat_data[i].chat_thumbnail %>"
               alt="infamous" />
 
               
             <div class="flex flex-col ml-10">
               <span class="text-lg mt-5 font-bold"><%= open_chat_data[i].chat_title %></span>
+
+
+
               <div class="mt-4 flex">
                 <div class="flex">
                   <svg class="h-5 w-5 fill-current dark:text-gray-300" viewBox="0 0 24 24">
                     <path d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0 014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"></path>
                   </svg>
-                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"> N명</span>
+                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"> <%= open_chat_data[i].join_member_qty %> 명</span>
+                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"> (<%= open_chat_data[i].chat_member %> 명)</span>
                 </div>
 
                 <div class="flex ml-6">
                   <svg class="h-5 w-5 fill-current dark:text-gray-300" viewBox="0 0 24 24">
                     <path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2h-1V1m-1 11h-5v5h5v-5z"></path>
                   </svg>
-                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"><%= open_chat_data[i].created %> </span>
+                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"><%= new Date(open_chat_data[i].created).getMonth()+1 %> 월 / <%= new Date(open_chat_data[i].created).getDate() %> 일 개설</span>
                 </div>
 
               </div>
 
               <div class="mt-4 flex">
-                <button
-                  class="flex items-center
-                  focus:outline-none border rounded-full
-                  py-2 px-6 leading-none border-gray-500
-                  dark:border-gray-600 select-none
-                  hover:bg-blue-400 hover:text-white
-                  dark-hover:text-gray-200">
-                  <svg class="h-5 w-5 fill-current mr-2" viewBox="0 0 561 561">
-                      <path d="M459,51H351.9c-10.2-30.6-38.25-51-71.4-51c-33.15,0-61.2,20.4-71.4,51H102c-28.05,0-51,22.95-51,51v408
-                      c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V102C510,73.95,487.05,51,459,51z M280.5,51c15.3,0,25.5,10.2,25.5,25.5
-                      S295.8,102,280.5,102S255,91.8,255,76.5S265.2,51,280.5,51z M459,510H102V102h51v76.5h255V102h51V510z"/>
-                  </svg>
-                  <span>정보보기</span>
-                </button>
+                    <button
+                      class="flex items-center
+                      focus:outline-none border rounded-full
+                      py-2 px-6 leading-none border-gray-500
+                      dark:border-gray-600 select-none
+                      hover:bg-blue-400 hover:text-white
+                      dark-hover:text-gray-200">
+                      <svg class="h-5 w-5 fill-current mr-2" viewBox="0 0 561 561">
+                          <path d="M459,51H351.9c-10.2-30.6-38.25-51-71.4-51c-33.15,0-61.2,20.4-71.4,51H102c-28.05,0-51,22.95-51,51v408
+                          c0,28.05,22.95,51,51,51h357c28.05,0,51-22.95,51-51V102C510,73.95,487.05,51,459,51z M280.5,51c15.3,0,25.5,10.2,25.5,25.5
+                          S295.8,102,280.5,102S255,91.8,255,76.5S265.2,51,280.5,51z M459,510H102V102h51v76.5h255V102h51V510z"/>
+                      </svg>
+                      <span>정보보기</span>
+                    </button>
 
-                <button onclick="join_room(<%= open_chat_data[i].open_chat_no%>);"
-                  class="flex items-center ml-4
-                  focus:outline-none border rounded-full
-                  py-2 px-6 leading-none border-blue-500
-                  dark:border-blue-600 select-none
-                  hover:bg-blue-400 hover:text-white
-                  dark-hover:text-gray-200">
-                  <svg
-                    class="h-5 w-5 fill-current mr-2
-                    text-blue-600"
-                    viewBox="0 0 576 512">
-                    <path d="M484.5,102h-51v229.5H102v51c0,15.3,10.2,25.5,25.5,25.5H408l102,102V127.5C510,112.2,499.8,102,484.5,102z M382.5,255
-                    V25.5C382.5,10.2,372.3,0,357,0H25.5C10.2,0,0,10.2,0,25.5v357l102-102h255C372.3,280.5,382.5,270.3,382.5,255z"/>
-                  </svg>
-                  <span>참여하기</span>
-                </button>
-
+                  <button onclick="join_room(<%= open_chat_data[i].open_chat_no%>);"
+                      class="flex items-center ml-4
+                      focus:outline-none border rounded-full
+                      py-2 px-6 leading-none border-blue-500
+                      dark:border-blue-600 select-none
+                      hover:bg-blue-400 hover:text-white
+                      dark-hover:text-gray-200">
+                      <svg
+                        class="h-5 w-5 fill-current mr-2
+                        text-blue-600"
+                        viewBox="0 0 576 512">
+                        <path d="M484.5,102h-51v229.5H102v51c0,15.3,10.2,25.5,25.5,25.5H408l102,102V127.5C510,112.2,499.8,102,484.5,102z M382.5,255
+                        V25.5C382.5,10.2,372.3,0,357,0H25.5C10.2,0,0,10.2,0,25.5v357l102-102h255C372.3,280.5,382.5,270.3,382.5,255z"/>
+                      </svg>
+                      <span>참여하기</span>
+                    </button>           
+                </div>
+                       
               </div>
-            </div>
           </div>
+
+
+          <!-- 룸생성자의 id가 접속한 userId 와 동일한경우 수정 삭제 버튼을 보여줌 -->
+          <% if (open_chat_data[i].room_master_id == userId) { %>
+            <span>
+              <button onClick="reviseRoom('update');"
+                  class="ml-3 bg-gray-400 dark:bg-gray-600
+                  dark:text-gray-400 rounded-full p-2 focus:outline-none
+                  hover:text-pink-500 hover:bg-pink-300 transition
+                  duration-500 ease-in-out">
+                  <svg class="h-5 w-5 fill-current" viewBox="0 0 510 510">
+                    <path
+                        d="M0,387.6v96.9h96.9l280.5-283.05l-96.9-96.9L0,387.6z M451.35,127.5c10.2-10.2,10.2-25.5,0-35.7L392.7,33.149
+                        c-10.2-10.2-25.5-10.2-35.7,0l-45.9,45.9l96.9,96.9L451.35,127.5z M229.5,433.5l-51,51H510v-51H229.5z"></path>
+                  </svg>
+              </button>
+              <button onClick="reviseRoom('delete',<%= open_chat_data[i].open_chat_no %>);"
+                  class="ml-2 bg-gray-400 dark:bg-gray-600
+                  dark:text-gray-400 rounded-full p-2 focus:outline-none
+                  hover:text-pink-500 hover:bg-pink-300 transition
+                  duration-500 ease-in-out">
+                  <svg class="h-5 w-5 fill-current" viewBox="0 0 459 459">
+                    <path
+                        d="M76.5,408c0,28.05,22.95,51,51,51h204c28.05,0,51-22.95,51-51V102h-306V408z M408,25.5h-89.25L293.25,0h-127.5l-25.5,25.5
+                        H51v51h357V25.5z"></path>
+                  </svg>
+                </button>
+              </span>
+
+            <% }%>
+
         </div>
       </div>
 
@@ -282,6 +321,14 @@
 <script>
 
   function make_room_modal () {
+
+    var userId = $('#userId').val();
+
+    if (userId == '') {
+      alert('방개설은 로그인 후에 가능합니다');
+      return;
+    }
+    
     $("#modal").show();
   };
   
@@ -323,6 +370,7 @@
 
     
     var userId =  $('#userId').val();
+    console.log(userId);
 
     // 로그인이 안된상태는 open chat방에 입장불가 ( 파라미터에 id가 없이 접속한 경우 )
     if (userId == "") {
@@ -333,24 +381,31 @@
     } else {
 
       // 이미 참여중인 open chat room 인지 db에서 조회 후 참여중이라면 if_join값이 배열로 들어옴 => 채팅방 창으로 이동
-      // 참여중인 방이 아니라면 참여문의 알림창 띄움
+      // 참여중인 방이 아니라면 참여 re-check 알림창 띄움
         $.ajax({
               url: '/newroom/get',
               dataType: 'json',
               type: 'GET',
               data: {room_number : room_number, userId : userId},
-              success: function(if_join) {
+              success: function(check_join) {
 
-                console.log(if_join);
+                console.log(check_join);
 
-                if (if_join == 'not_join') {
+                if (check_join.if_join == 'not_join') {
+
 
                     var result = confirm (room_number+"번 방에 참여 하시겠습니까?");
                     if (result) {
-                      console.log("확인버튼");
+
+                      location.href = 'http://localhost:3000/chat_home/newroom/join';
+
                     } else console.log("취소버튼");
                 
-                  }
+                } else {
+
+                    alert('해당방은 이미 참여중입니다.');
+
+                }
               }
           });
 
@@ -358,6 +413,45 @@
 
   }
   
+
+  function reviseRoom(action, open_chat_no) {
+
+      var userId =  $('#userId').val();
+      console.log(open_chat_no);
+
+      if (action == 'update') {
+
+
+
+      } // if action == update
+
+      // 방 삭제 아이콘 클릭 시 confirm 창 띄워준 후 db에서 삭제
+      if (action == 'delete') {
+
+        var result = confirm (open_chat_no+"번 방을 정말 삭제 하시겠습니까?");
+        if (result) {
+
+        var delete_room =
+        
+                  $.ajax({
+                    url: '/newroom/delete',
+                    dataType: 'json',
+                    type: 'GET',
+                    data: {room_number : open_chat_no, userId : userId}
+                });
+
+        delete_room.done(function(data){
+
+                        location.href = '/chat_home?id='+userId;
+                    return;
+                });
+
+          } // confirm = true
+        
+      } // action == delete
+
+  }
+
   </script>
 
 </body>

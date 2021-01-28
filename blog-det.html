@@ -83,68 +83,87 @@
                                       <h3 class="cm_count">총 댓글 N개</h3>
                                   </div>
                                   <div class="cm_profile_area">
-                                      <div class="cm_profileimg"><img class="inputimg" src="images/user-shape.png"></div>
+                                      <div class="cm_profileimg"><img class="inputimg" style="border-radius: 9999px;" src="images/user-shape.png"></div>
                                       <div class="cm_inputcmt">
-                                          <input class="reply_cno" type="hidden" name=0>
-                                          <input class="sandcomment" type="text" name="comment" maxlength="100" placeholder="공개 댓글 추가...">
-                                          <div class="cm_btn hidden">
-                                              <a class="btn replycancel" style="color: white;">취소</a>
-                                              <a class="btn replysand" style="color: white;">답글</a>
+                                          <input class="comment_no" type="hidden" name=0>
+                                          <input class="send_comment_text" type="text" name="comment" maxlength="100" placeholder="공개 댓글 추가...">
+                                          <input class="send_user_id login_user_id" type="hidden">
+                                          <div class="cm_btn">
+                                              <span class="btn cancel_comment" style="color: white;">취소</span>
+                                              <span class="btn send_comment" style="color: white;">답글</span>
                                               <div class="toast_reply hidden">댓글을 작성해 주세요</div>
                                           </div>
                                       </div>
                                   </div>
                               </div>
                           </div>
-                          <div class="cm_contents hidden">
+                          <div class="cm_contents">
+                            
                               <!-- <div class="cm_box">
                                   <div class="cm_authimg"><img src="images/thumb100.jpeg"></div>
                                   <div class="cm_content_area">
-                                      <div class="cm_id">hello<span style="color:darkgray">10개월전</span></div>
+                                      <div class="cm_id">hello<span style="color:darkgray; margin-left: 10px;">10개월전</span></div>
                                       <div class="cm_content">좋은정보 감사합니다</div>
-                                      <div class="cm_replybt"><img src="images/thumb-up-button.png"><span>1</span><img src="images/thumb-down-button.png"><span>1</span><span class="reply_bt" role="button">답글</span></div>
-                                      <div class="cm_reply_dialog hidden">
-                                          <div class="cm_box cm_replybox">
-                                              <div class="cm_reply_img"><img src="images/thumb101.jpeg"></div>
-                                              <div class="cm_reply">
-                                                  <input type="text" name="reply" maxlength="100" placeholder="공개 답글 추가..." class="cm_replay_content">
-                                                  <div class="cm_btn hidden">
-                                                    <a class="btn replycancel_re" style="color: white;">취소</a>
-                                                    <a class="btn btn-sm btn-outline-secondary" href="javascript:comment();">답글</a>
-                                                  </div>
-                                              </div>
-                                          </div>
+                                      <div id="" class="cm_replybt">
+                                        <svg fill="#686868" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+                                             width="18px" height="18px" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+                                            <path  d="M0,535.5h102v-306H0V535.5z M561,255c0-28.05-22.95-51-51-51H349.35l25.5-117.3c0-2.55,0-5.1,0-7.65
+                                              c0-10.2-5.1-20.4-10.199-28.05L336.6,25.5L168.3,193.8c-10.2,7.65-15.3,20.4-15.3,35.7v255c0,28.05,22.95,51,51,51h229.5
+                                              c20.4,0,38.25-12.75,45.9-30.6l76.5-181.051c2.55-5.1,2.55-12.75,2.55-17.85v-51H561C561,257.55,561,255,561,255z"/>
+                                        </svg>
+                                        <span>1</span>
+                                        <svg fill="#686868" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+                                             width="18px" height="18px" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+                                            <path d="M357,25.5H127.5c-20.4,0-38.25,12.75-45.9,30.6L5.1,237.15C2.55,242.25,0,247.35,0,255v48.45l0,0V306
+                                            c0,28.05,22.95,51,51,51h160.65l-25.5,117.3c0,2.55,0,5.101,0,7.65c0,10.2,5.1,20.399,10.2,28.05l28.05,25.5l168.3-168.3
+                                            c10.2-10.2,15.3-22.95,15.3-35.7v-255C408,48.45,385.05,25.5,357,25.5z M459,25.5v306h102v-306H459z"/>
+                                        </svg>
+                                        <span>1</span>
+                                        <span style="background-color:azure;" class="reply_bt show_comment_area" role="button">답글</span>
                                       </div>
+
+
                                       <div class="cm_reply_area">
                                           <div class="cm_replyviewbt">
                                               <div class="cm_view"><img src="images/drop-down-arrow.png"><span>답글 N 개 보기</span></div>
-                                              <div class="cm_hide hidden"><img src="images/drop-up-arrow.png"><span>댓글 N개 숨기기</span></div>
+                                              <div class="cm_hide"><img src="images/drop-up-arrow.png"><span>댓글 N개 숨기기</span></div>
                                           </div>
-                                          <div class="cm_replyviewbox hidden">
+                                          <div class="cm_replyviewbox">
                                               <div class="cm_box cm_replyeach">
                                                   <div class="cm_authimg"><img src="images/thumb102.jpeg"></div>
                                                   <div class="cm_content_area">
                                                       <div>hello<span style="color:darkgray">10개월전</span></div>
                                                       <div class="cm_content">좋은정보 감사합니다</div>
-                                                      <div class="cm_replybt"><img src="images/thumb-up-button.png"><span>1</span><img src="images/thumb-down-button.png"><span>1</span><span class="reply_bt">답글</span></div>
-                                                      <div class="cm_reply_dialog hidden">
-                                                          <div class="cm_box cm_replybox">
-                                                              <div class="cm_reply_img"><img src="images/thumb103.jpeg"></div>
-                                                              <div class="cm_reply">
-                                                                  <input type="text" name="reply" maxlength="100" placeholder="공개 답글 추가..." class="cm_replay_content">
-                                                                  <div class="cm_btn hidden">
-                                                                    <a class="btn replycancel_re" style="color: white;">취소</a>
-                                                                    <a class="btn btn-sm btn-outline-secondary" href="javascript:comment();">답글</a>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
+
+                                                      <div id="" class="cm_replybt">
+                                                        <svg fill="#686868" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" 
+                                                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+                                                             width="18px" height="18px" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+                                                            <path  d="M0,535.5h102v-306H0V535.5z M561,255c0-28.05-22.95-51-51-51H349.35l25.5-117.3c0-2.55,0-5.1,0-7.65
+                                                              c0-10.2-5.1-20.4-10.199-28.05L336.6,25.5L168.3,193.8c-10.2,7.65-15.3,20.4-15.3,35.7v255c0,28.05,22.95,51,51,51h229.5
+                                                              c20.4,0,38.25-12.75,45.9-30.6l76.5-181.051c2.55-5.1,2.55-12.75,2.55-17.85v-51H561C561,257.55,561,255,561,255z"/>
+                                                        </svg>
+                                                        <span>1</span>
+                                                        <svg fill="#686868" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" 
+                                                             width="18px" height="18px" viewBox="0 0 561 561" style="enable-background:new 0 0 561 561;" xml:space="preserve">
+                                                            <path d="M357,25.5H127.5c-20.4,0-38.25,12.75-45.9,30.6L5.1,237.15C2.55,242.25,0,247.35,0,255v48.45l0,0V306
+                                                            c0,28.05,22.95,51,51,51h160.65l-25.5,117.3c0,2.55,0,5.101,0,7.65c0,10.2,5.1,20.399,10.2,28.05l28.05,25.5l168.3-168.3
+                                                            c10.2-10.2,15.3-22.95,15.3-35.7v-255C408,48.45,385.05,25.5,357,25.5z M459,25.5v306h102v-306H459z"/>
+                                                        </svg>
+                                                        <span>1</span>
+                                                        <span style="background-color:azure;" class="reply_bt show_comment_area" role="button">답글</span>
                                                       </div>
+
+
+
                                                   </div>
                                               </div>
                                           </div>
                                       </div>
                                   </div>
                               </div> -->
+
                           </div>
                         </div>
   
@@ -182,64 +201,65 @@
       var Param = getUrlParams();
 
 
-      $('.replysand').on('click', function(){
-        var reply_cno = $(this).parent('div').siblings('.reply_cno').attr('name');
-        var inputcomment = $(this).parent('div').siblings('.sandcomment').val();
-        var inputuserid = $(this).parent('div').siblings('.sanduserid').attr('name');
+      // 댓글달기 클릭 버튼
+      $('.send_comment').on('click', function(){
+        var comment_no = $(this).parent('div').siblings('input.comment_no').attr('name');
+        var send_comment_text = $(this).parent('div').siblings('input.send_comment_text').val();
+        var send_user_id = $('.send_user_id').attr('name');
 
 
-          if (inputcomment == "") {
+        // 댓글 메시지를 입력하지 않았거나, 로그인을 하지 않은상태면 toast 메시지를 띄움
+        var toast_message =  $(this).siblings('.toast_reply');
 
-            $('.toast_reply').text("댓글을 작성해 주세요.");
-            $('.toast_reply').removeClass('hidden');
+          if (send_comment_text == "") {
+
+            toast_message.text("댓글을 작성해 주세요.");
+            toast_message.removeClass('hidden');
 
             setTimeout(function () {
-                $('.toast_reply').addClass('hidden');
+              toast_message.addClass('hidden');
             }, 4000);
 
             return;
           }
 
-          if (inputuserid == "") {
+          if (send_user_id == "") {
 
-            $('.toast_reply').text("댓글을 추가하시려면 로그인 해주세요.");
-            $('.toast_reply').removeClass('hidden');
+            toast_message.text("댓글을 추가하시려면 로그인 해주세요.");
+            toast_message.removeClass('hidden');
 
             setTimeout(function () {
-                $('.toast_reply').addClass('hidden');
+              toast_message.addClass('hidden');
             }, 4000);
 
             return;
           }
 
-            $.ajax({
-            type:"post",
-            dataType:"json",
-            url:"comment.php",
-            data:{'mode':'create', 'post_no':Param.blog_no, 'page':Param.page, 'comment':inputcomment, 'reply_cno':reply_cno, 'userId': inputuserid},
-            success : function (json) {
-              console.log(json);
 
-              if ( json.res == "notok") {
-
-                $('.cm_count').html('현재 댓글이 없습니다.');
-                $('.cm_contents').addClass('hidden');
+              $.ajax({
+                type:"post",
+                dataType:"json",
+                url:"comment.php",
+                data:{'mode':'create', 'post_no':Param.blog_no, 'page':Param.page, 'comment':send_comment_text, 'comment_no':comment_no, 'userId': send_user_id},
+                success : function (db_data) {
+                  console.log(db_data);
 
 
-              } else {
+                    // $('.cm_count').html('총 댓글 '+db_data.totalData+'개');
+                    // $('.cm_contents').html('');
+                    // setComment(db_data.data);
+                    window.location.reload(true)
 
-                $('.cm_contents').removeClass('hidden');
-                $('.cm_count').html('총 댓글 '+json.totalData+'개');
-                commentdata(json.data);
 
-              }
-            }, error : function(xhr, status, error) {
-              console.log("실패"+error);
-            }
-          })
-        })
+                }, error : function(xhr, status, error) {
+                  console.log("실패"+error);
+                }
+              })
 
-        
+
+          $(this).parent('div').siblings('input.send_comment_text').val('');
+
+        });
 
 
 

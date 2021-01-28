@@ -1072,7 +1072,7 @@ a:hover {
 }
 
 .cm_replybt {
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 
@@ -1086,7 +1086,7 @@ a:hover {
 }
 
 .cm_replybt span {
-  margin-right: 10px;
+  margin-right: 25px;
 }
 
 .cm_inputcmt,
@@ -1129,7 +1129,7 @@ input:focus{
 }
 
 .cm_content {
-  margin-top: 3px;
+  margin-top: 5px;
 }
 
 .cm_authimg {
