@@ -124,10 +124,19 @@
     <div>
       <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional"></span></label></h3>
       <span class="box int_email">
-          <input type="text" id="email" name="email" class="int" maxlength="100" placeholder="선택입력">
-          <button type="button" id="email_authenticate" class="auth_email">인증하기</button>
+          <input type="text" id="email" name="email" class="int" maxlength="100" placeholder="이메일 주소를 입력해 주세요">
+          <button type="button" id="email_authenticate" class="auth_email">인증번호 받기</button>
       </span>
       <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>    
+    </div>
+
+    <div class="email_check_area hidden">
+      <h3 class="join_title"><label for="email">이메일 인증번호 입력<span class="optional"></span></label></h3>
+      <span class="box int_email">
+          <input type="text" id="email_check" name="email_check" class="int" maxlength="15" placeholder="인증번호를 입력해 주세요">
+          <button type="button" id="email_check_ok" class="auth_email">확인</button>
+      </span>
+      <span class="error_next_box"></span>    
     </div>
 
     <!-- JOIN BTN-->

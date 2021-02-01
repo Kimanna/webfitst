@@ -190,5 +190,10 @@ select {
   position: absolute;
   top: 50%;
   right: 16px;
+  margin-top: -17px;
   cursor: pointer;
+}
+
+.hidden {
+  display: block;
 }
