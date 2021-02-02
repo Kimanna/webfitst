@@ -36,7 +36,7 @@ router.post('/', function(req, res, next) {
 
     var room_img_save_path = 'images/' + room_img;
     var now_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    var now_time_utc = new Date().valueOf();
+    var now_time_long = new Date().valueOf();
     
       pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
@@ -52,7 +52,7 @@ router.post('/', function(req, res, next) {
           if (error) throw error;
           
           var open_chat_no = results.insertId;
-          connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_utc], function (error, results, fields) {
+          connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
           });
       
           res.redirect('/chat_room?id=' + user_id + '&room_type=open_chat&room_no=' + open_chat_no);
@@ -103,13 +103,13 @@ router.get('/join', function(req, res, next) {
   // var open_chat_no = req.query.chat_room_no;
   // var user_id = req.query.id;
   // var now_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  // var now_time_utc = new Date().valueOf();
+  // var now_time_long = new Date().valueOf();
 
 
   // pool.getConnection(function(err, connection) {
   //   if (err) throw err; // not connected!
   
-  //   connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_utc], function (error, results, fields) {
+  //   connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
   //   });
 
   //   res.redirect('/chat_room?id=' + user_id + '&room_type=open_chat&room_no=' + open_chat_no);

@@ -114,28 +114,45 @@ app.get('/chat_room', function (req, res) {
     if (err) throw err; // not connected!
 
     var open_chat_query = 
-    `SELECT o.*, m.last_visit_time, m.last_leave_time 
-
+    `SELECT o.*, m.last_visit_time, m.last_leave_time, 
+      (SELECT COUNT(*) FROM open_chat_member c WHERE c.open_chat_no=m.open_chat_no GROUP BY open_chat_no) AS member_count
+    
      FROM 
-      open_chat_member AS m  
-
+       open_chat AS o  
+    
      JOIN 
-      open_chat AS o ON m.open_chat_no = o.open_chat_no 
-     
-     WHERE m.member_id='${user_id}' 
+       open_chat_member AS m ON m.open_chat_no = o.open_chat_no 
+    
+     WHERE m.member_id='${user_id}' AND o.deleted = 0
+    
      ORDER BY o.last_message_time DESC;`;
     
     var user_info_query = 'SELECT * FROM topic WHERE id = \'' + user_id + '\';';
 
-    connection.query(open_chat_query + user_info_query, function (error, results, fields) {
+    var open_chat_member_query = 
+    `SELECT o.open_chat_no, t.nickname, t.profileimg, t.id
+
+     FROM 
+        open_chat AS o  
+     LEFT JOIN 
+        open_chat_member AS m ON m.open_chat_no = o.open_chat_no 
+      
+     LEFT JOIN 
+        topic AS t ON m.member_id = t.id 
+      
+     WHERE o.deleted=0
+      
+     ORDER BY m.join_date ASC;`;
+
+    connection.query(open_chat_query + user_info_query + open_chat_member_query, function (error, results, fields) {
       connection.release();
    
       if (error) throw error;
 
       console.log(results[0]);
-      // console.log(results[1]);
+      // console.log(results[2]);
             
-      res.render('chat_room.html', { open_chat_room_data: results[0], join_user_data : results[1], userId : user_id });
+      res.render('chat_room.html', { open_chat_room_data: results[0], join_user_data : results[1], open_chat_member : results[2], userId : user_id });
       
     });
   });
@@ -151,76 +168,123 @@ io.sockets.on('connection', function (socket) {
     console.log(socket.rooms);
     
     var room_id = data.room_id;
+
+    // room 의 넘버만 가져옴
+    var room_no = room_id.split('_')[2];
+
+    var now_time_long = new Date().valueOf(); // 현재시간
+    
     
       // join_room 이 호출되면 room_id의 방으로 입장하게 된다
       socket.join(data.room_id, function() {
-        console.log('user connected join: ', data.user_id, data.nickname, data.profileimg, data.room_id, data.member_type);
+        console.log('user connected join: ', data.user_id, data.user_nickname, data.user_profileimg, data.room_id, data.member_type);
         
       });
+
+          // user 의 채팅방 방문시간을 저장
+          pool.getConnection(function(err, connection) {
+            if (err) throw err; // not connected!
+          
+            var open_chat_visit_time_query = 
+
+            `UPDATE open_chat_member 
+     
+             SET 
+               last_visit_time = ${now_time_long}
+             
+             WHERE 
+               open_chat_no = ${room_no} AND member_id = '${data.user_id}';`;
+        
+            connection.query(open_chat_visit_time_query, function (error, results, fields) {
+              connection.release();
+          
+              if (error) throw error;
+              console.log(results);
+              
+            });
+          }); 
 
 
           pool.getConnection(function(err, connection) {
             if (err) throw err; // not connected!
 
-            // room 의 넘버만 가져옴
-            var room_no = room_id.substr(room_id.length-1, 1);
-
-            // 해당대화방의 대화 데이터를 가져오기 위한 임시 저장 query
-            var chat_conversation_query = '';
+ 
 
             // room_id 가 open_chat 인 경우 open_chat_conversation 의 테이블조회 쿼리 작성
             // room_id 가 person_chat 인 경우 person_chat_conversation 의 테이블조회 쿼리 작성
             if (room_id.substr(0, 1) == 'o') {
 
-            var chat_conversation_query =
-
-               `SELECT c.*, t.nickname, t.profileimg
-
-                FROM 
-                  open_chat_conversation AS c 
-                  
-                LEFT JOIN 
-                  topic AS t ON 
-                  c.sent_id = t.id 
-                  
-                WHERE c.open_chat_no = ${room_no}
-
-                ORDER BY sent_time ASC;`
-
-            } else if (room_id.substr(0, 1) == 'p') {
 
               var chat_conversation_query =
-            
-              `SELECT c.*, t.nickname, t.profileimg
 
-               FROM 
-                 personal_chat_conversation AS c 
-                 
-               LEFT JOIN 
-                 topic AS t ON 
-                 c.sent_id = t.id 
-                 
-               WHERE c.open_chat_no = ${room_no}
+                  `SELECT c.*, t.nickname, t.profileimg
 
-               ORDER BY sent_time ASC;`
+                    FROM 
+                      open_chat_conversation AS c 
+                      
+                    LEFT JOIN 
+                      topic AS t ON 
+                      c.sent_id = t.id 
+                      
+                    WHERE c.open_chat_no = ${room_no}
 
-            } 
+                    ORDER BY sent_time ASC;`
+
+
+                var chat_room_info = 
+
+                  `SELECT o.*, m.member_id, t.nickname, t.profileimg
+
+                    FROM 
+                      open_chat AS o 
+
+                    LEFT JOIN 
+                      open_chat_member AS m ON 
+                      o.open_chat_no = m.open_chat_no 
+
+                    LEFT JOIN 
+                      topic AS t ON 
+                      m.member_id = t.id
+
+                    WHERE o.open_chat_no = ${room_no} ORDER BY m.join_date ASC;`;
+
+              } else if (room_id.substr(0, 1) == 'p') {
+
+                    var chat_conversation_query =
+                    
+                      `SELECT c.*, t.nickname, t.profileimg
+
+                      FROM 
+                        personal_chat_conversation AS c 
+                        
+                      LEFT JOIN 
+                        topic AS t ON 
+                        c.sent_id = t.id 
+                        
+                      WHERE c.open_chat_no = ${room_no}
+
+                      ORDER BY sent_time ASC;`;
+
+
+
+              } 
         
-            connection.query(chat_conversation_query, function (error, results, fields) {
+            connection.query(chat_conversation_query + chat_room_info, function (error, results, fields) {
               connection.release();
            
               if (error) throw error;
         
-              console.log(results);
+              console.log(results[0]);
+              console.log(results[1]);
 
 
-              if (data.member_type == 'new_member' ) {
-
+             if (data.member_type == 'new_member' ) {
+  
                 io.to(socket.id).emit('join_new_room', data.nickname)
               
               }
 
-              io.to(socket.id).emit('chat_data', results);
+              io.to(socket.id).emit('chat_data', results[0], results[1]);
                   
               
             });
@@ -276,6 +340,7 @@ io.sockets.on('connection', function (socket) {
       });
 
 
+
       io.in(room_id).emit('chat', user_id, nickname, profile, text, now_time);
     });
 
@@ -298,6 +363,33 @@ io.sockets.on('connection', function (socket) {
 
 });
 
+
+
+// 채팅룸 나가기 클릭한경우
+app.get('/chat_room/exit', function (req, res) {
+
+  var queryData = url.parse(req.url, true).query;
+  var user_id = queryData.userId;
+  var room_no = queryData.room_no;
+
+  console.log(room_no+user_id);
+
+
+  pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+   
+    var exit_room_query = `DELETE FROM open_chat_member WHERE open_chat_no = ${room_no} AND member_id = '${user_id}';`
+
+    connection.query(exit_room_query, function (error, results, fields) {
+      connection.release();
+   
+      if (error) throw error;
+
+    });
+  }); 
+
+  res.send({ response: 'ok' });
+});
 
 function chat_socket(user_profile) {
 
