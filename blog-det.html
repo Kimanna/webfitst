@@ -68,7 +68,7 @@
                                     </div>
                                 </div>
                                 <div class="articleTool">
-                                    <a href=".cm_area" role="button" class="button_comment">댓글  <img src="images/underline-button.png" style="width: 15px; height: 15px; vertical-align: middle;"></a>
+                                    <a href="#cm_area_ac" role="button" class="button_comment">댓글  <img src="images/underline-button.png" style="width: 15px; height: 15px; vertical-align: middle;"></a>
                                     <a href="javascript:void(0);" onclick="copyclip();" class="button_url">URL 복사  <img src="images/copy-content.png" style="width: 15px; height: 15px; vertical-align: middle;"></a>
                                     <div class="toast_url_copy_successful hiddent">URL 이 복사되었습니다. 원하는 곳에 붙여 넣으세요.</div>
                                 </div>
@@ -76,6 +76,7 @@
                         </div>
                         <div class="boardContents" style="overflow: hidden;">
                         </div>
+                        <a name="cm_area_ac"></a>
                         <div class="cm_area">
                           <div class="cm_header">
                               <div class="cm_add_area">
@@ -244,12 +245,7 @@
                 success : function (db_data) {
                   console.log(db_data);
 
-
-                    // $('.cm_count').html('총 댓글 '+db_data.totalData+'개');
-                    // $('.cm_contents').html('');
-                    // setComment(db_data.data);
                     window.location.reload(true)
-
 
                 }, error : function(xhr, status, error) {
                   console.log("실패"+error);

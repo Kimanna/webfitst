@@ -62,6 +62,7 @@ if(isset($mode)) {
             if( !move_uploaded_file($_FILES['thumbnail']['tmp_name'], "$uploadBase/$filen" )) {
                 throw new Exception("fileUploadCopy");
             }
+            
 
         } else{
             if( $uploadStatus==1 ){ throw new Exception("fileUploadIniSize"); }

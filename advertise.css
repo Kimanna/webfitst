@@ -14,7 +14,7 @@
   display: block;
   width: 200px !important;
   height: 100% !important;
-  margin: 80px 30px 0 0 !important;
+  margin: 80px 32px 0 0 !important;
   border: 1px solid #ccc !important;
   background: #fafafa !important;
 
@@ -142,7 +142,7 @@ samp {
 
 .subContents {
   display: block;
-  width: 900px;
+  width: 866px;
   float: left;
   margin: 25px 0 80px 0;
 }
@@ -1030,6 +1030,26 @@ a:hover {
 }
 
 
+.sm_btn {
+
+  width: 80px;
+  cursor: pointer;
+  border: 1px solid #bfbfbf;
+  padding: 5px 5px;
+  background: #fff;
+  text-align: center;
+
+}
+
+.btn_style {
+
+  display:flex; 
+  justify-content: flex-start; 
+  font-size: 16px;
+  margin-top: 30px;
+}
+
+
 
 /* 댓글부분 */
 .cm_area {
@@ -1540,10 +1560,20 @@ input:focus{
   display: inline-block;
 }
 
-.nickname_title {
-  margin-left: 30px;
-  vertical-align: bottom;
+.input_box {
+
+  line-height: 27px;
+  float: left;
+  height: 27px;
+  padding: 0 0 0 7px;
+  vertical-align: top;
+  color: #333;
+  border: 1px solid #ccc;
+  opacity: 1;
+  margin-top: 5px;
+  
 }
+
 
 .profileimg {
   display: inline-block;
@@ -1601,6 +1631,11 @@ font-weight: 600;
 position: relative;
 left: 40%;
 }
+
+/* .width_size {
+
+  width: 180px;
+} */
 
 /* .datefont {
   font-size: 11px; 

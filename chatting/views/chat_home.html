@@ -261,27 +261,37 @@
           </div>
           <div class="-mx-3 md:flex mb-6">
             <div class="md:w-1/2 px-3 mb-6 md:mb-0">
-              <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="chat_room_title">
+              <label class="block uppercase tracking-wide text-grey-darker text-sm font-bold mb-2" for="chat_room_title">
                 방 제목
               </label>
               <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="chat_room_title" name="chat_room_title" type="text" placeholder="20자 이내">
-              <p id="err_title" class="text-red-500 text-xs italic hidden">Please fill out this field.</p>
+              <p id="err_title" class="text-red-500 text-sm italic hidden">방제목을 입력해 주세요.</p>
             </div>
             <div class="md:w-1/2 px-3">
-              <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="chat_room_member">
-                인원
+              <label class="block uppercase tracking-wide text-grey-darker text-sm font-bold mb-2" for="chat_room_member">
+                최대 인원 수
               </label>
               <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="chat_room_member" name="chat_room_member" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="숫자만 입력 해주세요.">
-              <p id="err_member" class="text-red-500 text-xs italic hidden">Please fill out this field.</p>
+              <p id="err_member" class="text-red-500 text-sm italic hidden">최대 인원 수를 설정해 주세요.</p>
             </div>
+          </div>
+          <div class="mb-8">
+            <label class="block uppercase tracking-wide text-grey-darker text-sm font-bold mb-2" for="chat_room_intro">
+              채팅 방 소개
+            </label>
+            <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="chat_room_intro" name="chat_room_intro" type="text" placeholder="채팅방 소개 작성">
+            <p id="err_intro" class="text-red-500 text-sm italic hidden">채팅방 소개를 작성해 주세요.</p>
           </div>
           <div class="-mx-3 md:flex mb-6">
             <div class="md:w-full px-3">
-              <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="chat_room_img">
+              <label class="block uppercase tracking-wide text-grey-darker text-sm font-bold mb-3">
                 대표 사진
               </label>
-              <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" id="chat_room_img" name="chat_room_img" type="file">
-              <p id="err_img" class="text-red-500 text-xs italic hidden">Please fill out this field.</p>
+              <label id="photo" for="chat_room_img">대표사진 선택
+                  <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" id="chat_room_img" name="chat_room_img" type="file">
+              </label>
+              <img class="inline-block ml-6 hidden" width="150px" height="150px" id="main_thumbnail">
+              <p id="err_img" class="text-red-500 text-sm italic hidden">대표사진을 설정해 주세요.</p>
             </div>
           </div>
           <div style="cursor:pointer; background-color:#d9dfc0; text-align: center; padding-bottom: 10px; padding-top: 10px;" onClick="make_room();">방 개설</div>
@@ -315,6 +325,22 @@
   .hidden {
     display: none;
   }
+
+  #photo {
+   cursor: pointer;
+   border: 1px solid #bfbfbf;
+   padding: 5px 10px;
+   background: #fff;
+   color: rosybrown;
+   font-size: 16px;
+  }
+
+  #chat_room_img {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+  }
+
   </style>
 <!-- <script src="/socket.io/socket.io.js"></script> -->
 <script src="//code.jquery.com/jquery-1.11.1.js"></script>
@@ -336,35 +362,79 @@
     $('.searchModal').hide();
   };
   
+  // 새로운 방 개설하는 메서드
+  // 입력되지 않은 값에 해당하는 필드는 err를 띄움, 모든 값을 입력하면 submit됨. 
   function make_room() {
   
-    if ($('#chat_room_title').val() == "") {
+    var check1 = false;
+    var check2 = false;
+    var check3 = false;
+    var check4 = false;
+
+    if ($('#chat_room_title').val() == '') {
       $('#err_title').removeClass('hidden');
-      $('#err_img').addClass('hidden');
-      $('#err_member').addClass('hidden');
-      return;
-  
-    } else if ($('#chat_room_member').val() == "") {
-      $('#err_member').removeClass('hidden');
-      $('#err_img').addClass('hidden');
-      $('#err_title').addClass('hidden');
-      return;
-  
-    } else if ($('#chat_room_img').val() == "") {
-      $('#err_img').removeClass('hidden');
-      $('#err_title').addClass('hidden');
-      $('#err_member').addClass('hidden');
-      return;
-  
+      check1 = false;
     } else {
       $('#err_title').addClass('hidden');
-      $('#err_member').addClass('hidden');
-      $('#err_img').addClass('hidden');
+      check1 = true;
     }
+    if ($('#chat_room_member').val() == '') {
+      $('#err_member').removeClass('hidden');
+      check2 == false;
+    } else {
+      $('#err_member').addClass('hidden');
+      check2 == true;
+    } 
+    if ($('#main_thumbnail').attr('src') == '') {
+      $('#err_img').removeClass('hidden');
+      check3 == false;
+    } else {
+      $('#err_img').addClass('hidden');
+      check3 == true;
+    }
+    if ($('#chat_room_intro').val() == '') {
+      $('#err_intro').removeClass('hidden');
+      check4 == false;
+    } else {
+      $('#err_intro').addClass('hidden');
+      check4 == true;
+    }
+
+    console.log('check 값 확인'+check1);
+    console.log('check 값 확인'+check2);
+    console.log('check 값 확인'+check3);
+    console.log('check 값 확인'+check4);
+
+    if (check1 == false || check2 == false || check3 == false || check4 == false) {
+      return;
+    }
+    console.log('pass this line?');
   
     $('.searchModal').hide();
     $('#submit_form').submit();
   };
+
+
+  
+    // 대표사진 클릭시 image 바로 적용
+    $('#chat_room_img').change(function(){
+      $('#main_thumbnail').removeClass('hidden');
+      setImageFromFile(this, '#main_thumbnail');
+      });
+    
+    function setImageFromFile(input, expression) {
+          if (input.files && input.files[0])
+          {
+              var reader = new FileReader();
+      
+                  reader.onload = function (e) {
+                      $(expression).attr('src', e.target.result);
+
+                }
+                reader.readAsDataURL(input.files[0]);
+
+          }
+    }
 
   function join_room(room_number) {
 
@@ -397,7 +467,7 @@
                     var result = confirm (room_number+"번 방에 참여 하시겠습니까?");
                     if (result) {
 
-                      location.href = 'http://localhost:3000/chat_home/newroom/join';
+                      location.href = 'http://localhost:3000/chat_room?id='+userId+'&room_type=open_chat&room_no='+room_number;
 
                     } else console.log("취소버튼");
                 
@@ -420,6 +490,10 @@
       console.log(open_chat_no);
 
       if (action == 'update') {
+
+        $("#modal").show();
+
+
 
 
 

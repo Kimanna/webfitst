@@ -23,8 +23,10 @@ router.post('/', function(req, res, next) {
   var user_id = req.body.userId;
   var room_title = req.body.chat_room_title;
   var room_member = req.body.chat_room_member;
+  var room_intro = req.body.chat_room_intro;
   var file = req.files.chat_room_img;
   var room_img = req.files.chat_room_img.name;
+  console.log(room_img);
 
   file.mv('../images/' + room_img, function (err){
     if (err) {
@@ -41,14 +43,9 @@ router.post('/', function(req, res, next) {
       pool.getConnection(function(err, connection) {
         if (err) throw err; // not connected!
       
-        
-        // Use the connection
-        connection.query('INSERT INTO open_chat (created, chat_title, chat_member, chat_thumbnail, room_master_id) VALUES(?,?,?,?,?)',[now_time, room_title, room_member, room_img_save_path, user_id], function (error, results, fields) {
+        connection.query('INSERT INTO open_chat (created, chat_title, chat_member, chat_thumbnail, room_master_id, room_introduce) VALUES(?,?,?,?,?,?)',[now_time, room_title, room_member, room_img_save_path, user_id, room_intro], function (error, results, fields) {
           
-          // When done with the connection, release it.
           connection.release();
-          
-          // Handle error after the release.
           if (error) throw error;
           
           var open_chat_no = results.insertId;

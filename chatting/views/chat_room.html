@@ -159,8 +159,8 @@
       <div class="mt-5">
         <div class="text-xs text-gray-400 font-semibold uppercase">오픈채팅</div>
       </div>
-      <div class="mt-2">
-        <div class="flex flex-col -mx-4">
+      <div class="mt-2 h-full overflow-y-auto">
+        <div class="flex flex-col -mx-4 ">
 
           <!--  open_chat list 시작되는 구역 -->
           
@@ -367,6 +367,8 @@
 
                 <% for(var temp = 0; temp < open_chat_member.length; temp++) { 
 
+                  console.log(join_user_data);
+
                    if (open_chat_room_data[0].open_chat_no == open_chat_member[temp].open_chat_no) { %>
 
                       <div class="member_each_area" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
@@ -496,7 +498,7 @@
 
       </div>
     </div>
-    <form id="chat">
+    <form id="chat" enctype="multipart/form-data">
       <input id="send_id" value="<%= join_user_data[0].id %>" type="hidden">
       <input id="send_nickname" value="<%= join_user_data[0].nickname %>" type="hidden">
       <input id="send_profileimg" value="<%= join_user_data[0].profileimg %>" type="hidden">
@@ -532,7 +534,7 @@
                         d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
                 </svg>
               </button> -->
-              <button class="flex items-center justify-center h-10 w-8 text-gray-400 ml-1 mr-2">
+              <label for="upload-photo" class="flex items-center justify-center h-10 w-8 text-gray-400 ml-1 mr-2">
                 <svg class="w-5 h-5"
                     fill="none"
                     stroke="currentColor"
@@ -543,7 +545,8 @@
                         stroke-width="2"
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
-              </button>
+                <input type="file" name="send_photo" id="upload-photo" accept="image/*" onchange='sendImage();'/>
+              </label>
             </div>
           </div>
           <div class="ml-6">
@@ -567,6 +570,16 @@
 <style>
   .hidden {
     display: none;
+  }
+  label {
+   cursor: pointer;
+   /* Style as you please, it will become the visible UI component. */
+  }
+
+  #upload-photo {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
   }
 </style>
 
@@ -595,8 +608,7 @@ function getUrlParams() {
     // var main_room_no = $('#send_room_id').val();
     var room_id = $('#send_room_id').val();;
 
-    console.log(room_id);
-    console.log(user_id);
+    console.log('페이지 로딩시 기존 룸 넘버' +room_id);
 
 
 
@@ -625,19 +637,25 @@ function getUrlParams() {
 
         messages_area.html('');
 
-        room_id = $(this).data("value");
-        $('#send_room_id').val(room_id);
-        console.log(room_id);
+        var change_room_id = $(this).data("value");
+        console.log('클릭시 기존 룸 넘버' + room_id);
+        console.log('이동하려는 룸 넘버' + change_room_id);
   
         socket.emit('join_room', {
 
             user_id: user_id,
             nickname: user_nickname,
             profileimg: user_profileimg,
-            room_id: room_id,
-            member_type: 'exist_member'
+            room_id: change_room_id,
+            member_type: 'exist_member',
+            before_visit_room_id: room_id
 
         });
+
+        $('#send_room_id').val(change_room_id);
+        console.log('방 이동 후 현재 룸 넘버를 이동한 룸 넘버로 변경해줌 ' + $('#send_room_id').val());
+        room_id = $('#send_room_id').val();
+
 
       })
 
@@ -663,42 +681,100 @@ function getUrlParams() {
           // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
           var user_profileimg = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + conversation_data[chat_temp].profileimg + '\">';
           var chat_sent_time = get_str_time (conversation_data[chat_temp].sent_time);
-          
+
+
+          // 날자구분선을 표시
+          if (conversation_data.length > 1) {
+            if (conversation_data.length > chat_temp+1 ) {
+              if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
+  
+                messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+            
+              }
+            }
+
+          } else {
+
+              messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+
+          }
 
           // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
           // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
           if (conversation_data[chat_temp].sent_id == user_id) {
+            if (conversation_data[chat_temp].message_type == 'text') { // 메시지 타입이 text 인 경우
 
-            var message_html = 
-              `
-              <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                  <div class="flex items-center justify-start flex-row-reverse">
-                    <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                    <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                      <div>${conversation_data[chat_temp].sent_message}</div>
-                    </div>
-                    <div class="relative mr-3 text-xs">${chat_sent_time}</div>
-                  </div>
-                </div>`
-                  
-            messages_area.append(message_html);
-            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+                var message_html = 
+                  `
+                  <div class="col-start-6 col-end-13 p-3 rounded-lg">
+                      <div class="flex items-center justify-start flex-row-reverse">
+                        <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                        <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                          <div>${conversation_data[chat_temp].sent_message}</div>
+                        </div>
+                        <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+                      </div>
+                    </div>`
+                      
+                messages_area.append(message_html);
+                messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+
+            } else { // 메시지 타입이 file 인 경우
+
+                var message_html = 
+                    `
+                    <div class="col-start-6 col-end-13 p-3 rounded-lg">
+                        <div class="flex items-center justify-start flex-row-reverse">
+                          <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                          <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                            <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
+                          </div>
+                          <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+                        </div>
+                      </div>`
+                        
+                  messages_area.append(message_html);
+                  messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+            }
 
           } else {
 
-            var message_html = `
-                <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                    <div class="flex flex-row items-center">
-                      <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                      <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                        <div>${conversation_data[chat_temp].sent_message}</div>
+            if (conversation_data[chat_temp].message_type == 'text') {
+
+              var message_html = `
+                  <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                      <div class="flex flex-row items-center">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <div>${conversation_data[chat_temp].sent_message}</div>
+                        </div>
+                        <div class="relative ml-3 text-xs">${chat_sent_time}</div>
                       </div>
-                      <div class="relative ml-3 text-xs">${chat_sent_time}</div>
-                    </div>
-                  </div>`
-                  
-            messages_area.append(message_html);
-            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+                    </div>`
+                    
+              messages_area.append(message_html);
+              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+            } else {
+
+              var message_html = `
+                  <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                      <div class="flex flex-row items-center">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
+                        </div>
+                        <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                      </div>
+                    </div>`
+                    
+              messages_area.append(message_html);
+              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+
+            }
 
             }
       }
@@ -765,8 +841,7 @@ function getUrlParams() {
     });
 
 
-    socket.on('chat', function(send_user_id, nickname, profile, text, now_time){ //3
-      console.log(text);
+    socket.on('chat', function(send_user_id, nickname, profile, text, now_time, message_type){ //3
       
 
       // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
@@ -778,56 +853,152 @@ function getUrlParams() {
        // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
        // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
       if (user_id == send_user_id) {
+        if (message_type == 'text') { // 메시지 타입이 text 인 경우
 
-        var message_html = 
-           `<div class="col-start-6 col-end-13 p-3 rounded-lg">
-              <div class="flex items-center justify-start flex-row-reverse">
-                <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                  <div>${text}</div>
-                </div>
-                <div class="relative mr-3 text-xs">${chat_sent_time}</div>
-              </div>
-            </div>`
-              
-        messages_area.append(message_html);
-        messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-
-      } else {
-
-        var message_html = `
-            <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                <div class="flex flex-row items-center">
-                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                  <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                    <div>${text}</div>
+            var message_html = 
+              `<div class="col-start-6 col-end-13 p-3 rounded-lg">
+                  <div class="flex items-center justify-start flex-row-reverse">
+                    <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                    <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                      <div>${text}</div>
+                    </div>
+                    <div class="relative mr-3 text-xs">${chat_sent_time}</div>
                   </div>
-                  <div class="relative ml-3 text-xs">${chat_sent_time}</div>
-                </div>
-              </div>`
-              
-        messages_area.append(message_html);
-        messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-       
+                </div>`
+                  
+            messages_area.append(message_html);
+            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+        } else { // 메시지 타입이 file 인 경우
+
+            var message_html = 
+                `<div class="col-start-6 col-end-13 p-3 rounded-lg">
+                    <div class="flex items-center justify-start flex-row-reverse">
+                      <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                      <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                        <div><img src="http://127.0.0.1/${profile}"></div>
+                      </div>
+                      <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+                    </div>
+                  </div>`
+                    
+              messages_area.append(message_html);
+              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+
+        }
+
+      // 내가아닌 유저가 보낸 메시지인 경우
+      } else {
+          if (message_type == 'text') { // 메시지 타입이 text 인 경우
+
+            var message_html = `
+                <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                    <div class="flex flex-row items-center">
+                      <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                      <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                        <div>${text}</div>
+                      </div>
+                      <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                    </div>
+                  </div>`
+                  
+            messages_area.append(message_html);
+            messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+          } else { // 메시지 타입이 file 인 경우
+
+              var message_html = `
+                  <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                      <div class="flex flex-row items-center">
+                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <div><img src="http://127.0.0.1/${profile}"></div>
+                        </div>
+                        <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                      </div>
+                    </div>`
+                    
+              messages_area.append(message_html);
+              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+          }
+         
         }
     });
 
 
 
-    // 실시간 채팅내용 서버로 발송
-    $('#chat').on('submit', function(e){ //2
+    // 유저가 입력한 메시지 socket을 통해 서버로 발송
+    $('#chat').click(function(){
 
-      console.log($('#send_nickname').val());
-      var now_time = new Date().valueOf();
-
-      console.log('chat 서버로 데이터 전달', user_id + user_nickname +  user_profileimg + $('#message').val() + $('#send_room_id').val() + now_time);
-      socket.emit('chat', user_id, user_nickname,  user_profileimg, $('#message').val(), $('#send_room_id').val(), now_time);
-      $('#message').val('');
-      $('#message').focus();
-      e.preventDefault();
+      
     });
 
+    
+    $('#chat').on('submit', function(e){ //2
+    
+      
+      console.log('채팅내용 전달 메서드')
 
+      let message = $('#message').val();
+      let send_chat_room_id = $('#send_room_id').val();
+      let message_type = 'text';
+      
+      // 메시지가 없으면 return
+      if (message == '' || message == undefined) {
+        return;
+      }
+    var now_time = new Date().valueOf();
+
+    console.log('chat 서버로 데이터 전달', user_id + user_nickname +  user_profileimg + message + send_chat_room_id + now_time, message_type);
+    socket.emit('chat', user_id, user_nickname,  user_profileimg, message, send_chat_room_id, now_time, message_type);
+    $('#message').val('');
+    $('#message').focus();
+    e.preventDefault();
+  });
+
+
+
+    function sendImage() {
+
+      console.log('이미지데이터전달?')
+
+      var form = $("#chat")[0];
+      var formData2 = new FormData(form);
+      console.log(formData2);
+
+      var keys = formData2.keys();
+      console.log(keys.next()); // { done : false , value : 'name' }
+
+
+      //values 값을 가져옵니다.
+      var values = formData2.values();
+      console.log(values.next());// {d
+      
+      var save_image =
+      
+              $.ajax({
+                url: 'chat_room/upload',
+                dataType: 'json',
+                processData: false, 
+                contentType: false,
+                type: 'post',
+                data: formData2
+
+
+              });
+
+          save_image.done(function(data){
+
+            console.log(data);
+          return;
+      });
+
+    }
+
+
+    // 채팅방 정보를 보고싶을때 클릭하면 채팅방 인원 보여줌
     $('.show_chat_room_info').click(function() {
       $(this).siblings('.chat_room_info').removeClass('hidden');
 
