@@ -77,7 +77,7 @@ app.get( '/chat_home', function( req, res ) {
         connection.release();
 
         if ( error ) throw error;
-        console.log( results );
+        // console.log( results );
 
         res.render( 'chat_home.html', {
           open_chat_data: results,
@@ -104,7 +104,7 @@ app.get( '/chat_room', function( req, res ) {
 
   // chat_room 을 들어오는 경로는 총 3가지
   // 1) 왼쪽 tap버튼 클릭으로 들어오는 경우 url파라미터에 user_id 만 존재 => 해당 user_id 를 통해 연결된 모든 채팅방을 load
-  // 2) 오픈채팅방을 만들었을때 redirect로 url 상에 room_type과 room_no를 받아옴 => 해당room 을 보여줌  
+  // 2) 오픈채팅방 목록에서 룸 참여하기를 클릭했을때 redirect로 url 상에 room_type과 room_no를 받아옴 => 해당room 을 보여줌  
   // 3) 1:1 채팅을 신청했을때 url 상에 room_type과 room_no를 받아옴 =>해당 room을 보여줌
 
   var queryData = url.parse( req.url, true ).query;
@@ -157,9 +157,9 @@ app.get( '/chat_room', function( req, res ) {
 
         if ( error ) throw error;
 
-        console.log( results[ 0 ] );
+        // console.log( results[ 0 ] );
         // console.log(results[1]);
-        console.log( results[ 2 ] );
+        // console.log( results[ 2 ] );
 
         res.render( 'chat_room.html', {
           open_chat_room_data: results[ 0 ],
@@ -189,12 +189,12 @@ io.sockets.on( 'connection', function( socket ) {
 
     // join_room 이 호출되면 room_id의 방으로 입장하게 된다
     socket.join( data.room_id, function() {} );
-    console.log( 'socket id : ' + socket.id )
-    console.log( 'user connected join: ', data.user_id, data.nickname + ' 룸 넘버 ' + data.room_id, data.member_type, data.before_visit_room_id );
+    console.log( '192 라인 socket id : ' + socket.id )
+    console.log( '193 라인 user connected join: ', data.user_id + ' 룸 넘버 ' + data.room_id, data.member_type, data.before_visit_room_id );
 
 
 
-    if ( data.before_visit_room_id != null && data.before_visit_room_id != undefined ) {
+    if ( data.before_visit_room_id != '' && data.before_visit_room_id != undefined ) {
 
       var before_room_id = data.before_visit_room_id;
       var before_room_no = before_room_id.split( '_' )[ 2 ]; // 기존 입장했었던 room 의 넘버만 가져옴
@@ -331,7 +331,7 @@ io.sockets.on( 'connection', function( socket ) {
   // 클라이언트에서 전달된 채팅내용을 db에 저장 후 현재 접속중인 룸에만 emit 
   socket.on( 'chat', function( user_id, nickname, profile, text, room_id, now_time, message_type ) {
 
-    console.log( 'chat', room_id )
+    console.log( 'chat 클라이언트에서 보낸 room_id', room_id )
     // console.log('sand_chat_message_room_id', user_id + nickname + profile + text + room_id + now_time + message_type);
 
     // 오픈채팅방에서 마지막 채팅을 대화를 보여주는 부분에서 
@@ -353,7 +353,7 @@ io.sockets.on( 'connection', function( socket ) {
     pool.getConnection( function( err, connection ) {
       if ( err ) throw err; // not connected!
 
-      console.log( 'pool inside 에서 socket값확인', user_id + nickname + profile + text + room_id + now_time + message_type );
+      console.log( '채팅 저장', user_id + room_id + message_type );
 
       // open_chat 채팅방 정보테이블에 last 메시지와, last 메시지가 전송된 시간을 update
       var open_chat_last_message_query =
@@ -376,8 +376,6 @@ io.sockets.on( 'connection', function( socket ) {
             VALUES
               (${room_no},${now_time},'${user_id_var}','${message_fixed}','${message_type}');`
 
-              console.log( open_chat_conversation_query )
-
 
       connection.query( open_chat_last_message_query + open_chat_conversation_query, function( error, results, fields ) {
         connection.release();
@@ -387,7 +385,7 @@ io.sockets.on( 'connection', function( socket ) {
     } );
 
 
-
+    console.log('in 을 발송하는 socket id 넘버' + room_id);
     io.in( room_id ).emit( 'chat', user_id, nickname, profile, message_fixed, now_time, message_type );
   } );
 

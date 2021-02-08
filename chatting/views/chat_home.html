@@ -151,8 +151,8 @@
                   <svg class="h-5 w-5 fill-current dark:text-gray-300" viewBox="0 0 24 24">
                     <path d="M12 4a4 4 0 014 4 4 4 0 01-4 4 4 4 0 01-4-4 4 4 0 014-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4z"></path>
                   </svg>
-                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"> <%= open_chat_data[i].join_member_qty %> 명</span>
-                  <span class="ml-2 text-sm text-gray-600 dark:text-gray-300 capitalize"> (<%= open_chat_data[i].chat_member %> 명)</span>
+                  <span class="ml-4 text-sm text-gray-600 dark:text-gray-300 capitalize"><%= open_chat_data[i].join_member_qty %> 명</span>
+                  <span id="maximum_member" class="ml-4 text-sm text-gray-600 dark:text-gray-300 capitalize">(<%= open_chat_data[i].chat_member %> 명)</span>
                 </div>
 
                 <div class="flex ml-6">
@@ -205,7 +205,7 @@
           <!-- 룸생성자의 id가 접속한 userId 와 동일한경우 수정 삭제 버튼을 보여줌 -->
           <% if (open_chat_data[i].room_master_id == userId) { %>
             <span>
-              <button onClick="reviseRoom('update');"
+              <button onClick="reviseRoom('update',<%= open_chat_data[i].open_chat_no %>);"
                   class="ml-3 bg-gray-400 dark:bg-gray-600
                   dark:text-gray-400 rounded-full p-2 focus:outline-none
                   hover:text-pink-500 hover:bg-pink-300 transition
@@ -251,6 +251,8 @@
 <div id="modal" class="searchModal">
   <form id="submit_form" action="/newroom" method="post" enctype="multipart/form-data">
     <input id="userId" name="userId" value="<%= userId %>" type="hidden"/>
+    <input id="action" name="action" value="" type="hidden"/>
+    <input id="revised_open_chat_no" name="open_chat_no" value="" type="hidden"/>
       <div class="search-modal-content">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
           <div class="self-end" onClick="closeModal();">
@@ -290,11 +292,11 @@
               <label id="photo" for="chat_room_img">대표사진 선택
                   <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 mb-3" id="chat_room_img" name="chat_room_img" type="file">
               </label>
-              <img class="inline-block ml-6 hidden" width="150px" height="150px" id="main_thumbnail">
+              <img class="inline-block ml-6 hidden" width="150px" height="150px" id="main_thumbnail" src=''>
               <p id="err_img" class="text-red-500 text-sm italic hidden">대표사진을 설정해 주세요.</p>
             </div>
           </div>
-          <div style="cursor:pointer; background-color:#d9dfc0; text-align: center; padding-bottom: 10px; padding-top: 10px;" onClick="make_room();">방 개설</div>
+          <div id="room_open_bt" style="cursor:pointer; background-color: steelblue; text-align: center; padding-bottom: 10px; padding-top: 10px; color: floralwhite;" onClick="make_room();">방 개설</div>
         </div>
       </div>
   </form>
@@ -354,7 +356,23 @@
       alert('방개설은 로그인 후에 가능합니다');
       return;
     }
-    
+
+    $('#action').val('create'); // 방 생성임을 input(hidden) 에 val= create 입력해줌
+
+    // 방생성 클릭시엔 모든 값 비워줌 = 초기화
+    $('#chat_room_title').val('');
+    $('#chat_room_member').val('');
+    $('#chat_room_img').val('')
+    $('#main_thumbnail').attr('src','');
+    $('#main_thumbnail').addClass('hidden');
+    $('#chat_room_intro').val('');
+    $('#err_title').addClass('hidden');
+    $('#err_member').addClass('hidden');
+    $('#err_img').addClass('hidden');
+    $('#err_intro').addClass('hidden');
+
+
+    $('#room_open_bt').text('오픈 방 생성');
     $("#modal").show();
   };
   
@@ -362,14 +380,14 @@
     $('.searchModal').hide();
   };
   
-  // 새로운 방 개설하는 메서드
+  // 새로운 방 개설 or 방 수정하는 메서드
   // 입력되지 않은 값에 해당하는 필드는 err를 띄움, 모든 값을 입력하면 submit됨. 
   function make_room() {
   
-    var check1 = false;
-    var check2 = false;
-    var check3 = false;
-    var check4 = false;
+    var check1 = false; // 타이틀 입력여부 확인
+    var check2 = false; // 최대멤버명수 입력여부 확인
+    var check3 = false; // 이미지 입력여부 확인
+    var check4 = false; // 방 소개 입력여부 확인
 
     if ($('#chat_room_title').val() == '') {
       $('#err_title').removeClass('hidden');
@@ -378,36 +396,36 @@
       $('#err_title').addClass('hidden');
       check1 = true;
     }
+
     if ($('#chat_room_member').val() == '') {
       $('#err_member').removeClass('hidden');
-      check2 == false;
+      check2 = false;
     } else {
       $('#err_member').addClass('hidden');
-      check2 == true;
+      check2 = true;
     } 
-    if ($('#main_thumbnail').attr('src') == '') {
+
+    // input태그에 선택한 파일도 없고, 방 수정시 기존 불러온 image도 없는경우는 방생성, 방수정 불가   
+    if ($('#chat_room_img').val() == '' && $('#main_thumbnail').attr('src') == '') {
       $('#err_img').removeClass('hidden');
-      check3 == false;
+      check3 = false;
     } else {
       $('#err_img').addClass('hidden');
-      check3 == true;
-    }
-    if ($('#chat_room_intro').val() == '') {
-      $('#err_intro').removeClass('hidden');
-      check4 == false;
-    } else {
-      $('#err_intro').addClass('hidden');
-      check4 == true;
+      check3 = true;
     }
 
-    console.log('check 값 확인'+check1);
-    console.log('check 값 확인'+check2);
-    console.log('check 값 확인'+check3);
-    console.log('check 값 확인'+check4);
+    if ($('#chat_room_intro').val() == '') {
+      $('#err_intro').removeClass('hidden');
+      check4 = false;
+    } else {
+      $('#err_intro').addClass('hidden');
+      check4 = true;
+    }
 
     if (check1 == false || check2 == false || check3 == false || check4 == false) {
       return;
     }
+
     console.log('pass this line?');
   
     $('.searchModal').hide();
@@ -416,9 +434,10 @@
 
 
   
-    // 대표사진 클릭시 image 바로 적용
+    // 대표사진 클릭시 image tag 에 보이도록 적용
     $('#chat_room_img').change(function(){
       $('#main_thumbnail').removeClass('hidden');
+      $('#err_img').addClass('hidden');
       setImageFromFile(this, '#main_thumbnail');
       });
     
@@ -436,11 +455,11 @@
           }
     }
 
+  // 다른방에 참여하기 클릭시 해당 방으로 이동
   function join_room(room_number) {
 
     
     var userId =  $('#userId').val();
-    console.log(userId);
 
     // 로그인이 안된상태는 open chat방에 입장불가 ( 파라미터에 id가 없이 접속한 경우 )
     if (userId == "") {
@@ -460,30 +479,68 @@
               success: function(check_join) {
 
                 console.log(check_join);
+                var maximum_member = $('#maximum_member').text().replace(/[^0-9]/g,'');
+                console.log(maximum_member);
+                console.log(check_join.room_member.length)
 
-                if (check_join.if_join == 'not_join') {
+                if (check_join.result == 'ok') {
 
+                  // 현재 가입돼있는 인원이 maximum member(멤버허용수) 보다 높은 경우 return && 
+                  // 이미 가입돼있는 member_id 와 현재 접속중인 user_id를 비교해 동일한 user_id가 있는경우 return;
+                   if (check_join.room_member.length >= maximum_member) {
+                      alert('이미 만실입니다.');
+                      return;
+                   }
+
+                   for (var temp = 0 ; temp < check_join.room_member.length ; temp++ ) {
+                     console.log('member id : '+check_join.room_member[temp].member_id)
+                     console.log('현재 user id : '+userId)
+
+                      if (check_join.room_member[temp].member_id == userId) {
+
+                        alert('해당방은 이미 참여중입니다.');
+                        return;
+                      }
+                    }
 
                     var result = confirm (room_number+"번 방에 참여 하시겠습니까?");
                     if (result) {
 
-                      location.href = 'http://localhost:3000/chat_room?id='+userId+'&room_type=open_chat&room_no='+room_number;
+                      joinSaveMember (room_number, userId);
 
                     } else console.log("취소버튼");
                 
-                } else {
+                } 
+              }
+          });
+    }
+  }
 
-                    alert('해당방은 이미 참여중입니다.');
+  // 오픈챗 참여하기를 클릭한 경우 open_chat_member 테이블에 해당 유저 detail 저장
+  function joinSaveMember (room_number, userId) {
+
+    $.ajax({
+              url: '/newroom/join',
+              dataType: 'json',
+              type: 'GET',
+              data: {room_number : room_number, userId : userId},
+              success: function(join) {
+
+                console.log(join.result);
+
+                if (join.result == 'ok') {
+
+                  location.href = 'http://localhost:3000/chat_room?id='+userId+'&room_type=open_chat&room_no='+room_number;
 
                 }
               }
           });
-
-    }
-
   }
   
 
+  // 방 수정 or 삭제 클릭시
+  // 수정 = 기존 room data 를 가져와서 보여줌
+  // 삭제 = db에서 방을 삭제
   function reviseRoom(action, open_chat_no) {
 
       var userId =  $('#userId').val();
@@ -491,13 +548,38 @@
 
       if (action == 'update') {
 
+          $.ajax({
+                url: '/newroom/update',
+                dataType: 'json',
+                type: 'GET',
+                data: {room_number : open_chat_no, userId : userId},
+                success: function(room_data) {
+
+                  if (room_data.result == 'ok') {
+
+                    console.log(room_data.chat_room[0]);
+                    
+                    $('#action').val('update'); // 방 수정임을 input(hidden) 에 val= update 입력해줌
+
+
+                    $('#revised_open_chat_no').val(room_data.chat_room[0].open_chat_no);
+                    $('#chat_room_title').val(room_data.chat_room[0].chat_title);
+                    $('#chat_room_member').val(room_data.chat_room[0].chat_member);
+                    $('#main_thumbnail').attr('src','http://127.0.0.1/' + room_data.chat_room[0].chat_thumbnail);
+                    $('#chat_room_intro').val(room_data.chat_room[0].room_introduce);
+                    $('#main_thumbnail').removeClass('hidden'); // 썸네일 보여주는 부분 block으로 만듬
+                    $('#room_open_bt').text('방 정보 수정');
+
+                  } else {
+
+
+                  }
+                }
+            });
+        
         $("#modal").show();
 
-
-
-
-
-      } // if action == update
+      } // if (action == update) 일때
 
       // 방 삭제 아이콘 클릭 시 confirm 창 띄워준 후 db에서 삭제
       if (action == 'delete') {

@@ -20,6 +20,8 @@ router.post('/', function(req, res, next) {
   console.log("## post request : "+req.body.chat_room_title); 
   
   
+  var action = req.body.action; // 방 생성인지, 수정인지 구분
+
   var user_id = req.body.userId;
   var room_title = req.body.chat_room_title;
   var room_member = req.body.chat_room_member;
@@ -39,27 +41,70 @@ router.post('/', function(req, res, next) {
     var room_img_save_path = 'images/' + room_img;
     var now_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
     var now_time_long = new Date().valueOf();
-    
-      pool.getConnection(function(err, connection) {
-        if (err) throw err; // not connected!
-      
-        connection.query('INSERT INTO open_chat (created, chat_title, chat_member, chat_thumbnail, room_master_id, room_introduce) VALUES(?,?,?,?,?,?)',[now_time, room_title, room_member, room_img_save_path, user_id, room_intro], function (error, results, fields) {
-          
-          connection.release();
-          if (error) throw error;
-          
-          var open_chat_no = results.insertId;
-          connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
-          });
-      
-          res.redirect('/chat_room?id=' + user_id + '&room_type=open_chat&room_no=' + open_chat_no);
+  
+    // 기존 방 수정시
+    if (action == 'update') {
 
+      var open_chat_no = req.body.open_chat_no;
+
+        pool.getConnection(function(err, connection) {
+          if (err) throw err; // not connected!
+        
+          connection.query('UPDATE open_chat SET chat_title = ?, chat_member = ?, chat_thumbnail = ?, room_introduce = ? WHERE open_chat_no = ?',[room_title, room_member, room_img_save_path, room_intro, open_chat_no], function (error, results, fields) {
+                      
+            connection.release();
+            if (error) throw error;
+        
+            res.redirect('/chat_home?id=' + user_id);
+
+          });
         });
-      });
+
+      // 새로운 방 생성시
+    } else if (action == 'create') {
+
+        pool.getConnection(function(err, connection) {
+          if (err) throw err; // not connected!
+        
+          connection.query('INSERT INTO open_chat (created, chat_title, chat_member, chat_thumbnail, room_master_id, room_introduce) VALUES(?,?,?,?,?,?)',[now_time, room_title, room_member, room_img_save_path, user_id, room_intro], function (error, results, fields) {
+            
+            connection.release();
+            if (error) throw error;
+            
+            var open_chat_no = results.insertId;
+            connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
+            });
+        
+            res.redirect('/chat_home?id=' + user_id);
+
+          });
+        });
+    } // action == 'create' 라인
 });
 
 // 이미 참여중인 open chat room 인지 db에서 조회
 router.get('/get', function(req, res, next) {
+  
+  var open_chat_room_number = req.query.room_number;
+  // var search_user = req.query.userId;
+
+  pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+  
+    connection.query('SELECT member_id FROM open_chat_member  WHERE open_chat_no = ?',[open_chat_room_number], function (error, results, fields) {
+      connection.release();
+      if (error) throw error;
+
+        res.send({result : 'ok', room_type : 'open_chat', room_member : results});
+
+    });
+  });
+});
+
+
+
+// 방 수정을 클릭할 때 해당 방의 정보를 클라이언트에게 보내줌 
+router.get('/update', function(req, res, next) {
   console.log("## get request : "+req.query.userId); 
 
   var open_chat_room_number = req.query.room_number;
@@ -69,50 +114,39 @@ router.get('/get', function(req, res, next) {
   pool.getConnection(function(err, connection) {
     if (err) throw err; // not connected!
   
-    connection.query('SELECT member_id FROM open_chat_member  WHERE open_chat_no = ? AND member_id = ?',[open_chat_room_number, search_user], function (error, results, fields) {
-
+    connection.query('SELECT * FROM open_chat WHERE open_chat_no = ? ',[open_chat_room_number], function (error, results, fields) {
       connection.release();
-  
       if (error) throw error;
 
-      if (results == "" || results == null) {
+        res.send({ result : 'ok' , chat_room : results});
 
-        res.send({if_join : 'not_join', room_type : 'open_chat', chat_room_no : 'open_chat_room_number'});
-      } else {
-        
-        // var Param = '?id='+search_user+'&room_type=open_chat&chat_room_no='+open_chat_room_number;
-        // res.redirect('/chat_room'+Param);
-
-        res.send({if_join : 'join'});
-
-
-      }
     });
   });
 });
 
-
 // open_chat 방에 입장하는 경로
 router.get('/join', function(req, res, next) {
-  console.log("## get request : "+req.query.chat_room_no); 
 
-  res.end('hi');
-  // var open_chat_no = req.query.chat_room_no;
-  // var user_id = req.query.id;
-  // var now_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
-  // var now_time_long = new Date().valueOf();
+  var open_chat_no = req.query.room_number;
+  var user_id = req.query.userId;
 
+  console.log('join 멤버 저장시 query데이터 먼저 확인 ' + open_chat_no, user_id)
 
-  // pool.getConnection(function(err, connection) {
-  //   if (err) throw err; // not connected!
+  var now_time = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var now_time_long = new Date().valueOf();
+
   
-  //   connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
-  //   });
+  pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+  
+    connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {                       
+      connection.release();
+      if (error) throw error;
 
-  //   res.redirect('/chat_room?id=' + user_id + '&room_type=open_chat&room_no=' + open_chat_no);
+      res.send({ result : 'ok' })
 
-
-  // });
+    });
+  });
 });
 
 router.get('/delete', function(req, res, next) {
