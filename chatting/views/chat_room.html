@@ -159,8 +159,8 @@
       <div class="mt-5">
         <div class="text-xs text-gray-400 font-semibold uppercase">오픈채팅</div>
       </div>
-      <div class="mt-2 h-full overflow-y-auto">
-        <div class="flex flex-col -mx-4 ">
+      <div class="mt-2 h-1/2">
+        <div class="flex flex-col -mx-4 divide-y overflow-y-auto h-full">
 
           <!--  open_chat list 시작되는 구역 -->
           
@@ -235,7 +235,7 @@
       <div class="mt-5">
         <div class="text-xs text-gray-400 font-semibold uppercase">1:1채팅</div>
       </div>
-      <div class="h-full overflow-hidden relative pt-2">
+      <div class="h-1/2 overflow-hidden relative pt-2">
         <div class="flex flex-col divide-y h-full overflow-y-auto -mx-4">
           <div class="flex flex-row items-center p-4 relative">
             <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">2 hours ago</div>
@@ -357,7 +357,7 @@
                     <img class="chat_room_info_thumb" style="border-radius: 7px; width:60px; height: 60px; margin-bottom: 10px;" src="http://127.0.0.1/<%= open_chat_room_data[0].chat_thumbnail %>">
                     <h2 class="chat_room_info_title text-lg"><%= open_chat_room_data[0].chat_title %></h2>
                     <div class="text-gray-400 text-base mt-2 chat_room_addinfo">
-                        <span class="chat_room_info_member" style="padding-right: 10px; border-right: 1px solid gray;"><%= open_chat_room_data[0].member_count %> 명</span>
+                        <span class="chat_room_info_member" style="padding-right: 10px; border-right: 1px solid lightgray; margin-right: 10px;"><%= open_chat_room_data[0].member_count %> 명</span>
                         <span class="chat_room_info_created"><%= new Date(open_chat_room_data[0].created).toLocaleDateString() %></span>
                     </div>
                 </div>
@@ -386,8 +386,9 @@
 
                               <span class="room_own"><%= open_chat_member[temp].nickname %></span>
                           </div>
-                      </div>
-
+                
+                        </div>
+                        <div class="bubble hidden">1:1 대화 신청</div>
                     <% } %>
                   <% } %>
 
@@ -581,6 +582,56 @@
     position: absolute;
     z-index: -1;
   }
+
+  /* 말풍선 적절한 top 과 margin-left 로 위치조정 */
+.bubble 
+	{
+	z-index:100;
+	position: relative;
+	height: auto;
+	padding: 6px 6px;
+	background: #FFFFFF;
+	border-radius: 5px;
+	border: #7F7F7F solid 1px;
+	position: absolute;
+	font-size: 13px;
+	text-align: left;
+  cursor: pointer;
+	}
+	
+	.bubble:after 
+	{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0 16px 20px 17.5px;
+	border-color: #FFFFFF transparent;
+	display: block;
+	width: 0;
+	z-index: 1;
+	top: -18.5px; 
+	left: -1px; 
+	}
+	
+	.bubble:before 
+	{
+	content: '';
+	position: absolute;
+	border-style: solid;
+	border-width: 0 16px 20px 17.5px;
+	border-color: #7F7F7F transparent;
+	display: block;
+	width: 0;
+	z-index: 0;
+	top: -20px;
+	left: -1px;
+	}
+
+  .member_each_area {
+
+    cursor: pointer;
+  }
+
 </style>
 
 <script src="/socket.io/socket.io.js"></script> <!-- 1 -->
@@ -594,85 +645,114 @@ function getUrlParams() {
     return params;
   }
   var Param = getUrlParams();
+  // console.log(Param.room_type == 'open_chat');
 
-
+  
   var socket = io(); //1
+  
+  
+  var user_id = $('#send_id').val();
+  var user_nickname = $('#send_nickname').val();
+  var user_profileimg = $('#send_profileimg').val();
+  
+  var messages_area = $('#messages_area_scroll');
+  
+  // var main_room_no = $('#send_room_id').val();
+  // var room_id = $('#send_room_id').val();;
+  // console.log('페이지 로딩시 기존 룸 넘버' +room_id);
+  
+  // 파라미터에 룸넘버가 있는경우 if로 이동 / 파라미터에 룸넘버가 없는경우 else로 이동
+  if (Param.room_type == 'open_chat') {
 
+    var room_type = Param.room_type;
+    var room_id = room_type + '_' + Param.room_no;
+    console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
 
-    var user_id = $('#send_id').val();
-    var user_nickname = $('#send_nickname').val();
-    var user_profileimg = $('#send_profileimg').val();
+      socket.emit('join_room', {
 
-    var messages_area = $('#messages_area_scroll');
-    
-    // var main_room_no = $('#send_room_id').val();
-    var room_id = $('#send_room_id').val();;
+      user_id: user_id,
+      nickname: user_nickname,
+      profileimg: user_profileimg,
+      room_id: room_id,
+      member_type: 'new_member',
+      room_type: room_type 
 
-    console.log('페이지 로딩시 기존 룸 넘버' +room_id);
+      }); 
 
+      // 신규멤버가 입장한 경우 방정보를 가져옴
+      socket.on('room_info', function(chat_room_info_data){ //4
+        chat_room_info (chat_room_info_data);
 
+      });
+      $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+   
+  }
+
+    // 신규멤버가 입장한 경우 입장메시지를 해당룸에 있는 멤버들에게 보내줌
+    socket.on('new_join_room', function(nickname){ //4
+    messages_area.append('<div class="text-gray-400 text-base font-bold">' + nickname + ' 님이 입장 하셨습니다.</div>');
+
+    });
+
+    // 신규멤버가 입장한 경우 입장메시지를 해당룸에 있는 멤버들에게 보내줌
+    socket.on('leave_member', function(nickname){ //4
+    messages_area.append('<div class="text-gray-400 text-base font-bold">' + nickname + ' 님이 나갔습니다.</div>');
+
+    });
 
       // 방만들기 혹은 방 입장하기를 통해 들어온 경우 해당 open_chat_room 으로 socket 연결
       // 왼쪽 nav 왼쪽을 클릭해서 chat_room을 들어온 경우 제일 상위 room 으로 자동 socket연결
       
-      if(user_id != '' || user_id != undefined) {
-        console.log('pass if 문');
+      // if(user_id != '' || user_id != undefined) {
+      //   console.log('pass if 문');
      
 
-        socket.emit('join_room', {
+      //   socket.emit('join_room', {
 
-          user_id: user_id,
-          nickname: user_nickname,
-          profileimg: user_profileimg,
-          room_id: room_id,
-          member_type: 'exist_member'
+      //     user_id: user_id,
+      //     nickname: user_nickname,
+      //     profileimg: user_profileimg,
+      //     room_id: room_id,
+      //     member_type: 'exist_member'
+
+      //     });
+      // } 
+
+    // 클릭으로 change 챗룸 이동
+    $('.room_id').click(function() {
+
+          messages_area.html('');
+
+          var change_room_id = $(this).data("value");
+          console.log('클릭시 기존 룸 넘버' + room_id);
+          console.log('이동하려는 룸 넘버' + change_room_id);
+
+          $('a[data-value="'+ room_id +'"]').children('div').removeClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+
+          socket.emit('join_room', {
+
+              user_id: user_id,
+              nickname: user_nickname,
+              profileimg: user_profileimg,
+              room_id: change_room_id,
+              member_type: 'exist_member',
+              before_visit_room_id: room_id
 
           });
-      } 
+
+          $('#send_room_id').val(change_room_id);
+          console.log('방 이동 후 현재 룸 넘버를 이동한 룸 넘버로 변경해줌 ' + $('#send_room_id').val());
+          room_id = $('#send_room_id').val();
 
 
-
-      // 클릭으로 change 챗룸 이동
-      $('.room_id').click(function() {
-
-        messages_area.html('');
-
-        var change_room_id = $(this).data("value");
-        console.log('클릭시 기존 룸 넘버' + room_id);
-        console.log('이동하려는 룸 넘버' + change_room_id);
-  
-        socket.emit('join_room', {
-
-            user_id: user_id,
-            nickname: user_nickname,
-            profileimg: user_profileimg,
-            room_id: change_room_id,
-            member_type: 'exist_member',
-            before_visit_room_id: room_id
-
-        });
-
-        $('#send_room_id').val(change_room_id);
-        console.log('방 이동 후 현재 룸 넘버를 이동한 룸 넘버로 변경해줌 ' + $('#send_room_id').val());
-        room_id = $('#send_room_id').val();
-
-
-      })
-
-
-    // 새로 방에 입장했을때 한번만 반응하는 메서드 ---------------------> 아직 구현안됨
-    socket.on('join_new_room', function(user_nickname){ //4
-      messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-lg font-bold">' + user_nickname + ' 님이 입장 하셨습니다.</div>');
-
-    });
-
+    })
 
 
     // 기존에 데이터 베이스에 저장돼있던 chatting대화 데이터 가져오는 곳
     socket.on('chat_data', function(conversation_data, chat_room_info_data){ //3
       console.log(conversation_data);
       console.log(chat_room_info_data);
-      
+      $('a[data-value="open_chat_'+ chat_room_info_data[0].open_chat_no +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
 
       // 배열로 전달 된 대화내용 채팅창에 보여줌
       for (var chat_temp = 0; chat_temp < conversation_data.length; chat_temp++ ) {
@@ -688,157 +768,168 @@ function getUrlParams() {
             if (conversation_data.length > chat_temp+1 ) {
               if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
   
-                messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+                messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
             
               }
             }
 
           } else {
 
-              messages_area.append('<div class="col-start-5 col-end-13 text-gray-500 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+              messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
 
+          }
+
+
+          if (conversation_data[chat_temp].message_type == 'member') {
+            messages_area.append('<div class="text-gray-400 text-base font-bold">' + conversation_data[chat_temp].sent_message + '</div>');
           }
 
           // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
           // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
           if (conversation_data[chat_temp].sent_id == user_id) {
-            if (conversation_data[chat_temp].message_type == 'text') { // 메시지 타입이 text 인 경우
+                if (conversation_data[chat_temp].message_type == 'text') { // 메시지 타입이 text 인 경우
 
-                var message_html = 
-                  `
-                  <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                      <div class="flex items-center justify-start flex-row-reverse">
-                        <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                        <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                          <div>${conversation_data[chat_temp].sent_message}</div>
-                        </div>
-                        <div class="relative mr-3 text-xs">${chat_sent_time}</div>
-                      </div>
-                    </div>`
-                      
-                messages_area.append(message_html);
-                messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-
-
-            } else { // 메시지 타입이 file 인 경우
-
-                var message_html = 
-                    `
-                    <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                        <div class="flex items-center justify-start flex-row-reverse">
-                          <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                          <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                            <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
+                    var message_html = 
+                      `
+                      <div class="col-start-6 col-end-13 p-3 rounded-lg">
+                          <div class="flex items-center justify-start flex-row-reverse">
+                            <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                            <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                              <div>${conversation_data[chat_temp].sent_message}</div>
+                            </div>
+                            <div class="relative mr-3 text-xs">${chat_sent_time}</div>
                           </div>
-                          <div class="relative mr-3 text-xs">${chat_sent_time}</div>
-                        </div>
-                      </div>`
+                        </div>`
+                          
+                    messages_area.append(message_html);
+                    messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+
+                } else if (conversation_data[chat_temp].message_type == 'file') { // 메시지 타입이 file 인 경우
+
+                    var message_html = 
+                        `
+                        <div class="col-start-6 col-end-13 p-3 rounded-lg">
+                            <div class="flex items-center justify-start flex-row-reverse">
+                              <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                              <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
+                                <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
+                              </div>
+                              <div class="relative mr-3 text-xs">${chat_sent_time}</div>
+                            </div>
+                          </div>`
+                            
+                      messages_area.append(message_html);
+                      messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+
+                }
+
+          } else {
+
+                if (conversation_data[chat_temp].message_type == 'text') {
+
+                  var message_html = `
+                      <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                          <div class="flex flex-row items-center">
+                            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                            <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                              <div>${conversation_data[chat_temp].sent_message}</div>
+                            </div>
+                            <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                          </div>
+                        </div>`
                         
                   messages_area.append(message_html);
                   messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
 
-            }
+                } else if (conversation_data[chat_temp].message_type == 'file') {
+
+                  var message_html = `
+                      <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                          <div class="flex flex-row items-center">
+                            <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
+                            <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                              <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
+                            </div>
+                            <div class="relative ml-3 text-xs">${chat_sent_time}</div>
+                          </div>
+                        </div>`
+                        
+                  messages_area.append(message_html);
+                  messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
+                }
+
+          }
+      }
+
+
+      chat_room_info (chat_room_info_data);
+
+
+    });
+
+    function chat_room_info (chat_room_info_data) {
+
+        let time = new Date(chat_room_info_data[0].created).toLocaleDateString();
+
+        $('.chat_room_info_thumb').attr('src','http://127.0.0.1/' + chat_room_info_data[0].chat_thumbnail);
+        $('.chat_room_info_title').text(chat_room_info_data[0].chat_title);
+        $('.chat_room_info_member').text(chat_room_info_data.length + ' 명');
+        $('.chat_room_info_created').text('개설일 ' + time);
+        $('.chat_room_info_room_no').attr('name',chat_room_info_data[0].open_chat_no);
+
+        let temp_html = '';
+        for (var temp = 0 ; temp < chat_room_info_data.length ; temp++ ) {
+
+          // 룸개설자와 룸멤버의 회원 id와 같은 경우 방장 title 붙여줌
+          if (chat_room_info_data[temp].room_master_id == chat_room_info_data[temp].member_id) {
+
+            temp_html +=
+              `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
+                  <div style="width: 20%;">
+                      <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
+                  </div>
+                  <div style="width: 80%" class="nickname_area">
+                      <span style="border-radius: 9999px; background-color: dimgrey; padding: 3px 3px; color: floralwhite; font-size: 12px;" class="room_own">방장</span>
+                      <span class="room_own">${chat_room_info_data[temp].nickname}</span>
+                  </div>
+              </div>`
+
+          
+          // 룸멤버가 현재 접속중인 user 인경우 '나' 라고 표시해줌
+          } else if (chat_room_info_data[temp].member_id == user_id) {
+
+            temp_html +=
+              `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
+                  <div style="width: 20%;">
+                      <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
+                  </div>
+                  <div style="width: 80%" class="nickname_area">
+                      <span style="border-radius: 9999px; background-color: dimgrey; padding: 3px 3px; color: floralwhite; font-size: 12px;" class="room_own">나</span>
+                      <span class="room_own">${chat_room_info_data[temp].nickname}</span>
+                  </div>
+              </div>`
 
           } else {
 
-            if (conversation_data[chat_temp].message_type == 'text') {
+            temp_html +=
+              `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
+                  <div style="width: 20%;">
+                      <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
+                  </div>
+                  <div style="width: 80%" class="nickname_area">
+                      <span class="room_own">${chat_room_info_data[temp].nickname}</span>
+                  </div>
+              </div>`
 
-              var message_html = `
-                  <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div>${conversation_data[chat_temp].sent_message}</div>
-                        </div>
-                        <div class="relative ml-3 text-xs">${chat_sent_time}</div>
-                      </div>
-                    </div>`
-                    
-              messages_area.append(message_html);
-              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-
-            } else {
-
-              var message_html = `
-                  <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                      <div class="flex flex-row items-center">
-                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
-                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div><img src="http://127.0.0.1/${conversation_data[chat_temp].sent_message}"></div>
-                        </div>
-                        <div class="relative ml-3 text-xs">${chat_sent_time}</div>
-                      </div>
-                    </div>`
-                    
-              messages_area.append(message_html);
-              messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-
-
-            }
-
-            }
-      }
-
-      let time = new Date(chat_room_info_data[0].created).toLocaleDateString();
-
-      $('.chat_room_info_thumb').attr('src','http://127.0.0.1/' + chat_room_info_data[0].chat_thumbnail);
-      $('.chat_room_info_title').text(chat_room_info_data[0].chat_title);
-      $('.chat_room_info_member').text(chat_room_info_data.length + ' 명');
-      $('.chat_room_info_created').text('개설일 ' + time);
-      $('.chat_room_info_room_no').attr('name',chat_room_info_data[0].open_chat_no);
-
-      let temp_html = '';
-      for (var temp = 0 ; temp < chat_room_info_data.length ; temp++ ) {
-
-        // 룸개설자와 룸멤버의 회원 id와 같은 경우 방장 title 붙여줌
-        if (chat_room_info_data[temp].room_master_id == chat_room_info_data[temp].member_id) {
-
-          temp_html +=
-            `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
-                <div style="width: 20%;">
-                    <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
-                </div>
-                <div style="width: 80%" class="nickname_area">
-                    <span style="border-radius: 9999px; background-color: dimgrey; padding: 3px 3px; color: floralwhite; font-size: 12px;" class="room_own">방장</span>
-                    <span class="room_own">${chat_room_info_data[temp].nickname}</span>
-                </div>
-            </div>`
-
-        
-        // 룸멤버가 현재 접속중인 user 인경우 '나' 라고 표시해줌
-        } else if (chat_room_info_data[temp].member_id == user_id) {
-
-          temp_html +=
-            `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
-                <div style="width: 20%;">
-                    <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
-                </div>
-                <div style="width: 80%" class="nickname_area">
-                    <span style="border-radius: 9999px; background-color: dimgrey; padding: 3px 3px; color: floralwhite; font-size: 12px;" class="room_own">나</span>
-                    <span class="room_own">${chat_room_info_data[temp].nickname}</span>
-                </div>
-            </div>`
-
-        } else {
-
-          temp_html +=
-            `<div class="member_each_area ${chat_room_info_data[temp].member_id}" style="display: flex; flex-direction: row; align-items: center; padding: 10px 5px;">
-                <div style="width: 20%;">
-                    <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
-                </div>
-                <div style="width: 80%" class="nickname_area">
-                    <span class="room_own">${chat_room_info_data[temp].nickname}</span>
-                </div>
-            </div>`
+          }
 
         }
 
-      }
+        $('.chat_room_member').html('');
+        $('.chat_room_member').append(temp_html);
 
-      $('.chat_room_member').html('');
-      $('.chat_room_member').append(temp_html);
-
-    });
+    }
 
 
     socket.on('chat', function(send_user_id, nickname, profile, text, now_time, message_type){ //3
@@ -936,77 +1027,95 @@ function getUrlParams() {
     });
 
     
-    $('#chat').on('submit', function(e){ //2
+  $('#chat').on('submit', function(e){ //2
+  
     
-      
-      console.log('채팅내용 전달 메서드')
+        console.log('채팅내용 전달 메서드')
 
-      let message = $('#message').val();
-      let send_chat_room_id = $('#send_room_id').val();
-      let message_type = 'text';
-      
-      // 메시지가 없으면 return
-      if (message == '' || message == undefined) {
+        let message = $('#message').val();
+        let send_chat_room_id = $('#send_room_id').val();
+        let message_type = 'text';
+        
+        // 메시지가 없으면 return
+        if (message == '' || message == undefined) {
+          return;
+        }
+      var now_time = new Date().valueOf();
+
+      console.log('chat 서버로 데이터 전달', user_id + user_nickname +  user_profileimg + message + send_chat_room_id + now_time, message_type);
+      socket.emit('chat', user_id, user_nickname,  user_profileimg, message, send_chat_room_id, now_time, message_type);
+      $('#message').val('');
+      $('#message').focus();
+      e.preventDefault();
+});
+
+
+
+  function sendImage() {
+
+    console.log('이미지데이터전달?')
+
+    var form = $("#chat")[0];
+    var formData2 = new FormData(form);
+    console.log(formData2);
+
+    var keys = formData2.keys();
+    console.log(keys.next()); // { done : false , value : 'name' }
+
+
+    //values 값을 가져옵니다.
+    var values = formData2.values();
+    console.log(values.next());// {d
+    
+    var save_image =
+    
+            $.ajax({
+              url: 'chat_room/upload',
+              dataType: 'json',
+              processData: false, 
+              contentType: false,
+              type: 'post',
+              data: formData2
+
+
+            });
+
+        save_image.done(function(data){
+
+          console.log(data);
         return;
-      }
-    var now_time = new Date().valueOf();
+    });
 
-    console.log('chat 서버로 데이터 전달', user_id + user_nickname +  user_profileimg + message + send_chat_room_id + now_time, message_type);
-    socket.emit('chat', user_id, user_nickname,  user_profileimg, message, send_chat_room_id, now_time, message_type);
-    $('#message').val('');
-    $('#message').focus();
-    e.preventDefault();
+  }
+
+
+  // 채팅방 정보를 보고싶을때 클릭하면 채팅방 인원 보여줌
+  $('.show_chat_room_info').click(function() {
+    $(this).siblings('.chat_room_info').removeClass('hidden');
+
+
+    $('.close_chat_room_info').click(function(){
+      $(this).closest('.chat_room_info').addClass('hidden');
+    })
   });
 
+  $('.member_each_area').click(function() {
 
+    $(this).next().removeClass('hidden')
+  });
 
-    function sendImage() {
-
-      console.log('이미지데이터전달?')
-
-      var form = $("#chat")[0];
-      var formData2 = new FormData(form);
-      console.log(formData2);
-
-      var keys = formData2.keys();
-      console.log(keys.next()); // { done : false , value : 'name' }
-
-
-      //values 값을 가져옵니다.
-      var values = formData2.values();
-      console.log(values.next());// {d
-      
-      var save_image =
-      
-              $.ajax({
-                url: 'chat_room/upload',
-                dataType: 'json',
-                processData: false, 
-                contentType: false,
-                type: 'post',
-                data: formData2
-
-
-              });
-
-          save_image.done(function(data){
-
-            console.log(data);
-          return;
-      });
-
+  $(document).on('click', function(e){
+    console.log(e);
+    
+    if ( $('.bubble').is(e.target)) {
+      $('.bubble').addClass('hidden');
     }
+  });
 
+  $('.bubble').click(function() {
 
-    // 채팅방 정보를 보고싶을때 클릭하면 채팅방 인원 보여줌
-    $('.show_chat_room_info').click(function() {
-      $(this).siblings('.chat_room_info').removeClass('hidden');
-
-
-      $('.close_chat_room_info').click(function(){
-        $(this).closest('.chat_room_info').addClass('hidden');
-      })
-    })
+  alert('대화신청 클릭됨')
+  })
 
 
   // 채팅방 나가기를 선택한경우
@@ -1014,13 +1123,20 @@ function getUrlParams() {
 
     let room_no = $('.chat_room_info_room_no').attr('name');
 
+    socket.emit('leave', {
+
+      room_id: room_id,
+      user_nickname : user_nickname
+
+    }); 
+
     var delete_room =
       
             $.ajax({
               url: 'chat_room/exit',
               dataType: 'json',
               type: 'GET',
-              data: {room_no : room_no, userId : user_id}
+              data: {room_no : room_no, userId : user_id, user_nickname : user_nickname}
 
 
           });
