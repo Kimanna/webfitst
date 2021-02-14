@@ -158,7 +158,7 @@ app.get( '/chat_room', function( req, res ) {
                                 person_chat_member AS m ON m.person_chat_no = p.person_chat_no 
                                 
                               LEFT JOIN 
-                                topic AS t ON t.id = p.partner_id
+                                topic AS t ON t.id = IF (p.room_master_id = '${user_id}', p.partner_id, p.room_master_id)
                               
                               WHERE m.member_id='${user_id}' AND p.deleted = 0
                               
@@ -209,22 +209,40 @@ io.sockets.on( 'connection', function( socket ) {
 
       var before_room_id = data.before_visit_room_id;
       var before_room_no = before_room_id.split( '_' )[ 2 ]; // 기존 입장했었던 room 의 넘버만 가져옴
-      socket.leave( before_room_id ); // 이전 방문했던 방은 떠남
+      socket.leave( before_room_id ); // 이전 방문했던 소켓은 (방은) leave 
+
+      var chat_leave_time_query = '';
 
       pool.getConnection( function( err, connection ) {
         if ( err ) throw err; // not connected!
 
-        var open_chat_leave_time_query =
+        if (before_room_id.split('_')[0] == 'open') {
 
-          `UPDATE open_chat_member 
-     
-             SET 
-               last_leave_time = ${now_time_long}
-             
-             WHERE 
-               open_chat_no = ${before_room_no} AND member_id = '${data.user_id}';`;
+            chat_leave_time_query =
 
-        connection.query( open_chat_leave_time_query, function( error, results, fields ) {
+                                  `UPDATE open_chat_member 
+                            
+                                    SET 
+                                      last_leave_time = ${now_time_long}
+                                    
+                                    WHERE 
+                                      open_chat_no = ${before_room_no} AND member_id = '${data.user_id}';`;
+        } 
+        
+        if (before_room_id.split('_')[0] == 'person'){
+
+          chat_leave_time_query =
+
+                                  `UPDATE person_chat_member 
+                            
+                                    SET 
+                                      last_leave_time = ${now_time_long}
+                                    
+                                    WHERE 
+                                      person_chat_no = ${before_room_no} AND member_id = '${data.user_id}';`;
+        }
+
+        connection.query( chat_leave_time_query, function( error, results, fields ) {
           connection.release();
 
           if ( error ) throw error;
@@ -526,7 +544,10 @@ io.sockets.on( 'connection', function( socket ) {
                 
               VALUES
                 (${room_no},${now_time},'${user_id_var}','${message_fixed}','${message_type}');`
+
+
       }
+
 
       if (room_type == 'person') {
 
