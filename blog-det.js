@@ -28,7 +28,7 @@ window.onload = function() {
           // 게시물 응답시 게시물이 있으면 res == ok / 내가쓴 게시물인경우 mine == ok 데이터는 data 배열로 응답
           if (jQuery.parseJSON(data).res == 'ok') {
 
-            var golist = '<button type="button" class="btn lg" onclick="location.href="blog.html?blog_no='+urlParams.get('blog_no')+'&page='+urlParams.get('page')+'&searchText=";">목록으로</button>';
+            var golist = '<button type="button" class="btn lg" onclick="location.href="blog.html?blog_no='+urlParams.get('blog_no')+'&page='+urlParams.get('page')+';">목록으로</button>';
 
             // 내가쓴 게시물 인 경우 수정, 삭제버튼 추가 
             if (jQuery.parseJSON(data).mine == 'ok') {
@@ -171,10 +171,14 @@ function getComment() {
 
       if (comment_data.res == 'ok') {
 
-        $('.cm_count').html('총 댓글 '+comment_data.totalData+'개');
+        $('.cm_count').html('총 댓글 '+comment_data.data[0].total_count+'개');
         setComment(comment_data.data);
 
-      } 
+      } else {
+
+        $('.cm_count').html('');
+
+      }
   });
 
   getLike();
@@ -186,8 +190,6 @@ function setComment(db_data) {
 
   var user_id = $('.login_user_id').attr('name'); // 현재 로그인 중인 user 의 id -> 대댓글 입력하는 html에 들어가는 부분 
   var user_profileimg_path = $('.inputimg').attr('src'); // 현재 로그인 중인 user 의 profile img path  -> 대댓글 입력하는 html에 들어가는 부분
-
-  console.log(user_id);
 
   var comment_html = '';
   for (var temp = 0 ; temp < db_data.length ; temp++) {
@@ -868,11 +870,16 @@ function update_comment(comment_no, action) {
           success : function (comment_data) {
             console.log(comment_data);
 
+            // 댓글이 없는경우
+            if (comment_data.res == 'notok') {
 
-            $('.cm_count').html('총 댓글 '+comment_data.totalData+'개');
-            setComment(comment_data.data);
-            getLike ();
+                $('.cm_count').html('');
 
+            } else {
+                $('.cm_count').html('총 댓글 '+comment_data.totalData+'개');
+                setComment(comment_data.data);
+                getLike ();
+            }
 
           }
         });
@@ -1341,26 +1348,24 @@ function goDelete(deleteno) {
 
   var returnValue = confirm('게시글을 정말 삭제 하시겠습니까?');
 
-  if (returnValue) {
+    if (returnValue) {
 
-  $.get("blog-wri.php", 
-  { 'blog_no' : deleteno, 'mode' : 'delete' },
-  function(data, status) {
-    
-    console.log(status);
-    console.log(data);
-    
-    
-    if (jQuery.parseJSON(data).res == 'ok') {
+        $.get("blog-wri.php", 
+        { 'blog_no' : deleteno, 'mode' : 'delete' },
+        function(data, status) {
+          
+          console.log(status);
+          console.log(data);
+          
+          
+          if (jQuery.parseJSON(data).res == 'ok') {
 
-      window.alert('게시글이 삭제 되었습니다.')
-      location.replace('http://localhost/blog.html');
+            window.alert('게시글이 삭제 되었습니다.')
+            location.replace('http://localhost/blog.html');
 
-    } else {
-
-
-    }
-  }) 
+          } 
+        });
+    } 
 
 }
 
@@ -1368,4 +1373,4 @@ function goDelete(deleteno) {
 
   // window.location.href = 'review-wri.php?blog_no='+deleteno+'&mode=delete';
 
-}
+

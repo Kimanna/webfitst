@@ -42,10 +42,12 @@
   if(isset($_SESSION['userId'])) {
     ?>
     <a class="p-2 text-muted" style="margin-left:150px" href="<?php echo 'http://localhost:3000/chat_home?id='.$_SESSION['userId'];?>">온라인 채팅</a>
+    <input id="user_id" type="hidden" value="<?php echo $_SESSION['userId'];?>">
     <?php
   } else {
     ?>
     <a class="p-2 text-muted" style="margin-left:150px" href="http://localhost:3000/chat_home">온라인 채팅</a>
+    <input id="user_id" type="hidden" value="">
     <?php
   }
   ?>

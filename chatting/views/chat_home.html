@@ -165,7 +165,7 @@
               </div>
 
               <div class="mt-4 flex">
-                    <button
+                    <button onclick="show_room_info(<%= open_chat_data[i].open_chat_no%>);"
                       class="flex items-center
                       focus:outline-none border rounded-full
                       py-2 px-6 leading-none border-gray-500
@@ -302,6 +302,36 @@
   </form>
 </div>
 
+
+<!-- 방 정보 보여주기 model 창 -->
+<div id="room_info_modal" class="searchModal">
+      <div class="search-modal-content-view input_background">
+        <div class="shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2" style="background-color: aliceblue; opacity: 0.8;">
+          <div class="self-end" onClick="closeModal();">
+            <svg class="h-4 w-4" viewBox="0 0 357 357">
+              <polygon points="357,35.7 321.3,0 178.5,142.8 35.7,0 0,35.7 142.8,178.5 0,321.3 35.7,357 178.5,214.2 321.3,357 357,321.3 
+              214.2,178.5"/>
+            </svg>
+          </div>
+          <div class="text-sm">오픈채팅</div>
+          <div class="room_info_title text-lg mt-4"></div>
+          <div class="room_info_detail text-sm mt-2">
+            <span class="current_member"></span>
+            <span class="maximum_member"></span>
+            <span class="border-l ml-2 pl-2" style="border-left: solid gray;">개설일 </span>
+            <span class="room_created ml-1"></span>
+          </div>
+          <div class="mt-32">
+            <img class="room_master_profileimg rounded-full object-cover w-9 inline">
+            <span class="room_master_nickname text-base ml-3"></span>
+          </div>
+          <div class="room_intro text-base mt-4"></div>
+        </div>
+      </div>
+
+</div>
+
+
 <style>
   /* The Modal (background) */
   .searchModal {
@@ -323,6 +353,15 @@
       padding: 20px;
       border: 1px solid #888;
       width: 70%; /* Could be more or less, depending on screen size */
+  }
+
+    /* Modal Content/Box */
+    .search-modal-content-view {
+      margin: 10% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #888;
+      width: 30%; 
+      background-image: url(images/images8.jpg);
   }
   .hidden {
     display: none;
@@ -515,6 +554,36 @@
           });
     }
   }
+
+  function show_room_info(open_chat_no) {
+
+    $.ajax({
+              url: '/newroom/getRoom',
+              dataType: 'json',
+              type: 'GET',
+              data: {room_number : open_chat_no},
+              success: function(show_room) {
+
+                var data = show_room.chat_room[0];
+
+                if (show_room.result == 'ok') {
+                    $('.input_background').css({"background-image":"url(http://127.0.0.1/"+data.chat_thumbnail+")", 'background-repeat' : 'no-repeat', 'background-position':'center'});
+                    $('.room_info_title').text(data.chat_title)
+                    $('.current_member').text(data.member_count)
+                    $('.maximum_member').text('/ '+data.chat_member)
+                    $('.room_created').text(data.created);
+                    $('.room_master_profileimg').attr('src', 'http://127.0.0.1/' + data.profileimg)
+                    $('.room_master_nickname').text(data.nickname)
+                    $('.room_intro').text(data.room_introduce)
+
+                    $('#room_info_modal').show();
+
+                } 
+              }
+          });
+  }
+
+  
 
   // 오픈챗 참여하기를 클릭한 경우 open_chat_member 테이블에 해당 유저 detail 저장
   function joinSaveMember (room_number, userId) {

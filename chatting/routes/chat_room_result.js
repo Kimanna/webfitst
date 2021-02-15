@@ -124,6 +124,25 @@ router.get('/update', function(req, res, next) {
   });
 });
 
+// 방 수정을 클릭할 때 해당 방의 정보를 클라이언트에게 보내줌 
+router.get('/getRoom', function(req, res, next) {
+  console.log("## get request : "+req.query.userId); 
+
+  var open_chat_room_number = req.query.room_number;
+
+  pool.getConnection(function(err, connection) {
+    if (err) throw err; // not connected!
+  
+    connection.query('SELECT date_format(o.created,\'%Y.%m.%d\') AS created, o.chat_title, o.chat_member, o.chat_thumbnail, o.room_introduce, t.nickname, t.profileimg, (SELECT COUNT(*) FROM open_chat_member WHERE open_chat_no = ?) AS member_count FROM open_chat AS o LEFT JOIN topic AS t ON t.id = o.room_master_id WHERE open_chat_no = ? ',[open_chat_room_number, open_chat_room_number], function (error, results, fields) {
+      connection.release();
+      if (error) throw error;
+
+        res.send({ result : 'ok' , chat_room : results});
+
+    });
+  });
+});
+
 // open_chat 방에 입장하는 경로
 router.get('/join', function(req, res, next) {
 

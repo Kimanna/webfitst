@@ -130,7 +130,8 @@ if (isset($_POST["mode"])) {
 
           $post_no = $_GET["post_no"];
           $result = mysqli_query($conn, "SELECT c.*, t.nickname, t.profileimg, 
-                                            (SELECT COUNT(*) FROM comment A WHERE A.reply_cno=c.comment_no AND deleted=0) AS reply2 
+                                          (SELECT COUNT(*) FROM comment A WHERE A.reply_cno=c.comment_no AND deleted=0) AS reply2,
+                                          (SELECT COUNT(*) FROM comment B WHERE B.post_no = 52 AND deleted=0) AS total_count  
                                         FROM comment c LEFT JOIN topic t ON c.aid = t.id 
                                         WHERE c.deleted=0 AND c.post_no=$post_no AND c.reply_cno=0 ORDER BY c.comment_no DESC");
 
