@@ -188,7 +188,12 @@ app.get( '/chat_room', function( req, res ) {
 io.sockets.on( 'connection', function( socket ) {
   console.log( 'user connected: ', socket.id );
 
+  socket.on( 'userId', function ( user_id ){
+    
+  })
+  
 
+ 
   socket.on( 'join_room', function( data, fn ) {
 
     var user_id = data.user_id; // 입장하려는 user의 id
@@ -223,7 +228,7 @@ io.sockets.on( 'connection', function( socket ) {
                                   `UPDATE open_chat_member 
                             
                                     SET 
-                                      last_leave_time = ${now_time_long}
+                                      last_leave_time = ${now_time_long}, currently_in = 0
                                     
                                     WHERE 
                                       open_chat_no = ${before_room_no} AND member_id = '${data.user_id}';`;
@@ -236,7 +241,7 @@ io.sockets.on( 'connection', function( socket ) {
                                   `UPDATE person_chat_member 
                             
                                     SET 
-                                      last_leave_time = ${now_time_long}
+                                      last_leave_time = ${now_time_long}, currently_in = 0
                                     
                                     WHERE 
                                       person_chat_no = ${before_room_no} AND member_id = '${data.user_id}';`;
@@ -261,7 +266,7 @@ io.sockets.on( 'connection', function( socket ) {
             `UPDATE open_chat_member 
         
               SET 
-                last_visit_time = ${now_time_long}
+                last_visit_time = ${now_time_long}, currently_in = 1
               
               WHERE 
                 open_chat_no = ${room_no} AND member_id = '${user_id}';`;
@@ -273,7 +278,7 @@ io.sockets.on( 'connection', function( socket ) {
           `UPDATE person_chat_member 
       
             SET 
-              last_visit_time = ${now_time_long}
+              last_visit_time = ${now_time_long}, currently_in = 1
             
             WHERE 
               person_chat_no = ${room_no} AND member_id = '${user_id}';`;
@@ -318,6 +323,7 @@ io.sockets.on( 'connection', function( socket ) {
               connection.query( open_chat_conversation_query + open_chat_query_c, function( error, results, fields ) {
               } );
 
+              //오픈채팅방 정보를 클라이언트에게 발송
               var chat_room_info =
 
                 `SELECT o.*, m.member_id, t.nickname, t.profileimg
@@ -395,7 +401,7 @@ io.sockets.on( 'connection', function( socket ) {
                 if ( error ) throw error;
         
                 // 해당 클라이언트에게만 채팅 데이터를 건내줌
-                io.to( socket.id ).emit( 'chat_data', results[ 0 ], results[ 1 ] );
+                io.to( socket.id ).emit( 'chat_data', 'open', results[ 0 ], results[ 1 ] );
         
               } );
             } );
@@ -482,7 +488,7 @@ io.sockets.on( 'connection', function( socket ) {
                 if ( error ) throw error;
         
                 // 해당 클라이언트에게만 채팅 데이터를 건내줌
-                io.to( socket.id ).emit( 'chat_data', results[ 0 ], results[ 1 ] );
+                io.to( socket.id ).emit( 'chat_data', 'person', results[ 0 ], results[ 1 ] );
         
               } );
             } );
@@ -578,11 +584,51 @@ io.sockets.on( 'connection', function( socket ) {
         connection.release();
         if ( error ) throw error;
 
-      } );
+      // 채팅 대화 count를 가져옴
+      pool.getConnection( function( err, connection ) {
+        if ( err ) throw err; // not connected!
+  
+        if (room_type == 'open') {
+            var chat_visit_time_query =
+  
+              `SELECT m.member_id, 
+              if (m.currently_in, 0, (SELECT COUNT(*) FROM open_chat_conversation AS c WHERE c.open_chat_no = ${room_no} AND m.last_leave_time < c.sent_time)) AS chat_count
+
+              FROM 
+                open_chat_member AS m
+
+              WHERE m.open_chat_no = ${room_no};`;
+        } 
+  
+        if (room_type == 'person') {
+          var chat_visit_time_query =
+  
+            `SELECT m.member_id, 
+            if (m.currently_in, 0, (SELECT COUNT(*) FROM person_chat_conversation AS c WHERE c.person_chat_no = ${room_no} AND m.last_leave_time < c.sent_time)) AS chat_count
+
+            FROM 
+              person_chat_member AS m
+
+            WHERE m.person_chat_no = ${room_no};`;
+        }
+  
+        connection.query( chat_visit_time_query, function( error, results, fields ) {
+          connection.release();
+          if ( error ) throw error;
+  
+          // 채팅 입력 시 왼쪽 부분 update될 수 있도록 보내줌
+          io.emit( 'chat_update', room_id, message_fixed, now_time, results );
+        } );
+      });
+
+      });
     } );
 
+    // 채팅대화를 클라이언트로 보내줌
     console.log('in 을 발송하는 socket id 넘버' + room_id);
     io.in( room_id ).emit( 'chat', user_id, nickname, profile, message_fixed, now_time, message_type );
+
+
   } );
 
 
@@ -601,6 +647,7 @@ io.sockets.on( 'connection', function( socket ) {
 
   socket.on( 'disconnecting', function() {
     console.log( 'user disconnecting: ', socket.id + socket.rooms );
+    console.log( 'user disconnecting socket info: ', socket );
 
   } );
 

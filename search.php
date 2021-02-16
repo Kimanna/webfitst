@@ -29,9 +29,6 @@ if (isset($_GET["searchText"])) {
                                   ORDER BY (SELECT COUNT(*) FROM comment AS c WHERE b.blog_no = c.post_no) DESC;");
 
 
-} else if (isset($_GET["chatList"])) {
-
-
 } else if (isset($_GET["myChatList"])) {
 
 

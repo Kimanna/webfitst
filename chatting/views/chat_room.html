@@ -213,24 +213,31 @@
           
         <a class="room_id" data-value="open_chat_<%=open_chat_room_data[i].open_chat_no %>">
           <div class="relative flex flex-row items-center p-4">
-            <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"><%= message_elapsed_time %></div>
+            <div class="chat_time absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"><%= message_elapsed_time %></div>
             <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
                 <img class="h-12 w-12 rounded-full object-cover" src="http://127.0.0.1/<%= open_chat_room_data[i].chat_thumbnail %>">
             </div>
             <div class="flex flex-col flex-grow ml-3">
               <div class="text-sm font-medium"><%= open_chat_room_data[i].chat_title %></div>
-              <div class="text-xs truncate w-40"><%= open_chat_room_data[i].last_message %></div>
+              <div class="chat_text text-xs truncate w-40"><%= open_chat_room_data[i].last_message %></div>
             </div>
 
 
             <!-- 채팅창에 입장한 시간보다 나간시간이 더 크면서 && 채팅창 나간시간보다 마지막 전달된 메시지의 시간이 더 크면 new를 표시해줌 -->
             <% if (open_chat_room_data[i].chat_count > 0) { %>
             
-              <div class="flex-shrink-0 ml-2 self-end mb-1">
+              <div class="chat_count flex-shrink-0 ml-2 self-end mb-1">
                 <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"><%= open_chat_room_data[i].chat_count %></span>
               </div>
 
+           <% } else { %>
+
+            <div class="chat_count hidden flex-shrink-0 ml-2 self-end mb-1">
+              <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"><%= open_chat_room_data[i].chat_count %></span>
+            </div>
+
            <% } %>
+
 
           </div>
         </a>
@@ -297,21 +304,27 @@
           <a class="room_id" data-value="person_chat_<%= person_chat_data[j].person_chat_no %>">
 
               <div class="flex flex-row items-center p-4 relative">
-                <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"><%= message_elapsed_time %></div>
+                <div class="chat_time absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"><%= message_elapsed_time %></div>
                 <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
                   <img class="h-12 w-12 rounded-full object-cover" src="http://127.0.0.1/<%= person_chat_data[j].profileimg %>">
                 </div>
                 <div class="flex flex-col flex-grow ml-3">
                   <div class="text-sm font-medium"><%= person_chat_data[j].nickname %></div>
-                  <div class="text-xs truncate w-40"><%= person_chat_data[j].last_message %></div>
+                  <div class="chat_text text-xs truncate w-40"><%= person_chat_data[j].last_message %></div>
                 </div>
 
                 <!-- 유저가 채팅방 나간시간보다 메시지가 온 시간이 더 크면 갯수 표시해줌 -->
                 <% if (person_chat_data[j].chat_count > 0) { %>
 
-                  <div class="flex-shrink-0 ml-2 self-end mb-1">
+                  <div class="chat_count flex-shrink-0 ml-2 self-end mb-1">
                     <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"><%= person_chat_data[j].chat_count %></span>
                   </div>
+                <% } else { %>
+
+                  <div class="chat_count hidden flex-shrink-0 ml-2 self-end mb-1">
+                    <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"><%= person_chat_data[j].chat_count %></span>
+                  </div>
+
                 <% } %>
 
               </div>
@@ -612,9 +625,8 @@ function getUrlParams() {
     return params;
   }
   var Param = getUrlParams();
-  // console.log(Param.room_type == 'open_chat');
+  console.log(Param.room_type + ' '+Param.member_type+' '+Param.room_no);
 
-  
   var socket = io(); //1
   
   
@@ -624,67 +636,123 @@ function getUrlParams() {
   
   var messages_area = $('#messages_area_scroll');
   
-  // var main_room_no = $('#send_room_id').val();
-  // var room_id = $('#send_room_id').val();;
-  // console.log('페이지 로딩시 기존 룸 넘버' +room_id);
-  
-  console.log(Param.room_type == 'person_chat')
+  socket.emit('userId', { user_id: user_id })
 
   // 파라미터에 룸타입이 open_chat인 경우 if로 이동 / 파라미터에 룸넘버가 없는경우 else로 이동
   if (Param.room_type == 'open_chat') {
 
-    var room_type = Param.room_type;
-    var room_id = room_type + '_' + Param.room_no;
-    console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
+    if (Param.member_type == 'new') {
 
-      socket.emit('join_room', {
+        var room_type = Param.room_type;
+        var room_id = room_type + '_' + Param.room_no;
+        console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
+    
+          socket.emit('join_room', {
+    
+          user_id: user_id,
+          nickname: user_nickname,
+          profileimg: user_profileimg,
+          room_id: room_id,
+          member_type: 'new_member',
+          room_type: room_type 
+    
+          }); 
+    
+          // 신규멤버가 입장한 경우 오픈채팅방의 정보와 멤버정보를 가져와 info에 입력해줌
+          socket.on('room_info', function(chat_room_info_data){ //4
+            chat_room_info (chat_room_info_data);
+            
+          });
+          
+          $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
+          $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500'); // 현재 보고있는 방의 컬러를 입혀줌
+          $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.open_chat_1)
+    }
 
-      user_id: user_id,
-      nickname: user_nickname,
-      profileimg: user_profileimg,
-      room_id: room_id,
-      member_type: 'new_member',
-      room_type: room_type 
+    if (Param.member_type == 'exist') {
 
-      }); 
+          var room_type = Param.room_type;
+          var room_id = room_type + '_' + Param.room_no;
+          console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
 
-      // 신규멤버가 입장한 경우 방정보를 가져옴
-      socket.on('room_info', function(chat_room_info_data){ //4
-        chat_room_info (chat_room_info_data);
+            socket.emit('join_room', {
 
-      });
-      $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
-      $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.open_chat_1)
+            user_id: user_id,
+            nickname: user_nickname,
+            profileimg: user_profileimg,
+            room_id: room_id,
+            member_type: 'exist_member',
+            room_type: room_type 
+
+            }); 
+
+            // 오픈채팅방의 정보와 멤버정보를 가져와 info 에 입력해줌
+            socket.on('room_info', function(chat_room_info_data){ //4
+              chat_room_info (chat_room_info_data);
+              
+            });
+            
+            $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
+            $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500'); // 현재 보고있는 방의 컬러를 입혀줌
+            $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.open_chat_1)
+      }
+
   } else if (Param.room_type == 'person_chat') {
 
-    var room_type = Param.room_type;
-    var room_id = room_type + '_' + Param.room_no;
-    console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
+    if (Param.member_type == 'new') {
 
-      socket.emit('join_room', {
+        var room_type = Param.room_type;
+        var room_id = room_type + '_' + Param.room_no;
+        console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
+    
+          socket.emit('join_room', {
+    
+          user_id: user_id,
+          nickname: user_nickname,
+          profileimg: user_profileimg,
+          room_id: room_id,
+          member_type: 'new_member',
+          room_type: room_type 
+    
+          }); 
+    
+          // 새로 대화를 시작한 유저인 경우 방정보를 가져옴
+          socket.on('room_info', function(chat_room_info_data){ //4
+          });
+          
+          $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
+          $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+          $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.person_chat_1)
+    }
+    if (Param.member_type == 'exist') {
 
-      user_id: user_id,
-      nickname: user_nickname,
-      profileimg: user_profileimg,
-      room_id: room_id,
-      member_type: 'new_member',
-      room_type: room_type 
+        var room_type = Param.room_type;
+        var room_id = room_type + '_' + Param.room_no;
+        console.log('오픈 채팅방에 처음 입장했을때 서버로 보내준 룸 아이디  ' + room_id)
 
-      }); 
+          socket.emit('join_room', {
 
-      // 새로 대화를 시작한 유저인 경우 방정보를 가져옴
-      socket.on('room_info', function(chat_room_info_data){ //4
-        console.log(chat_room_info_data);
-        // chat_room_info (chat_room_info_data);
+          user_id: user_id,
+          nickname: user_nickname,
+          profileimg: user_profileimg,
+          room_id: room_id,
+          member_type: 'exist_member',
+          room_type: room_type 
 
-      });
+          }); 
 
-      $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
-      $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.person_chat_1)
-   
+          // 새로 대화를 시작한 유저인 경우 방정보를 가져옴
+          socket.on('room_info', function(chat_room_info_data){ //4
+          });
+          
+          $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
+          $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+          $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.person_chat_1)
+      }
+
   } else {
 
-    $('.show_chat_room_info').addClass('hidden'); // 룸 정볼르 볼 수 있는 버튼을 숨겨줌
+    $('.show_chat_room_info').addClass('hidden'); // 룸 정보를 볼 수 있는 버튼을 숨겨줌
 
   }
 
@@ -700,23 +768,6 @@ function getUrlParams() {
 
     });
 
-      // 방만들기 혹은 방 입장하기를 통해 들어온 경우 해당 open_chat_room 으로 socket 연결
-      // 왼쪽 nav 왼쪽을 클릭해서 chat_room을 들어온 경우 제일 상위 room 으로 자동 socket연결
-      
-      // if(user_id != '' || user_id != undefined) {
-      //   console.log('pass if 문');
-     
-
-      //   socket.emit('join_room', {
-
-      //     user_id: user_id,
-      //     nickname: user_nickname,
-      //     profileimg: user_profileimg,
-      //     room_id: room_id,
-      //     member_type: 'exist_member'
-
-      //     });
-      // } 
 
     // 클릭으로 change 챗룸 이동
     $('.room_id').click(function() {
@@ -740,13 +791,14 @@ function getUrlParams() {
 
           });
 
+          $('a[data-value="'+ change_room_id +'"]').find('.chat_count').addClass('hidden'); // 왼쪽 대화방 목록에서 클릭한 대화방의 안읽은 메시지 표현 부분을 지워줌
           $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
           $('.bubble').addClass('hidden'); // 룸정보에서 1:1신청 풍선 닫아줌
           $('.chat_room_info').addClass('hidden'); // 룸정보 닫아줌
           $('.chat_room_info_person').addClass('hidden'); // 룸정보 닫아줌
           $('.show_chat_room_info').removeClass('hidden'); // 룸 정보를 보여줄 수 있도록 클릭하는 버튼은 보여줌
-          $('a[data-value="'+ change_room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
           $('a[data-value="'+ room_id +'"]').children('div').removeClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+          $('a[data-value="'+ change_room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
 
           $('#send_room_id').val(change_room_id);
           console.log('방 이동 후 현재 룸 넘버를 이동한 룸 넘버로 변경해줌 ' + $('#send_room_id').val());
@@ -757,7 +809,7 @@ function getUrlParams() {
 
     // 기존에 데이터 베이스에 저장돼있던 채팅 대화 데이터와 채팅방 정보를 가져오는 곳
     // chat_room_info 메서드를 호출 
-    socket.on('chat_data', function(conversation_data, chat_room_info_data){ //3
+    socket.on('chat_data', function(room_type, conversation_data, chat_room_info_data){ //3
       console.log(conversation_data);
       console.log(chat_room_info_data);
 
@@ -765,26 +817,9 @@ function getUrlParams() {
       for (var chat_temp = 0; chat_temp < conversation_data.length; chat_temp++ ) {
 
 
-          // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 utc를 str으로 바꿔 변수에 저장
+          // 전달 받은 img경로를 html로 바꿈 / 전달받은 시간 을 str으로 바꿔 변수에 저장
           var user_profileimg = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + conversation_data[chat_temp].profileimg + '\">';
           var chat_sent_time = get_str_time (conversation_data[chat_temp].sent_time);
-
-
-          // 날자구분선을 표시
-          if (conversation_data.length > 0) {
-            if (conversation_data.length > chat_temp+1 ) {
-              if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
-  
-                messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
-            
-              }
-            }
-
-          } else {
-
-              messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
-
-          }
 
 
           if (conversation_data[chat_temp].message_type == 'member') {
@@ -867,11 +902,29 @@ function getUrlParams() {
                 }
 
           }
+
+                    // 날자구분선을 표시
+          if (conversation_data.length > 0) {
+            if (conversation_data.length > chat_temp+1 ) {
+              if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
+  
+                console.log(new Date(conversation_data[chat_temp].sent_time).getDate(), new Date(conversation_data[chat_temp+1].sent_time).getDate())
+                messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+            
+              }
+            }
+
+          } else {
+
+              messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+
+          }
       }
 
-
-      chat_room_info (chat_room_info_data);
-
+      // open_chat_room 일때만 룸 정보를 입력해줌
+      if (room_type == 'open') {
+          chat_room_info (chat_room_info_data);
+      }
 
     });
 
@@ -971,7 +1024,6 @@ function getUrlParams() {
       var chat_sent_time = get_str_time (now_time);
       
 
-
        // conversation_data의 id = 대화를 발송한 user의 id / user_id 는 현재 접속중인 user_id
        // 내가보낸 메시지면 if 안쪽 / 그외는 else로 진행됨
       if (user_id == send_user_id) {
@@ -1043,19 +1095,12 @@ function getUrlParams() {
                     
               messages_area.append(message_html);
               messages_area.scrollTop(messages_area[0].scrollHeight - messages_area[0].clientHeight);
-
           }
-         
         }
     });
 
 
 
-    // 유저가 입력한 메시지 socket을 통해 서버로 발송
-    $('#chat').click(function(){
-
-      
-    });
 
   // 채팅 발송시 서버로 룸 정보와 함께 메시지 보내줌
   $('#chat').on('submit', function(e){ //2
@@ -1080,6 +1125,30 @@ function getUrlParams() {
       e.preventDefault();
 });
 
+
+  //채팅 내용 발송시 왼쪽 대화창에 대화내용 update하는 부분 
+  socket.on('chat_update', function(room_id, message, time, update_room){
+
+    console.log(room_id, update_room);
+
+    $('a[data-value="'+ room_id +'"]').find('.chat_time').text('방금전');
+    $('a[data-value="'+ room_id +'"]').find('.chat_text').text(message);
+
+    for ( var temp = 0 ; temp < update_room.length ; temp ++ ) {
+      if ( user_id == update_room[temp].member_id ) {
+        if ( update_room[temp].chat_count > 0 ) {
+          
+          $('a[data-value="'+ room_id +'"]').find('.chat_count').removeClass('hidden');
+          $('a[data-value="'+ room_id +'"]').find('.chat_count span').text(update_room[temp].chat_count);
+
+        } else {
+
+          $('a[data-value="'+ room_id +'"]').find('.chat_count').addClass('hidden');
+
+        }
+      } 
+    }
+  })
 
 
   function sendImage() {

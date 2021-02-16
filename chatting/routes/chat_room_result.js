@@ -75,7 +75,7 @@ router.post('/', function(req, res, next) {
             connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {
             });
         
-            res.redirect('/chat_home?id=' + user_id);
+            res.redirect('/chat_room?id=' + user_id +'&room_type=open_chat&member_type=new&room_no='+open_chat_no);
 
           });
         });

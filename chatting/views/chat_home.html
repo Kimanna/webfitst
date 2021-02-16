@@ -595,11 +595,9 @@
               data: {room_number : room_number, userId : userId},
               success: function(join) {
 
-                console.log(join.result);
-
                 if (join.result == 'ok') {
 
-                  location.href = 'http://localhost:3000/chat_room?id='+userId+'&room_type=open_chat&room_no='+room_number;
+                  location.href = 'http://localhost:3000/chat_room?id='+userId+'&room_type=open_chat&member_type=new&room_no='+room_number;
 
                 }
               }
