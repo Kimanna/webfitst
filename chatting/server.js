@@ -36,6 +36,7 @@ app.use( "/newroom", require( "./routes/chat_room_result" ) );
 
 
 var mysql = require( 'mysql' );
+const { exists } = require('fs');
 var pool = mysql.createPool( {
   connectionLimit: 10,
   host: '127.0.0.1',
@@ -459,7 +460,8 @@ io.sockets.on( 'connection', function( socket ) {
                       topic AS t ON 
                       c.sent_id = t.id 
                     
-                    WHERE c.person_chat_no = ${room_no} 
+                    WHERE c.person_chat_no = ${room_no}
+                    AND (SELECT ROUND( UNIX_TIMESTAMP(join_date) * 1000 ) FROM person_chat_member WHERE member_id = '${user_id}' AND person_chat_no = ${room_no}) < c.sent_time 
         
                     ORDER BY sent_time ASC;`
         
@@ -647,7 +649,6 @@ io.sockets.on( 'connection', function( socket ) {
 
   socket.on( 'disconnecting', function() {
     console.log( 'user disconnecting: ', socket.id + socket.rooms );
-    console.log( 'user disconnecting socket info: ', socket );
 
   } );
 
@@ -663,6 +664,8 @@ app.get( '/chat_room/exit', function( req, res ) {
   var user_id = queryData.userId;
   var user_nickname = queryData.user_nickname;
   var room_no = queryData.room_no;
+  var room_id = queryData.room_id;
+  var room_type = room_id.split('_')[0];
   var now_time_long = new Date().valueOf(); // 현재시간
 
   console.log( room_no + user_id );
@@ -670,24 +673,51 @@ app.get( '/chat_room/exit', function( req, res ) {
   pool.getConnection( function( err, connection ) {
     if ( err ) throw err; // not connected!
 
+    // 유저가 현재 나가려고 하는 방의 인원을 확인 후 인원이 1명인 경우 해당룸의 deleted = 0 으로 변경해줌
+    var check_member_count_query =
+        `SELECT COUNT(*) AS member_count FROM ${room_type}_chat_member WHERE ${room_type}_chat_no = ${room_no};`
+    
+    connection.query( check_member_count_query , function( error, results, fields ) {
+      if ( err ) throw err; // not connected!
+      console.log(results[0].member_count);
 
-    // open_chat_conversation 테이블에 ~님이 나갔습니다 저장
-    var open_chat_conversation_query =
+      if (results[0].member_count == 1) {
 
-    `INSERT INTO open_chat_conversation 
-        (open_chat_no, sent_time, sent_id, sent_message, message_type) 
-      
-      VALUES
-        (${room_no},${now_time_long},'${user_id}','${user_nickname} 님이 나갔습니다.','member');`
+          var open_chat_deleted_query = `UPDATE ${room_type}_chat SET deleted = 1 WHERE ${room_type}_chat_no = ${room_no};`;
 
-  
+          // open_chat_conversation 테이블에 ~님이 나갔습니다 저장
+          var open_chat_conversation_query =
 
-    var exit_room_query = `DELETE FROM open_chat_member WHERE open_chat_no = ${room_no} AND member_id = '${user_id}';`
+          `INSERT INTO ${room_type}_chat_conversation 
+              (${room_type}_chat_no, sent_time, sent_id, sent_message, message_type) 
+            
+            VALUES
+              (${room_no},${now_time_long},'${user_id}','${user_nickname} 님이 나갔습니다.','member');`
+    
+          var exit_room_query = `DELETE FROM ${room_type}_chat_member WHERE ${room_type}_chat_no = ${room_no} AND member_id = '${user_id}';`
+    
+          connection.query( open_chat_deleted_query + open_chat_conversation_query + exit_room_query, function( error, results, fields ) {
+            connection.release();
+            if ( error ) throw error;
+          } );
+      } else {
 
-    connection.query( open_chat_conversation_query + exit_room_query, function( error, results, fields ) {
-      connection.release();
-
-      if ( error ) throw error;
+          // open_chat_conversation 테이블에 ~님이 나갔습니다 저장
+          var open_chat_conversation_query =
+    
+          `INSERT INTO ${room_type}_chat_conversation 
+              (${room_type}_chat_no, sent_time, sent_id, sent_message, message_type) 
+            
+            VALUES
+              (${room_no},${now_time_long},'${user_id}','${user_nickname} 님이 나갔습니다.','member');`
+    
+          var exit_room_query = `DELETE FROM ${room_type}_chat_member WHERE ${room_type}_chat_no = ${room_no} AND member_id = '${user_id}';`
+    
+          connection.query( open_chat_conversation_query + exit_room_query, function( error, results, fields ) {
+            connection.release();
+            if ( error ) throw error;
+          } );
+      } // else  
 
     } );
   } );
@@ -713,7 +743,7 @@ app.post( '/chat_room/upload', upload_setting.single( 'send_photo' ), function( 
 
 
 
-// 1:1 채팅을 신청한 경우
+// 1:1 채팅을 신청한 경우 이미 1:1 대화를 진행하고있는지 확인 후 신규인경우 데이터 저장
 app.post( '/chat_room/createPersonRoom', function( req, res ) {
 
   var user_id = req.body.userId; // 대화를 신청한 user_id
@@ -724,43 +754,56 @@ app.post( '/chat_room/createPersonRoom', function( req, res ) {
   pool.getConnection( function( err, connection ) {
     if ( err ) throw err; // not connected!
 
-
-    // person_chat 에 대화방을 생성
-    connection.query('INSERT INTO person_chat (created, room_master_id, partner_id) VALUES(?,?,?)',[new Date(), user_id, other_id], function (error, results, fields) {
+    connection.query('SELECT IF( EXISTS (SELECT * FROM person_chat WHERE (room_master_id = ? AND partner_id = ? ) OR (room_master_id = ? AND partner_id = ? )),(SELECT person_chat_no FROM person_chat WHERE (room_master_id = ? AND partner_id = ? ) OR (room_master_id = ? AND partner_id = ? )),0) AS isCheck',[user_id, other_id, other_id, user_id, user_id, other_id, other_id, user_id], function (error, results, fields) {
       if (error) throw error;  
+      
 
+      // 이미 대화방이 생성되어있는경우 1을 return 함
+      if (results[0].isCheck != 0) {
+        res.send({ response: 'ok', member_type : 'exist', room_number : results[0].isCheck });
 
-        //방금 생성된 person_chat_no 를 아래 member table 에 함께 저장       
-        var person_chat_no = results.insertId;
+      // 대화방이 생성되어있지 않은경우 대화방 생성과 member 에 해당 유저, 상대방 유저 저장해줌
+      } else {
 
-        // person_chat_member 테이블에 대화를 신청한 user와 신청당한 user 의 정보를 저장
-        // person_chat_member_query1 = 대화를 신청한 user
-        var person_chat_member_query1 =
-
-            `INSERT INTO person_chat_member
-              (person_chat_no, member_id, join_date, last_visit_time) 
-
-             VALUES
-               (${person_chat_no}, '${user_id}', NOW(), ${now_time_long});`
-
-        // person_chat_member_query1 = 대화신청을 받은 user
-        var person_chat_member_query2 =
-
-            `INSERT INTO person_chat_member
-              (person_chat_no, member_id, join_date, last_visit_time) 
-
-             VALUES
-               (${person_chat_no}, '${other_id}', NOW()+1, ${now_time_long});`
+        // person_chat 에 대화방을 생성
+        connection.query('INSERT INTO person_chat (created, room_master_id, partner_id) VALUES(?,?,?)',[new Date(), user_id, other_id], function (error, results, fields) {
+          if (error) throw error;  
   
-        connection.query( person_chat_member_query1, function( error, results, fields ) {
-          if (error) throw error;  
+  
+            //방금 생성된 person_chat_no 를 아래 member table 에 함께 저장       
+            var person_chat_no = results.insertId;
+  
+            // person_chat_member 테이블에 대화를 신청한 user와 신청당한 user 의 정보를 저장
+            // person_chat_member_query1 = 대화를 신청한 user
+            var person_chat_member_query1 =
+  
+                `INSERT INTO person_chat_member
+                  (person_chat_no, member_id, join_date, last_visit_time) 
+  
+                VALUES
+                  (${person_chat_no}, '${user_id}', NOW(), ${now_time_long});`
+  
+            // person_chat_member_query1 = 대화신청을 받은 user
+            var person_chat_member_query2 =
+  
+                `INSERT INTO person_chat_member
+                  (person_chat_no, member_id, join_date, last_visit_time) 
+  
+                VALUES
+                  (${person_chat_no}, '${other_id}', NOW()+1, ${now_time_long});`
+      
+            connection.query( person_chat_member_query1, function( error, results, fields ) {
+              if (error) throw error;  
+            });
+            connection.query( person_chat_member_query2, function( error, results, fields ) {
+              if (error) throw error;  
+            });
+          connection.release();
+  
+          res.send({ response: 'ok', member_type : 'new', room_number: person_chat_no });
         });
-        connection.query( person_chat_member_query2, function( error, results, fields ) {
-          if (error) throw error;  
-        });
-      connection.release();
+      }
 
-      res.send({ response: 'ok', room_number: person_chat_no });
     });
   });
 

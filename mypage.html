@@ -106,11 +106,11 @@
                         <span class="red_bar"></span>
                         <div class="mypage_title">내가 작성한 글</div>
                     </div>
-                    <ul class="writtenMe_list_review">[review 목록]
+                    <ul class="writtenMe_list_review">[리뷰 목록]
                     </ul>
                     <button id="review_addbtn" class="btn more_btn" onclick="moreList('review_more');"><span style="font-size: 15px;">더보기</span></button>
 
-                    <ul class="writtenMe_list_blog">[blog 목록]
+                    <ul class="writtenMe_list_blog">[블로그 목록]
                     </ul>
                     <button id="blog_addbtn" class="btn more_btn" onclick="moreList('blog_more');"><span style="font-size: 15px;">더보기</span></button>
                 </div>
@@ -118,6 +118,8 @@
                   <div>
                     <span class="red_bar"></span>
                   <div class="mypage_title">내 채팅방 목록</div>
+                  <ul class="myChatList">
+                  </ul>
                   </div>
                 </div>
             
@@ -192,10 +194,10 @@
 
 
 
-
         // 내가쓴 글 목록부분 처음엔 review/blog 각 3개의 글만 보여줌    
         var review_list = mypagedata.reviewdata;
         var blog_list = mypagedata.blogdata;
+        var chat_list = mypagedata.chatdata;
         
         // console.log (review_list.length);
         // console.log (review_list.length != 0);
@@ -217,7 +219,6 @@
         }
 
 
-
         // blog 목록을 생성하기 위한 for 문 
         var blog_list_tag = [];
         if (blog_list.length == 0) {
@@ -231,14 +232,27 @@
           }
         }  
         
-          // 데이터가 3개보다 적으면 더보기 버튼 숨김 
+        // 데이터가 3개보다 적으면 더보기 버튼 숨김 
         if (review_list.length < 3) $('#review_addbtn').style("display","none");
         if (blog_list.length < 3) $('#blog_addbtn').style("display","none");
     
   
+        // 내가 입장한 오픈채팅방 목록
+        var chat_list_tag = [];
+        if (chat_list.length == 0) {
+
+            chat_list_tag.push("<li>게시글이 없습니다.</li>");
+          
+        } else {
+          
+          for (var chat_temp = 0 ; chat_temp < chat_list.length ; chat_temp++) {
+              chat_list_tag.push("<a href='http://localhost:3000/chat_room?id="+mypagedata.userprofiledata.id+"&room_type=open_chat&member_type=exist&room_no=" + chat_list[chat_temp].open_chat_no + "'><li>오픈 챗 - " + chat_list[chat_temp].chat_title + "<span>( 현재인원 : "+chat_list[chat_temp].member_count+"  /</span><span>"+chat_list[chat_temp].chat_member+" )</span></li></a>");
+          }
+        }
         
         $('.writtenMe_list_review').append(review_list_tag);
         $('.writtenMe_list_blog').append(blog_list_tag);
+        $('.myChatList').append(chat_list_tag);
 
       } else {
 
@@ -502,9 +516,6 @@
                 });
 
       }
-
-
-
       
       if (action == 'profile_save') {
         console.log('프로필수정 적용클릭')

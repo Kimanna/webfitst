@@ -144,16 +144,16 @@ if (isset($_POST["mode"])) {
         
         $result = mysqli_query($conn, "SELECT c.*, t.nickname, t.profileimg,
                                         (SELECT COUNT(*) FROM comment A WHERE A.reply_cno=c.comment_no AND deleted=0) AS reply2 
-                                      FROM comment c 
-                                      LEFT JOIN topic t ON c.aid = t.id 
-                                      WHERE c.deleted=0 AND c.post_no=$post_no AND (c.comment_no = $comment_no OR c.reply_cno = $comment_no) ORDER BY c.comment_no ASC");
+                                       FROM comment c 
+                                       LEFT JOIN topic t ON c.aid = t.id 
+                                       WHERE c.deleted=0 AND c.post_no=$post_no AND (c.comment_no = $comment_no OR c.reply_cno = $comment_no) ORDER BY c.comment_no ASC");
 
-$result1 = mysqli_query($conn, "SELECT comment_no, 
-COUNT(CASE WHEN like_dislike_check='like' THEN 1 END) AS 'like_count',
-COUNT(CASE WHEN like_dislike_check='dislike' THEN 1 END) AS 'dislike_count',
-GROUP_CONCAT(like_dislike_check, '_',like_dislike_person) AS 'like_person'
-FROM comment_like
-GROUP BY comment_no ORDER BY comment_no DESC");
+        $result1 = mysqli_query($conn, "SELECT comment_no, 
+                                          COUNT(CASE WHEN like_dislike_check='like' THEN 1 END) AS 'like_count',
+                                          COUNT(CASE WHEN like_dislike_check='dislike' THEN 1 END) AS 'dislike_count',
+                                          GROUP_CONCAT(like_dislike_check, '_',like_dislike_person) AS 'like_person'
+                                        FROM comment_like
+                                        GROUP BY comment_no ORDER BY comment_no DESC");
 
 
        //댓글의 좋아요, 싫어요 데이터를 가져옴

@@ -458,7 +458,7 @@
 
           <!-- 1:1 채팅룸 멤버 확인 -->
           <div class="chat_room_info_person bg-gray-50 p-2 hidden" style="position: absolute; right:85px; top: 26px; z-index: 1;">
-            <input class="chat_room_info_room_no" type="hidden" name="">
+            <input class="chat_room_info_room_no2" type="hidden" name="">
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;" calss="room_info_area">
                 <svg class="close_chat_room_info" style="align-self: end; margin-right: 10px; margin-top: 10px;" fill="#616161" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                       width="10px" height="10px" viewBox="0 0 357 357" style="enable-background:new 0 0 357 357;" xml:space="preserve">
@@ -691,7 +691,8 @@ function getUrlParams() {
               chat_room_info (chat_room_info_data);
               
             });
-            
+
+            $('a[data-value="'+ room_id +'"]').find('.chat_count').addClass('hidden'); // 왼쪽 대화방 목록에서 클릭한 대화방의 안읽은 메시지 표현 부분을 지워줌
             $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
             $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500'); // 현재 보고있는 방의 컬러를 입혀줌
             $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.open_chat_1)
@@ -745,6 +746,7 @@ function getUrlParams() {
           socket.on('room_info', function(chat_room_info_data){ //4
           });
           
+          $('a[data-value="'+ room_id +'"]').find('.chat_count').addClass('hidden'); // 왼쪽 대화방 목록에서 클릭한 대화방의 안읽은 메시지 표현 부분을 지워줌
           $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
           $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
           $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.person_chat_1)
@@ -908,7 +910,6 @@ function getUrlParams() {
             if (conversation_data.length > chat_temp+1 ) {
               if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
   
-                console.log(new Date(conversation_data[chat_temp].sent_time).getDate(), new Date(conversation_data[chat_temp+1].sent_time).getDate())
                 messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
             
               }
@@ -938,6 +939,7 @@ function getUrlParams() {
         $('.chat_room_info_member').text(chat_room_info_data.length + ' 명');
         $('.chat_room_info_created').text('개설일 ' + time);
         $('.chat_room_info_room_no').attr('name',chat_room_info_data[0].open_chat_no);
+        $('.chat_room_info_room_no2').attr('name',chat_room_info_data[0].person_chat_no);
 
         let temp_html = '';
         for (var temp = 0 ; temp < chat_room_info_data.length ; temp++ ) {
@@ -1006,8 +1008,9 @@ function getUrlParams() {
               alert('본인과는 1:1 채팅을 할 수 없습니다');
               return;
             }
-            
             $(this).next('.bubble').removeClass('hidden')
+
+            
         });
 
         // 대화방 멤버에게 1:1 대화를 신청하는 click event
@@ -1229,7 +1232,7 @@ function getUrlParams() {
                 success: function(data) {
 
                   if (data.response == 'ok') {
-                    location.href = 'http://localhost:3000/chat_room?id='+user_id+'&room_type=person_chat&room_no='+data.room_number;
+                    location.href = 'http://localhost:3000/chat_room?id='+user_id+'&room_type=person_chat&member_type='+data.member_type+'&room_no='+data.room_number;
                 
                   }
                 }
@@ -1245,13 +1248,19 @@ function getUrlParams() {
   function exitChatRoom(type) {
 
     if (type == 'open') { // 오픈채팅방 나가기
+
+      var returnValue = confirm('채팅방을 정말 나가시겠습니까?');
+      if (returnValue) {
+
         let room_no = $('.chat_room_info_room_no').attr('name');
 
         socket.emit('leave', {
-
+  
+          room_no: room_no,
           room_id: room_id,
+          user_id : user_id,
           user_nickname : user_nickname
-
+  
         }); 
 
         var delete_room =
@@ -1260,23 +1269,53 @@ function getUrlParams() {
                   url: 'chat_room/exit',
                   dataType: 'json',
                   type: 'GET',
-                  data: {room_no : room_no, userId : user_id, user_nickname : user_nickname}
-
-
+                  data: { room_id : room_id, room_no : room_no, userId : user_id, user_nickname : user_nickname}
+  
+  
               });
-
+  
             delete_room.done(function(data){
-
+  
                       location.href = '/chat_room?id='+user_id;
                   return;
               });
-
+      }
     }
 
     if (type == 'person') { // 1:1 채팅방 나가기
 
-      alert('채팅방 나가기 클릭')
+      var returnValue1 = confirm('채팅방을 정말 나가시겠습니까?');
+      if (returnValue1) {
 
+        let person_room_no = room_id.split('_')[2];
+        
+        socket.emit('leave', {
+  
+          room_no: person_room_no,
+          room_id: room_id,
+          user_id : user_id,
+          user_nickname : user_nickname
+  
+        }); 
+
+        var delete_room =
+          
+                $.ajax({
+                  url: 'chat_room/exit',
+                  dataType: 'json',
+                  type: 'GET',
+                  data: { room_id : room_id, room_no : person_room_no, userId : user_id, user_nickname : user_nickname}
+  
+  
+              });
+  
+            delete_room.done(function(data){
+  
+                      location.href = '/chat_room?id='+user_id;
+                  return;
+              });
+      
+      }
     }
   }
 

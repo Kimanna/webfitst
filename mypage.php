@@ -141,6 +141,7 @@ if (isset($_SESSION["userId"])) {
       
       $reviewquery = mysqli_query($conn, "SELECT * FROM review WHERE aid='$userId' AND deleted=0 ORDER BY review_no DESC LIMIT $start_number,3");
       $blogquery = mysqli_query($conn, "SELECT * FROM blog WHERE aid='$userId' AND deleted=0 ORDER BY blog_no DESC LIMIT $start_number,3");
+      $chatquery = mysqli_query($conn, "SELECT o.*, (SELECT COUNT(*) FROM open_chat_member AS m WHERE m.open_chat_no = o.open_chat_no) AS member_count FROM open_chat AS o LEFT JOIN open_chat_member AS m ON o.open_chat_no = m.open_chat_no WHERE m.member_id = '$userId' AND o.deleted = 0 ORDER BY o.created DESC");
 
 
       $userprofiledata = mysqli_fetch_array($userquery);
@@ -169,7 +170,19 @@ if (isset($_SESSION["userId"])) {
 
       }
 
-      echo json_encode(array('res'=>"ok", 'userprofiledata'=>$userprofiledata, 'reviewdata'=> $reviewarray, 'blogdata'=>$blogarray));
+      if ( mysqli_num_rows($chatquery) > 0 ) {
+
+        $chatarray = [];
+
+        while ($row = mysqli_fetch_array($chatquery))
+        {
+
+            array_push ($chatarray, $row);
+        }
+
+      }
+
+      echo json_encode(array('res'=>"ok", 'userprofiledata'=>$userprofiledata, 'reviewdata'=> $reviewarray, 'blogdata'=>$blogarray, 'chatdata'=>$chatarray));
 
 
     }

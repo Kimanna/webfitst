@@ -1632,6 +1632,25 @@ position: relative;
 left: 40%;
 }
 
+.myChatList {
+  font-size: 15px;
+  font-weight: 400;
+  color: #29434e;
+  margin-bottom: 6px;
+  margin-top: 0px;
+  padding-left: 15px;
+
+}
+
+.myChatList li {
+  padding: 5px;
+}
+.myChatList li span {
+  margin-left: 6px;
+  color: darkslategray;
+  font-size: small;
+}
+
 /* .width_size {
 
   width: 180px;
