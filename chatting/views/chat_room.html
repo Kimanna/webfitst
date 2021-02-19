@@ -61,23 +61,6 @@
           </a>
         </li>
         <!-- <li>
-          <a href="http://localhost:3000/chat_schedult?id=hello"
-             class="flex items-center">
-            <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
-              <svg class="w-6 h-6"
-                   fill="none"
-                   stroke="currentColor"
-                   viewBox="0 0 24 24"
-                   xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-              </svg>
-            </span>
-          </a>
-        </li> -->
-        <li>
           <a href="http://localhost:3000/chat_setting?id=<%= userId %>"
              class="flex items-center">
             <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
@@ -97,9 +80,9 @@
               </svg>
             </span>
           </a>
-        </li>
+        </li> -->
       </ul>
-      <button class="mt-auto flex items-center justify-center hover:text-indigo-100 text-indigo-500 h-10 w-10">
+      <!-- <button class="mt-auto flex items-center justify-center hover:text-indigo-100 text-indigo-500 h-10 w-10">
         <svg class="w-6 h-6"
              fill="none"
              stroke="currentColor"
@@ -110,15 +93,14 @@
                 stroke-width="2"
                 d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
         </svg>
-      </button>
+      </button> -->
     </div>
     <div class="flex flex-col w-full h-full pl-4 pr-4 py-4 -mr-4">
       <div class="flex flex-row items-center">
         <div class="flex flex-row items-center">
           <div class="text-xl font-semibold">Messages</div>
-          <!-- <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium">5</div> -->
         </div>
-        <div class="ml-auto">
+        <!-- <div class="ml-auto">
           <button class="flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full">
             <svg class="w-4 h-4 stroke-current"
                  fill="none"
@@ -131,7 +113,7 @@
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
             </svg>
           </button>
-        </div>
+        </div> -->
       </div>
       <div class="mt-5">
         <!-- <ul class="flex flex-row items-center justify-between">
@@ -250,7 +232,7 @@
         <div class="text-xs text-gray-400 font-semibold uppercase">1:1 채팅</div>
       </div>
       <div class="h-1/2 relative pt-2">
-        <div class="flex flex-col divide-y h-full overflow-y-auto -mx-4">
+        <div id="person_chat_area" class="flex flex-col divide-y h-full overflow-y-auto -mx-4">
 
 
         <!--  person_chat list 시작되는 구역 -->
@@ -428,7 +410,7 @@
                 </svg>
                 <div style="display: flex; flex-direction: column; justify-content: space-between; align-items: center;" class="chat_room_info">
                     <img class="chat_room_info_thumb" style="border-radius: 7px; width:60px; height: 60px; margin-bottom: 10px;" src="">
-                    <h2 class="chat_room_info_title text-lg"><%= open_chat_room_data[0].chat_title %></h2>
+                    <h2 class="chat_room_info_title text-lg"></h2>
                     <div class="text-gray-400 text-base mt-2 chat_room_addinfo">
                         <span class="chat_room_info_member" style="padding-right: 10px; border-right: 1px solid lightgray; margin-right: 10px;"></span>
                         <span class="chat_room_info_created"></span>
@@ -636,7 +618,7 @@ function getUrlParams() {
   
   var messages_area = $('#messages_area_scroll');
   
-  socket.emit('userId', { user_id: user_id })
+ 
 
   // 파라미터에 룸타입이 open_chat인 경우 if로 이동 / 파라미터에 룸넘버가 없는경우 else로 이동
   if (Param.room_type == 'open_chat') {
@@ -764,7 +746,7 @@ function getUrlParams() {
 
     });
 
-    // 신규멤버가 입장한 경우 입장메시지를 해당룸에 있는 멤버들에게 보내줌
+    // 신규멤버가 채팅방 나가기를 한 경우 입장메시지를 해당룸에 있는 멤버들에게 보내줌
     socket.on('leave_member', function(nickname){ //4
     messages_area.append('<div class="text-gray-400 text-base font-bold">' + nickname + ' 님이 나갔습니다.</div>');
 
@@ -905,7 +887,7 @@ function getUrlParams() {
 
           }
 
-                    // 날자구분선을 표시
+          // 날자구분선을 표시
           if (conversation_data.length > 0) {
             if (conversation_data.length > chat_temp+1 ) {
               if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
@@ -954,7 +936,6 @@ function getUrlParams() {
                       <img  style="border-radius: 9999px; width:30px; height: 30px" src="http://127.0.0.1/${chat_room_info_data[temp].profileimg}" >
                   </div>
                   <div style="width: 80%" class="nickname_area">
-                      <span style="border-radius: 9999px; background-color: dimgrey; padding: 3px 3px; color: floralwhite; font-size: 12px;" class="room_own">방장</span>
                       <span class="room_own">${chat_room_info_data[temp].nickname}</span>
                   </div>
               </div>
@@ -1053,7 +1034,7 @@ function getUrlParams() {
                     <div class="flex items-center justify-start flex-row-reverse">
                       <div id="profileimg" class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
                       <div class="relative mr-3 text-sm bg-indigo-100 py-2 px-4 shadow rounded-xl">
-                        <div><img src="http://127.0.0.1/${profile}"></div>
+                        <div><img src="http://127.0.0.1/${text}"></div>
                       </div>
                       <div class="relative mr-3 text-xs">${chat_sent_time}</div>
                     </div>
@@ -1090,7 +1071,7 @@ function getUrlParams() {
                       <div class="flex flex-row items-center">
                         <div class="flex items-center justify-center h-10 w-10 rounded-full bg-indigo-500 flex-shrink-0">${user_profileimg}</div>
                         <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                          <div><img src="http://127.0.0.1/${profile}"></div>
+                          <div><img src="http://127.0.0.1/${text}"></div>
                         </div>
                         <div class="relative ml-3 text-xs">${chat_sent_time}</div>
                       </div>
@@ -1156,20 +1137,19 @@ function getUrlParams() {
 
   function sendImage() {
 
-    console.log('이미지데이터전달?')
-
     var form = $("#chat")[0];
     var formData2 = new FormData(form);
-    console.log(formData2);
 
     var keys = formData2.keys();
     console.log(keys.next()); // { done : false , value : 'name' }
 
-
     //values 값을 가져옵니다.
     var values = formData2.values();
-    console.log(values.next());// {d
+    console.log(values.next());// 
     
+
+    // 이미지 파일 ../images/ 위치로 업로드진행하는 ajax
+    // 업로드 완료 후 socket을 이용해 서버로 파일 path 전달 후 message 저장
     var save_image =
     
             $.ajax({
@@ -1185,7 +1165,18 @@ function getUrlParams() {
 
         save_image.done(function(data){
 
-          console.log(data);
+          // socket emit 예정 room_id : room_id, user_id : user_id
+          console.log(data.img_path);
+
+          var send_chat_room_id = $('#send_room_id').val();
+          var message_type = 'file';
+          var now_time = new Date().valueOf();
+
+
+          socket.emit('chat', user_id, user_nickname,  user_profileimg, data.img_path, send_chat_room_id, now_time, message_type);
+          $('#message').val('');
+          $('#message').focus();
+
         return;
     });
 
@@ -1218,10 +1209,21 @@ function getUrlParams() {
   function bubbleClickEvent () {
       $('.bubble').click(function() {
 
-
       var otherId = $(this).prev('.member_each_area').children('input').val();
       console.log(user_id);
       console.log(otherId);
+
+      
+      socket.emit('person_chat_create', {
+
+      user_id: user_id,
+      otherId: otherId,
+      profileimg: user_profileimg,
+      room_id: room_id,
+      member_type: 'exist_member',
+      room_type: room_type 
+
+      }); 
 
           // 새로운 방 생성 후 reload 시킴
           $.ajax({
@@ -1232,9 +1234,24 @@ function getUrlParams() {
                 success: function(data) {
 
                   if (data.response == 'ok') {
-                    location.href = 'http://localhost:3000/chat_room?id='+user_id+'&room_type=person_chat&member_type='+data.member_type+'&room_no='+data.room_number;
+                    // location.href = 'http://localhost:3000/chat_room?id='+user_id+'&room_type=person_chat&member_type='+data.member_type+'&room_no='+data.room_number;
                 
                   }
+
+
+
+
+
+                      // // 새로 대화를 시작한 유저인 경우 방정보를 가져옴
+                      // socket.on('room_info', function(chat_room_info_data){ //4
+                      // });
+                      
+                      // $('#room_type').val(room_type); // 룸의 정보를 열어보는 버튼 input 에 룸타입이 open_chat인지 person_chat인지 구분해줌
+                      // $('a[data-value="'+ room_id +'"]').children('div').addClass('bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500');
+                      // $('#send_room_id').val(room_id); // 채팅발송시 보내줄 socket room 을 구분할 때 사용하는 room_id (ex.person_chat_1)
+
+
+
                 }
           });
 
@@ -1243,6 +1260,84 @@ function getUrlParams() {
   }
 
 
+  //채팅 내용 발송시 왼쪽 대화창에 대화내용 update하는 부분 
+  socket.on('person_chat_create_room', function(member_type, data){
+      console.log(member_type);
+      console.log(data);
+
+      if ( user_id == data[0].member_id || user_id == data[1].member_id) {
+      
+      location.href = 'http://localhost:3000/chat_room?id='+user_id+'&room_type=person_chat&member_type='+member_type+'&room_no='+data[0].person_chat_no;
+      }
+
+//       var person_chat_html = '';
+//       var profileimg_path = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + person_data[0].profileimg + '\">';
+//       var profileimg_path1 = '<img class=\"h-12 w-12 rounded-full object-cover\" src=\"http://127.0.0.1/' + person_data[1].profileimg + '\">';
+
+//         if ( user_id == person_data[0].member_id ) {
+
+
+//           person_chat_html =
+//                   `<a class="room_id" data-value="person_chat_${person_data[1].person_chat_no}">
+//                      <div class="flex flex-row items-center p-4 relative">
+//                        <div class="chat_time absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"></div>
+//                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+//                          ${profileimg_path1}
+//                        </div>
+//                        <div class="flex flex-col flex-grow ml-3">
+//                          <div class="text-sm font-medium">${person_data[1].nickname}</div>
+//                          <div class="chat_text text-xs truncate w-40"></div>
+//                        </div>
+//                          <div class="chat_count hidden flex-shrink-0 ml-2 self-end mb-1">
+//                            <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"></span>
+//                          </div>
+//                      </div>
+//                     </a>`
+
+//           console.log(person_chat_html);
+//           $('#person_chat_area').append(person_chat_html);
+//       }
+
+//       if ( user_id == person_data[1].member_id ) {
+
+//         person_chat_html =
+//                   `<a class="room_id" data-value="person_chat_${person_data[0].person_chat_no}">
+//                      <div class="flex flex-row items-center p-4 relative">
+//                        <div class="chat_time absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3"></div>
+//                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+//                          ${profileimg_path}
+//                        </div>
+//                        <div class="flex flex-col flex-grow ml-3">
+//                          <div class="text-sm font-medium">${person_data[0].nickname}</div>
+//                          <div class="chat_text text-xs truncate w-40"></div>
+//                        </div>
+//                          <div class="chat_count hidden flex-shrink-0 ml-2 self-end mb-1">
+//                            <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full"></span>
+//                          </div>
+//                      </div>
+//                     </a>`
+//         $('#person_chat_area').append(person_chat_html);
+//       }
+
+
+  })
+
+
+
+  // 브러우저가 닫히면 해당 유저의 logout상태를 채팅방에 반영해줌
+  window.onbeforeunload = function() {
+
+    if (room_id != undefined && room_id != undefined) {
+
+      $.ajax({
+              url: 'chat_room/leave',
+              dataType: 'json',
+              type: 'GET',
+              data: { room_id : room_id, userId : user_id }
+
+            });
+    }   
+  }
 
   // 채팅방 나가기를 선택한경우
   function exitChatRoom(type) {
@@ -1270,7 +1365,6 @@ function getUrlParams() {
                   dataType: 'json',
                   type: 'GET',
                   data: { room_id : room_id, room_no : room_no, userId : user_id, user_nickname : user_nickname}
-  
   
               });
   

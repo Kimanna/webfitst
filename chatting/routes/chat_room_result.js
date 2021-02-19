@@ -158,7 +158,7 @@ router.get('/join', function(req, res, next) {
   pool.getConnection(function(err, connection) {
     if (err) throw err; // not connected!
   
-    connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, now_time, now_time_long], function (error, results, fields) {                       
+    connection.query('INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES(?,?,?,?)',[open_chat_no, user_id, new Date(), now_time_long], function (error, results, fields) {                       
       connection.release();
       if (error) throw error;
 

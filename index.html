@@ -115,7 +115,7 @@
               <div class="title_box">
                 <span class="red_bar"></span>
                 <a>댓글 많은 글 list</a>
-                <a href="" class="r_more">[더보기+]</a>
+                <a href="blog.html" class="r_more">[더보기+]</a>
               </div>
               <ul id="blog_best_list" class="list03 typ02" style="padding: 1px 10px;">
               </ul>
@@ -124,8 +124,7 @@
               <div class="title_box">
                 <span class="red_bar"></span>
                 <a>인기 채팅방 list</a>
-                <a href="" class="r_more">[더보기+]</a>
-                <!-- <a href="" class="r_more" style="padding-right: 3px;">[방만들기]</a> -->
+                <a class="chat_more_bt r_more">[더보기+]</a>
               </div>
               <ul id="chat_best_list" class="list03 typ02" style="padding: 1px 10px;">
               </ul>
@@ -148,11 +147,12 @@
 
      if (status == "success" && xhr.status == 200) {
        this.innerHTML = res;
+
+       // 인기채팅방 list 보여주는 부분에서 [더보기+] 버튼을 클릭한 경우 오픈챗 페이지로 할수있도록 링크를 넣어줌
+       var user = $('#user_id').val();
+       $('.chat_more_bt').attr('href', 'http://127.0.0.1:3000/chat_home?id='+user+'');
      }
    });
-
-  //  var queryString = window.location.pathname;
-  //  console.log(queryString);
 
 
    $.getJSON("review.php", { 'rc' : 6, 'page' : 1}, function(data, status) {
@@ -325,8 +325,22 @@ function OnTimeoutReached() {
           success : function (data) {
             console.log(data);
 
+            var blog_count = 0;
+            if (data.blog_data.length < 4) {
+              blog_count = data.blog_data.length;
+            } else {
+              blog_count = 4;
+            }
+
+            var chat_count = 0;
+            if (data.chat_data.length < 4) {
+              chat_count = data.chat_data.length;
+            } else {
+              chat_count = 4;
+            }
+
             var blog_html = '';
-            for(var temp = 0 ; temp < 4 ; temp++) {
+            for(var temp = 0 ; temp < blog_count ; temp++) {
               blog_html += 
                           `<li>
                             <a href="blog-det.html?blog_no=${data.blog_data[temp].blog_no}">
@@ -339,11 +353,11 @@ function OnTimeoutReached() {
             }
 
             var chat_html = '';
-            for(var temp1 = 0 ; temp1 < 4 ; temp1++) {
+            for(var temp1 = 0 ; temp1 < chat_count ; temp1++) {
               chat_html += 
                           `<li>
                             <a class="join_open_chat" data-value="${data.chat_data[temp1].open_chat_no}">
-                              <span>${data.chat_data[temp1].chat_title}</span>
+                              <span>오픈 챗 - ${data.chat_data[temp1].chat_title}</span>
                               <span style="margin-left:5px;">(인원 : ${data.chat_data[temp1].member_count}/${data.chat_data[temp1].chat_member})</span>
                             </a>
                           </li>`
@@ -372,7 +386,6 @@ timeoutHnd = setTimeout('OnTimeoutReached();', logouTimeInterval);
 function clickEvent () {
   $('.join_open_chat').on('click', function(){
 
-    console.log($('#user_id').val());
     if ($('#user_id').val() == '') {
       alert('로그인 하셔야 입장 가능합니다.');
       return;
@@ -380,12 +393,59 @@ function clickEvent () {
     
     var user_id = $('#user_id').val();
     var room_no = $(this).attr('data-value');
-    var returnValue = confirm('채팅방으로 입장 하시겠습니까?');
-    if (returnValue) {
 
-      window.location.href = 'http://127.0.0.1:3000/chat_room?id='+user_id+'&room_type=open_chat&room_no='+room_no;
-    }
+    $.ajax({
+      type:"get",
+      dataType:"json",
+      url:"search.php",
+      data:{ 'checkExistMember':'check', 'user_id' : user_id, 'room_no' : room_no },
+      success : function (data) {
+        console.log(data);
+        console.log(data.check.length > 0 );
 
+        // 이미 입장했던 채팅방인 경우 채팅방으로 이동할 것인지 문의
+        if (data.check.length > 0) {
+            var returnValue = confirm('채팅방으로 이동 하시겠습니까?');
+            if (returnValue) {
+              window.location.href = 'http://127.0.0.1:3000/chat_room?id='+user_id+'&room_type=open_chat&member_type=exist&room_no='+room_no;
+            }
+        }
+
+        // 새로운 채팅방으로 신규 입장하는경우 멤버 테이블에 유저를 저장한 후 이동
+        if (data.check.length == 0) {
+          var returnValue = confirm('채팅방으로 입장 하시겠습니까?');
+            if (returnValue) {
+
+              var now_time_long = new Date().valueOf(); // 현재시간 long
+
+              $.ajax({
+                      type:"get",
+                      dataType:"json",
+                      url:"search.php",
+                      data:{ 'saveMember':'check', 'user_id' : user_id, 'room_no' : room_no, 'now_time' : now_time_long },
+                      success : function (data) {
+                      console.log(data.res);
+
+
+                          window.location.href = 'http://127.0.0.1:3000/chat_room?id='+user_id+'&room_type=open_chat&member_type=new&room_no='+room_no;
+
+                      }
+                    });
+            }
+        }
+
+      },
+      error:function(request,status,error){
+        alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+      } 
+    })
+
+
+    // var returnValue = confirm('채팅방으로 입장 하시겠습니까?');
+    // if (returnValue) {
+
+    //   window.location.href = 'http://127.0.0.1:3000/chat_room?id='+user_id+'&room_type=open_chat&room_no='+room_no;
+    // }
   });
 };
 

@@ -59,41 +59,7 @@
             </span>
           </a>
         </li>
-
-        <li>
-          <a href="http://localhost:3000/chat_setting?id=<%= userId %>"
-             class="flex items-center">
-            <span class="flex items-center justify-center text-indigo-100 hover:bg-indigo-700 h-12 w-12 rounded-2xl">
-              <svg class="w-6 h-6"
-                   fill="none"
-                   stroke="currentColor"
-                   viewBox="0 0 24 24"
-                   xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                <path stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-              </svg>
-            </span>
-          </a>
-        </li>
       </ul>
-      <button class="mt-auto flex items-center justify-center hover:text-indigo-100 text-indigo-500 h-10 w-10">
-        <svg class="w-6 h-6"
-             fill="none"
-             stroke="currentColor"
-             viewBox="0 0 24 24"
-             xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-        </svg>
-      </button>
     </div>
   </div>
   <div class="flex-1 bg-gray-100 dark:bg-gray-100 overflow-y-auto transition duration-500 ease-in-out">
@@ -216,7 +182,7 @@
                         c-10.2-10.2-25.5-10.2-35.7,0l-45.9,45.9l96.9,96.9L451.35,127.5z M229.5,433.5l-51,51H510v-51H229.5z"></path>
                   </svg>
               </button>
-              <button onClick="reviseRoom('delete',<%= open_chat_data[i].open_chat_no %>);"
+              <!-- <button onClick="reviseRoom('delete',<%= open_chat_data[i].open_chat_no %>);"
                   class="ml-2 bg-gray-400 dark:bg-gray-600
                   dark:text-gray-400 rounded-full p-2 focus:outline-none
                   hover:text-pink-500 hover:bg-pink-300 transition
@@ -226,7 +192,7 @@
                         d="M76.5,408c0,28.05,22.95,51,51,51h204c28.05,0,51-22.95,51-51V102h-306V408z M408,25.5h-89.25L293.25,0h-127.5l-25.5,25.5
                         H51v51h357V25.5z"></path>
                   </svg>
-                </button>
+                </button> -->
               </span>
 
             <% }%>

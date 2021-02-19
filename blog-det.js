@@ -55,7 +55,7 @@ window.onload = function() {
 
             $(".titlefont").text(jsondata.title);
             $(".profile_area img").attr("src",jsondata.profileimg);
-            $(".writer_id").html(jsondata.id+'<a href="blog.html"><span>1:1 채팅</span></a>');
+            $(".writer_id").html(jsondata.id+'<a href="blog.html"></a>');
             $(".detail_area").html(jsondata.created+'<span class="view" style="color:#343a40; margin-left:15px;">조회수 '+jsondata.view+'</span>');
             // $(".button_comment").html("댓글 "+jsondata.comment+'<img src="images/underline-button.png" style="width: 15px; height: 15px;">');
 

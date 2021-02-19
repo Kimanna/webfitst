@@ -29,9 +29,35 @@ if (isset($_GET["searchText"])) {
                                   ORDER BY (SELECT COUNT(*) FROM comment AS c WHERE b.blog_no = c.post_no) DESC;");
 
 
-} else if (isset($_GET["myChatList"])) {
+} else if (isset($_GET["checkExistMember"])) {
 
+  $user_id = $_GET["user_id"];
+  $room_no = $_GET["room_no"];
 
+  $chat_check_sql = mysqli_query($conn, "SELECT * FROM open_chat_member WHERE open_chat_no = $room_no AND member_id = '$user_id'");
+
+} else if (isset($_GET["saveMember"])) {
+
+  $user_id = $_GET["user_id"];
+  $room_no = $_GET["room_no"];
+  $now_time = $_GET["now_time"];
+
+  $save_member_sql = "INSERT INTO open_chat_member (open_chat_no, member_id, join_date, last_visit_time) VALUES (
+      '$room_no',
+      '$user_id',
+       NOW(), 
+      $now_time
+    )";
+
+    if ($conn->query($save_member_sql) === true ){
+
+      echo json_encode(array('res'=>"ok"));
+
+    } else {
+
+    echo"error :".$sql.$conn->error; 
+
+    }
 }
 
   
@@ -78,7 +104,18 @@ if ( isset( $chat_sql ) ) {
 
 }
 
-    
+if ( isset( $chat_check_sql ) ) {
+
+  $data_array = [];
+  while ($row = mysqli_fetch_array($chat_check_sql))
+  {
+      array_push ($data_array, $row);
+  }
+
+  echo json_encode(array('res'=>"ok", 'check'=>$data_array));
+
+}
+  
         
 
 
