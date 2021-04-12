@@ -91,7 +91,7 @@ ul {
   padding-inline-start: 40px;
 }
 body, button, input, select, table, textarea {
-  font-size: 12px;
+  font-size: 15px;
   font-family: Dotum,'돋움',Helvetica,"Apple SD Gothic Neo",sans-serif;
 }
 .clear:after {

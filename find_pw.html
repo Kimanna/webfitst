@@ -4,19 +4,22 @@
   <meta charset="UTF-8">
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
   <title>비밀번호찾기</title>
-  <link rel="stylesheet" type="text/css" href="find_idpw.css"/>
+  <link href="signin.css" rel="stylesheet">
+  <link rel="stylesheet" href="find_idpw.css">
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 <body>
 
+
     <!-- //스킵 내비게이션-->
     <div id="top" class="width868 login_wrap">
-      <!-- 상단 -->
-      <header class="dcheader bg">
+      <header class="dcheader" style="background-color: #3a4892;">
         <div class="dchead">
-          <!-- 로고영역 -->
           <h1 class="dc_logo">
             <a href="index.html">
-              <span style="color:white; ">YA! NUDU</span>  
+              <span style="color:white; font-size: 40px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">YA! NEODOO!</span>            
             </a>
           </h1>
         </div>
@@ -39,19 +42,31 @@
               <div id="contbox" class="con_box brd">
                <!-- 정보 입력 -->
                 <div class="con innerbox">
-                  <h4 class="tit font_red dotred">가입 시 인증한 이메일(인증받은)을 통해 비밀번호를 재설정하실 수 있습니다.</h4>
-                  <div class="info_txt">
+                  <h4 id="title" class="tit font_red dotred">회원가입 시 입력한 아이디와, 이름, 이메일 정보를 통해 비밀번호를 재설정하실 수 있습니다.</h4>
+                  <div id="info_txt" class="info_txt">
                     <p><em class="tip_deco_dot"></em>아이디를 잊으신 경우 아이디 찾기를 통해 아이디 확인을 먼저 해주시기 바랍니다.</p>
-                    <p><em class="tip_deco_dot"></em>이메일은 반드시 인증받은(또는 이메일 변경을 통해 변경한) 메일 주소를 입력하셔야 합니다.</p>
                     <p><em class="tip_deco_dot"></em>회원 가입 시 실명이 아닌 다른 이름으로 가입했을 경우, 해당 가입 시 입력한 이름을 입력하셔야 합니다.</p>
                   </div>
-                  <div class="bg_box">
+                  <div id="certify_box" class="bg_box">
                     <div class="form_box">
                       <input type="text" class="int" title="아이디" id="user_id" placeholder="아이디">
-                      <input type="text" class="int" title="이름" id="real_name" placeholder="이름">
+                      <input type="text" class="int" title="이름" id="name" placeholder="이름">
                       <input type="text" class="int" title="이메일" id="email" placeholder="이메일">
-                      <button type="button"  id="pw_find" class="btn_blue small btn_wrfull">확인</button>
+                      <button type="button"  id="pw_find" class="btn_blue small btn_wrfull">본인인증 확인</button>
+                      <div class="inform_pw" style="margin-top: 20px; font-size: 16px;"></div>
                     </div>
+                  </div>
+                  <div id="reset_box" class="bg_box" style="display: none;">
+                    <form method="POST" name="reset_pw_form" action="reset_pw.php">
+                      <div class="form_box">
+                        <input type="hidden" id="id" name="id">
+                        <input type="password" class="int" title="Password" id="Password" name="password" maxlength="20" placeholder="비밀번호를 입력해 주세요">
+                        <input type="password" class="int" title="Password_re" id="Password_re" maxlength="20" placeholder="비밀번호를 한번더 입력해 주세요">
+                        <div style="color: slategray; font-size: 12px; margin-top: 10px;">*8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.</div>
+                        <button type="button"  id="change_pw" class="btn_blue small btn_wrfull">비밀번호 변경</button>
+                        <div class="reset_pw" style="display: none; margin-top: 20px; font-size: 16px; color: red;"></div>
+                      </div>
+                    </form>
                   </div>
                 </div> 
                 <!-- //정보 입력 -->
@@ -69,5 +84,97 @@
         </p>
       </footer>  
     </div>
+
+    <script>
+
+      $('#pw_find').on('click', function(){
+    
+    
+        var id = $('#user_id').val()
+        var name = $('#name').val()
+        var email = $('#email').val()
+        var inform = $('.inform_pw')
+    
+            $.ajax({
+              url: "find_id_pw.php",
+              type: "get",
+              dataType: "json",
+              data: { "find_id" : "find_pw" , "id" : id, "name" : name, "email" : email },
+              success : function (is_success_find) {
+                
+                console.log(is_success_find);
+    
+                // 입력한 이름과 email과 동일한 내역이 없는경우
+                if (is_success_find.response == 'notok') {
+    
+                  inform.css('display','block');
+                  inform.css('color','red');
+                  inform.append('입력하신 정보와 일치하는 정보가 없습니다.');
+                  return;
+    
+                // email중복 검사시 기존 db에 저장되어있지 않은 email인 경우 인증메일 발송
+                } 
+                
+                if (is_success_find.response == 'ok') {
+
+                  alert('본인 인증 되었습니다.');
+
+                  $('#certify_box').css('display','none'); // 본인확인 인증은 숨김
+                  $('#reset_box').css('display','block'); // 비밀번호 재설정 부분 보여줌
+                  $('#title').text('다시 설정하실 비밀번호를 입력해 주세요') // 비밀번호 재설정 부분 보여줌
+                  $('#info_txt').css('display','none'); // 비밀번호 재설정 부분 보여줌
+                  $('#id').val(is_success_find.data.id)
+    
+                }
+    
+              },
+               error:function(request,status,error){
+                  alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+            }
+    
+            })
+    
+      })
+
+      function resetPw(){
+        var pw = $('#Password').val()
+        var pw_re = $('#Password_re').val()
+        var pwPattern = /[a-zA-Z0-9~!@#$%^&*()_+|<>?:{}]{8,16}/;
+
+
+        if(pw == '' || pw_re == '') {
+          $('.reset_pw').append('비밀번호를 입력해 주세요.')
+          $('.reset_pw').css('display', 'block')
+          return false;
+        } else if (!pwPattern.test(pw)) {
+          $('.reset_pw').append('비밀번호를 양식에 맞게 입력해 주세요.')
+          $('.reset_pw').css('display', 'block')
+          return false;
+        } else if (pw != pw_re) {
+          $('.reset_pw').append('비밀번호가 일치하지 않습니다.')
+          $('.reset_pw').css('display', 'block')
+          return false;
+        } else {
+          return true;
+        }
+
+      }
+
+      $('#change_pw').on('click', function(){
+        if (resetPw() == false) {
+          return;
+        }
+
+        if (resetPw() == true) {
+
+          var form = document.reset_pw_form;
+          form.submit();
+
+
+        }
+      })
+    
+      
+    </script>
   </body>
 </html>

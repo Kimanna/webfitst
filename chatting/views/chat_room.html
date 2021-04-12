@@ -892,14 +892,14 @@ function getUrlParams() {
             if (conversation_data.length > chat_temp+1 ) {
               if (new Date(conversation_data[chat_temp].sent_time).getDate() < new Date(conversation_data[chat_temp+1].sent_time).getDate()) {
   
-                messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+                messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp+1].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡ</div>');
             
               }
             }
 
           } else {
 
-              messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ</div>');
+              messages_area.append('<div class="col-start-5 col-end-13 text-gray-400 text-base font-bold">ㅡㅡㅡㅡㅡ&nbsp;&nbsp;&nbsp;&nbsp;' + new Date(conversation_data[chat_temp].sent_time).toLocaleDateString() + '&nbsp;&nbsp;&nbsp;&nbsp;ㅡㅡㅡㅡㅡ</div>');
 
           }
       }

@@ -28,15 +28,15 @@ window.onload = function() {
           // 게시물 응답시 게시물이 있으면 res == ok / 내가쓴 게시물인경우 mine == ok 데이터는 data 배열로 응답
           if (jQuery.parseJSON(data).res == 'ok') {
 
-            var golist = '<button type="button" class="btn lg" onclick="location.href="blog.html?blog_no='+urlParams.get('blog_no')+'&page='+urlParams.get('page')+';">목록으로</button>';
+            var golist = '<button type="button" class="btn lg" onclick="location.href="blog.html?blog_no='+urlParams.get('blog_no')+';">목록으로</button>';
 
             // 내가쓴 게시물 인 경우 수정, 삭제버튼 추가 
             if (jQuery.parseJSON(data).mine == 'ok') {
 
               // var thisfilefullname = document.URL.substring(document.URL.lastIndexOf("/") + 1, document.URL.length);
 
-              var updatebtn = '<button type="button" class="btn lg" onclick="javascript:goUpdate('+urlParams.get('blog_no')+'&page='+urlParams.get('page')+');">수 정</button>';
-              var deletebtn = '<button type="button" class="btn lg" onclick="javascript:goDelete('+urlParams.get('blog_no')+'&page='+urlParams.get('page')+');">삭 제</button>';
+              var updatebtn = '<button type="button" class="btn lg" onclick="javascript:goUpdate('+urlParams.get('blog_no')+');">수 정</button>';
+              var deletebtn = '<button type="button" class="btn lg" onclick="javascript:goDelete('+urlParams.get('blog_no')+');">삭 제</button>';
 
              
               $(".boardBtns").html(updatebtn+deletebtn+golist); 
@@ -874,6 +874,7 @@ function update_comment(comment_no, action) {
             if (comment_data.res == 'notok') {
 
                 $('.cm_count').html('');
+                $('.cm_contents').html('');
 
             } else {
                 $('.cm_count').html('총 댓글 '+comment_data.totalData+'개');

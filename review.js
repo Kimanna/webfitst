@@ -125,7 +125,7 @@ function goView(inputno, pageno) {
           if (json.data[0].review_no != null) {
 
             $(".galleryList").html(reviewchange(jsondata));
-            console.log(reviewchange(jsondata));
+            // console.log(reviewchange(jsondata));
 
             goPage(inputno, json.totalData, pageno);
   
@@ -133,14 +133,14 @@ function goView(inputno, pageno) {
           } else if (json.data[0].blog_no != null) {
 
             $(".blogList").html(blogchange(jsondata, pageno));
-            console.log(blogchange(jsondata));
+            // console.log(blogchange(jsondata));
 
             goPage(inputno, json.totalData, pageno);
 
           } else if (json.data[0].advertise_no != null) {
               
             $(".galleryList").html(advertisechange(jsondata));
-            console.log(advertisechange(jsondata));
+            // console.log(advertisechange(jsondata));
 
             goPage(inputno, json.totalData, pageno);
 
@@ -165,7 +165,7 @@ function reviewchange (reviewdata) {
 
   reviewdata.forEach(function(item,index){
     
-    var str2 = '<li class="galBox" style="height: 430px;"><a href="javascript:goDetail('+item.review_no+');"><div class="galThumb imgLiquidFill imgLiquid hg"><img src="'+item.thumbnail+'"></div></a>';
+    var str2 = '<li class="galBox" style="height: 350px;"><a href="javascript:goDetail('+item.review_no+');"><div class="galThumb imgLiquidFill imgLiquid hg"><img src="'+item.thumbnail+'"></div></a>';
     var str3 = '<div class="galText"><dl> <dt>이름 : <a href="javascript:goView('+item.review_no+');">'+item.writername+'</a></dt>';
     var str4 = '<dd>지역 : '+item.town+'</dd><dd>학교 : '+item.school+'</dd></dl></div></li>';
     str5 = str5+str2+str3+str4; 

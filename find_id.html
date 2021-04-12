@@ -3,22 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>아이디찾기</title>
-  <link rel="stylesheet" type="text/css" href="find_idpw.css"/>
+  <link href="signin.css" rel="stylesheet">
+  <link rel="stylesheet" href="find_idpw.css">
 
-  <!-- <link rel="stylesheet" type="text/css" href="//nstatic.dcinside.com/dc/w/css/popup.css"/> -->
-  <!-- <script  type="text/javascript" src="js/member.js"></script> -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
 </head>
 <body>
 
  <!-- //스킵 내비게이션-->
   <div id="top" class="width868 login_wrap">
-    <!-- 상단 -->
-    <header class="dcheader bg">
+    <header class="dcheader" style="background-color: #3a4892;">
       <div class="dchead">
-        <!-- 로고영역 -->
         <h1 class="dc_logo">
           <a href="index.html">
-            <span style="color:white; ">YA! NUDU</span>  
+            <span style="color:white; font-size: 40px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">YA! NEODOO!</span>            
           </a>
         </h1>
       </div>
@@ -41,16 +40,16 @@
             <div id="contbox" class="con_box brd">
               <!-- 정보 입력 -->
               <div class="con innerbox">
-                <h4 class="tit font_red dotred">회원가입 시 입력한 이름과 이메일(인증받은) 정보를 입력해 주시기 바랍니다.</h4>
+                <h4 class="tit font_red dotred">회원가입 시 입력한 이름과 이메일 정보를 입력해 주시기 바랍니다.</h4>
                 <div class="info_txt">
-                  <p><em class="tip_deco_dot"></em>이메일은 반드시 인증받은(or 이메일 변경을 통해 변경한) 이메일을 입력하셔야 합니다.</p>
                   <p><em class="tip_deco_dot"></em>회원 가입 시 실명이 아닌 다른 이름으로 가입했을 경우, 해당 가입 시 입력한 이름을 입력하셔야 합니다.</p>
                 </div>
                 <div class="bg_box">
                   <div class="form_box">
-                    <input type="text" class="int" id="real_name" name="real_name"title="이름 입력" placeholder="이름">
+                    <input type="text" class="int" id="name" name="name" title="이름 입력" placeholder="이름">
                     <input type="text" class="int" id="email" name="email" title="이메일 입력" placeholder="이메일">
                     <button type="button" id="id_find" class="btn_blue small btn_wrfull">확인</button>
+                    <div class="inform_id" style="margin-top: 20px; font-size: 16px;"></div>
                   </div>
                 </div>
               </div>
@@ -70,9 +69,55 @@
   </div>
 </body>
 </html>
-
-
   </div>
+<script>
 
+  $('#id_find').on('click', function(){
+
+
+    var name = $('#name').val()
+    var email = $('#email').val()
+    var inform = $('.inform_id')
+
+
+        $.ajax({
+          url: "find_id_pw.php",
+          type: "get",
+          dataType: "json",
+          data: { "find_id" : "find_id" , "name" : name, "email" : email },
+          success : function (is_success_find) {
+            
+            console.log(is_success_find);
+
+            // 입력한 이름과 email과 동일한 내역이 없는경우
+            if (is_success_find.response == 'notok') {
+
+              inform.css('display','block');
+              inform.css('color','red');
+              inform.append('입력하신 이름과 이메일이 일치하는 정보가 없습니다.');
+              return;
+
+            // email중복 검사시 기존 db에 저장되어있지 않은 email인 경우 인증메일 발송
+            } 
+            
+            if (is_success_find.response == 'ok') {
+
+              inform.css('display','block');
+              inform.css('color','black');
+              inform.append('아이디 : '+is_success_find.data.id);
+
+            }
+
+          },
+           error:function(request,status,error){
+              alert("code = "+ request.status + " message = " + request.responseText + " error = " + error);
+        }
+
+        })
+
+  })
+
+  
+</script>
 </body>
 </html>

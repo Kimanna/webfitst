@@ -23,7 +23,7 @@ var error = document.querySelectorAll('.error_next_box');
 
 var button = document.querySelector("#btnJoin");
 var email_authenticate = document.querySelector('#email_authenticate');
-var email_check_ok = document.querySelector('#email_check_ok');
+// var email_check_ok = document.querySelector('#email_check_ok');
 
  
 /*이벤트 핸들러 연결*/
@@ -45,10 +45,10 @@ gender.addEventListener("focusout", function() {
     }
 })
 email.addEventListener("focusout", isEmailCorrect);
-email_check.addEventListener("focusout", isEmailCheckCorrect);
+// email_check.addEventListener("focusout", isEmailCheckCorrect);
 button.addEventListener("click", savemember);
 email_authenticate.addEventListener("click", sand_email);
-email_check_ok.addEventListener("click", sand_email);
+// email_check_ok.addEventListener("click", sand_email);
 
 /*콜백 함수*/
 
@@ -265,18 +265,16 @@ function sand_email () {
 
           error[6].style.display = "block";
           error[6].innerHTML = "이미 가입된 email주소 입니다, 다른 email주소를 입력해 주세요."
-          return;
-
+          return false;
 
 
         // email중복 검사시 기존 db에 저장되어있지 않은 email인 경우 인증메일 발송
         } else {
 
-          email_check.closest('.email_check_area').remove('hidden');
-
-
-
-
+          error[6].style.display = "block";
+          error[0].style.color = "#08A600";
+          error[6].innerHTML = "사용 가능한 이메일 입니다."
+          return true;
 
         }
 
@@ -305,6 +303,9 @@ function savemember() {
     return;
   }
   if (checkAge() == false) {
+    return;
+  }
+  if (sand_email() == false) {
     return;
   }
 

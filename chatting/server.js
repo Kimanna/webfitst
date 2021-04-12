@@ -794,6 +794,8 @@ app.get( '/chat_room/exit', function( req, res ) {
       if ( err ) throw err; // not connected!
       console.log(results[0].member_count);
 
+
+      // 현재 해당 룸에 멤버가 1명 남아있으므로 방을 삭제했다는 의미로 deleted = 1 로 변경해줌 -------------------------------------------------1:1챗에서 수정예정 방이 지워지지 않는다 ㅠ
       if (results[0].member_count == 1) {
 
           var open_chat_deleted_query = `UPDATE ${room_type}_chat SET deleted = 1 WHERE ${room_type}_chat_no = ${room_no};`;

@@ -48,13 +48,6 @@
                     </ul>
                 </aside>
                 <div class="subContents">
-                    <div class="pageState">
-                        <ul>
-                            <li><i class="fa fa-home"></i>&nbsp;HOME&nbsp;&nbsp;/&nbsp;&nbsp;</li>
-                            <li>어학 연수&nbsp;&nbsp;/&nbsp;&nbsp;</li>
-                            <li>나의 연수 스토리 & 어학원 후기</li>
-                        </ul>
-                    </div>
                     <h1 class="pageTitle">연수 스토리 & 어학원 후기</h1>
                     <div class="boardContents" style="color:grey"><i>* 어학교후기와 관련없는 게시물은 사전 동의 없이 삭제 될 수 있습니다.</i></div><br>
                     <div class="text-right">
@@ -97,14 +90,14 @@
       var dataPerPage = 9;    // 한 페이지에 나타낼 데이터 수
       var pageCount = 5;        // 한 화면에 나타낼 페이지 수
 
-      console.log("totalData : " + totalData);
-      console.log("currentPage : " + currentPage);
+      // console.log("totalData : " + totalData);
+      // console.log("currentPage : " + currentPage);
       
       var totalPage = Math.ceil(totalData/dataPerPage);    // 총 페이지 수
       var pageGroup = Math.ceil(currentPage/pageCount);    // 페이지 그룹
       
-      console.log("totalPage : " + totalPage);
-      console.log("pageGroup : " + pageGroup);
+      // console.log("totalPage : " + totalPage);
+      // console.log("pageGroup : " + pageGroup);
 
       var last = pageGroup * pageCount;    // 화면에 보여질 마지막 페이지 번호
       if(last > totalPage)
@@ -118,10 +111,10 @@
       }
 
       
-      console.log("last : " + last);
-      console.log("first : " + first);
-      console.log("next : " + next);
-      console.log("prev : " + prev);
+      // console.log("last : " + last);
+      // console.log("first : " + first);
+      // console.log("next : " + next);
+      // console.log("prev : " + prev);
 
 
       var $pingingView = $("#paging");
@@ -177,7 +170,6 @@
 
         };
         
-
 
         function goDetail (inputno) {
   
