@@ -42,15 +42,14 @@
 		-아이디 중복확인 후 회원가입을 진행할 수 있습니다. ( ajax )
 		-세션을 이용해 로그인 상태 유지
 
-<img width="80%" src="https://user-images.githubusercontent.com/69760221/128200743-614aa573-7bc8-4913-9f0b-389022a8d097.mp4"/>
-https://youtu.be/bzdoSOX4IIQ
-[![1 회원가입, 로그인, 아이디찾기, 비밀번호변경]](https://user-images.githubusercontent.com/69760221/128212894-f357065e-f680-49db-a970-6342e1f77770.gif)
+		https://youtu.be/bzdoSOX4IIQ
+
     
 		2.마이페이지
 		-프로필 수정이 가능합니다.
 		-내가 등록한 글 목록 list 를 보여줍니다. ( 클릭시 해당게시물로 이동 )
    		-내가 입장했었던 오픈채팅방 list 를 보여줍니다. ( 클릭시 채팅방 이동 )
-    
+		
 <img width="80%" src="https://user-images.githubusercontent.com/69760221/128201373-483f3e3a-bef3-4f93-b553-f2a0fe7781e5.mp4"/>
 
     
