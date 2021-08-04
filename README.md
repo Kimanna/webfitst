@@ -41,7 +41,7 @@
 		-아이디 중복확인 후 회원가입을 진행할 수 있습니다. ( ajax )
 		-세션을 이용해 로그인 상태 유지
 
-<img width="1536" src="https://user-images.githubusercontent.com/69760221/128200743-614aa573-7bc8-4913-9f0b-389022a8d097.mp4">
+<img width="80%" src="https://user-images.githubusercontent.com/69760221/128200743-614aa573-7bc8-4913-9f0b-389022a8d097.mp4"/>
 
     
 		2.마이페이지
@@ -49,7 +49,7 @@
 		-내가 등록한 글 목록 list 를 보여줍니다. ( 클릭시 해당게시물로 이동 )
    		-내가 입장했었던 오픈채팅방 list 를 보여줍니다. ( 클릭시 채팅방 이동 )
     
-    https://user-images.githubusercontent.com/69760221/128201373-483f3e3a-bef3-4f93-b553-f2a0fe7781e5.mp4
+<img width="80%" src="https://user-images.githubusercontent.com/69760221/128201373-483f3e3a-bef3-4f93-b553-f2a0fe7781e5.mp4"/>
 
     
 		3.어학연수 게시판, 블로그 후기 게시판
@@ -67,7 +67,8 @@
 		-최근 5일 동안 채팅대화가 가장 많은 순으로 오픈 채팅방 리스트를 보여줍니다. ( 클릭 시 해당 채팅방 입장 또는 이동 )
 		-쿠키를 이용해 열람했던 게시물로 최신순으로 5개 까지만 보여줍니다.
     
-    https://user-images.githubusercontent.com/69760221/128202893-4839a6f0-d6ca-4b9d-bc34-31f08967c856.mp4
+<img width="80%" src="https://user-images.githubusercontent.com/69760221/128202933-6baa922a-4a3f-48ec-b8da-a2ff44f33f5a.mp4"/>
+
 
   		5.채팅
 		-오픈채팅방 생성, 수정
