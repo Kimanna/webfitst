@@ -43,7 +43,8 @@
 		-세션을 이용해 로그인 상태 유지
 
 <img width="80%" src="https://user-images.githubusercontent.com/69760221/128200743-614aa573-7bc8-4913-9f0b-389022a8d097.mp4"/>
-![1 회원가입, 로그인, 아이디찾기, 비밀번호변경](https://user-images.githubusercontent.com/69760221/128212894-f357065e-f680-49db-a970-6342e1f77770.gif)
+https://youtu.be/bzdoSOX4IIQ
+[![1 회원가입, 로그인, 아이디찾기, 비밀번호변경]](https://user-images.githubusercontent.com/69760221/128212894-f357065e-f680-49db-a970-6342e1f77770.gif)
     
 		2.마이페이지
 		-프로필 수정이 가능합니다.
