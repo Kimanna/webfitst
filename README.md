@@ -67,7 +67,7 @@
 		-최근 5일 동안 채팅대화가 가장 많은 순으로 오픈 채팅방 리스트를 보여줍니다. ( 클릭 시 해당 채팅방 입장 또는 이동 )
 		-쿠키를 이용해 열람했던 게시물로 최신순으로 5개 까지만 보여줍니다.
     
-<img width="80%" src="https://user-images.githubusercontent.com/69760221/128202933-6baa922a-4a3f-48ec-b8da-a2ff44f33f5a.mp4"/>
+<img width="80%" src="https://user-images.githubusercontent.com/69760221/128204155-95541805-e65e-41e8-a8a3-d3d623d6d318.mp4"/>
 
 
   		5.채팅
