@@ -44,6 +44,7 @@
 		-세션을 이용해 로그인 상태 유지
 
 
+[![image](https://user-images.githubusercontent.com/69760221/128221654-678c3d57-53b7-4d75-92fb-963b5a2e742c.png)](https://youtu.be/A9ZJmnYex5I)
 		2.마이페이지
 		-프로필 수정이 가능합니다.
 		-내가 등록한 글 목록 list 를 보여줍니다. ( 클릭시 해당게시물로 이동 )
