@@ -50,7 +50,9 @@
 		-프로필 수정이 가능합니다.
 		-내가 등록한 글 목록 list 를 보여줍니다. ( 클릭시 해당게시물로 이동 )
    		-내가 입장했었던 오픈채팅방 list 를 보여줍니다. ( 클릭시 채팅방 이동 )
-	
+
+[![image](https://user-images.githubusercontent.com/69760221/128222174-a5d517a3-ac02-422e-8b29-0794de72283b.png)](https://youtu.be/E82j9p8zoQM)
+
 	
 		3.어학연수 게시판, 블로그 후기 게시판
 		-리뷰등록, 수정, 삭제 ( 정해진 양식이 있는 인터뷰 형식으로 게시물 등록 )
@@ -60,13 +62,20 @@
  		-게시글 검색.
  		-댓글과 대댓글 작성, 수정, 삭제와 댓글에 좋아요를 표시할 수 있습니다.
     
-    
+[![image](https://user-images.githubusercontent.com/69760221/128222380-55dce50c-497d-4f66-b2b0-1e713fcb0240.png)](https://youtu.be/hVF6Wkc5umo)
+
+
+[![image](https://user-images.githubusercontent.com/69760221/128222240-49b16e46-4d84-4d95-8103-2a594ab90116.png)](https://youtu.be/JwM6_QJL_OU)
+
+
  		4.메인페이지
 		-최근 게시물 list 슬라이드로 보여줍니다. ( 클릭 시 해당 게시물로 이동 )
    		-댓글이 가장 많은 순으로 게시물 list 보여줍니다. ( 클릭 시 해당 게시물로 이동 )
 		-최근 5일 동안 채팅대화가 가장 많은 순으로 오픈 채팅방 리스트를 보여줍니다. ( 클릭 시 해당 채팅방 입장 또는 이동 )
 		-쿠키를 이용해 열람했던 게시물로 최신순으로 5개 까지만 보여줍니다.
     
+[![image](https://user-images.githubusercontent.com/69760221/128222254-c150865e-a0a2-4463-85b0-80ecfdaea7fb.png)](https://youtu.be/hh1CssPDfQU)
+
 
   		5.채팅
 		-오픈채팅방 생성, 수정
@@ -78,9 +87,4 @@
 		-안 읽은 채팅 메시지 갯수 표시.
     
 
-https://youtu.be/A9ZJmnYex5I
-https://youtu.be/E82j9p8zoQM
-https://youtu.be/hVF6Wkc5umo
-https://youtu.be/JwM6_QJL_OU
-https://youtu.be/hh1CssPDfQU
-https://youtu.be/WtEHu0Nor3E
+[![image](https://user-images.githubusercontent.com/69760221/128222271-b1e749c1-7495-4600-8853-8413e618d975.png)](https://youtu.be/WtEHu0Nor3E)
