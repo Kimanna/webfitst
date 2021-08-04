@@ -76,4 +76,11 @@
 		-안 읽은 채팅 메시지 갯수 표시.
     
 
+![image](https://user-images.githubusercontent.com/69760221/128220994-f702a01f-ec61-4936-bcdd-8e9085d5bfb2.png)
+![image](https://user-images.githubusercontent.com/69760221/128221019-3f6f2682-334f-4a44-bc08-06505e1032d8.png)
+![image](https://user-images.githubusercontent.com/69760221/128221051-c2e0700e-92ec-4405-96fd-e8115b834e87.png)
+![image](https://user-images.githubusercontent.com/69760221/128221076-c3d3ba06-618e-4fff-ab87-17744008ec6e.png)
+![image](https://user-images.githubusercontent.com/69760221/128221094-ce1cd5dc-c686-449e-a99e-35e22852321e.png)
+![image](https://user-images.githubusercontent.com/69760221/128221132-7051d21a-8cc4-4d8b-b7b5-900e59add2ba.png)
+
 
